@@ -16,18 +16,18 @@ public class LoginScreen extends AppCompatActivity {
     }
 
     public void attemptLogin(View view) {
-        EditText email = (EditText) findViewById(R.id.emailField);
-        EditText pass = (EditText) findViewById(R.id.passwordField);
+        EditText email = findViewById(R.id.emailField);
+        EditText pass = findViewById(R.id.passwordField);
 
-        if (email.equals("user") && pass.equals("pass")) {
+        if (email.getText().toString().equals("user") && pass.getText().toString().equals("pass")) {
             //setContentView(R.layout.activity_app_screen);
-            Intent intent = new Intent(this, AppScreen.class);
-            startActivity(intent);
+           // Intent intent = new Intent(this, AppScreen.class);
+           // startActivity(intent);
 
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Login Failure");
-            builder.setMessage("Username or Password was not correct.");
+            builder.setMessage("Username or Password was not correct." + email.getText() + pass.getText());
             builder.show();
         }
     }

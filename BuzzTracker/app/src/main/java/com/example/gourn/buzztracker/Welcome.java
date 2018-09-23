@@ -13,13 +13,13 @@ public class Welcome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
         Button login = findViewById(R.id.sign_in);
-//        login.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(view.getContext(), LoginScreen.class);
-//                startActivityForResult(intent, 0);
-//            }
-//        });
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), LoginScreen.class);
+                startActivityForResult(intent, 0);
+            }
+        });
 //        Button register = (Button) findViewById(R.id.register);
 //        register.setOnClickListener(new View.OnClickListener() {
 //            @Override
