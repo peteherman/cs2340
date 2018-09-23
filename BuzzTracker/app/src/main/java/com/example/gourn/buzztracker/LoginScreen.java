@@ -20,7 +20,6 @@ public class LoginScreen extends AppCompatActivity {
         EditText pass = findViewById(R.id.passwordField);
 
         if (email.getText().toString().equals("user") && pass.getText().toString().equals("pass")) {
-            setContentView(R.layout.activity_app_screen);
             Intent intent = new Intent(this, AppScreen.class);
             startActivity(intent);
 
