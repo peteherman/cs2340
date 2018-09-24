@@ -26,7 +26,7 @@ public class LoginScreen extends AppCompatActivity {
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Login Failure");
-            builder.setMessage("Username or Password was not correct." + email.getText() + pass.getText());
+            builder.setMessage("Username or Password was not correct." + email.getText() + pass.getText().toString());
             builder.show();
         }
     }

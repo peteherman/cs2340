@@ -24,7 +24,7 @@ public class AppScreen extends AppCompatActivity {
     }
 
     private void clickLogOutButton(View view) {
-        Intent intent = new Intent(this, LoginScreen.class);
+        Intent intent = new Intent(this, Welcome.class);
         startActivity(intent);
     }
 }

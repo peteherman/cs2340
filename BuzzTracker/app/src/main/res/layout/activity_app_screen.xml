@@ -10,7 +10,9 @@
         android:id="@+id/log_out_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="432dp"
         android:text="Log Out"
-        tools:layout_editor_absoluteX="295dp"
-        tools:layout_editor_absoluteY="0dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
