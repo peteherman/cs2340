@@ -80,7 +80,7 @@ public class RegisterScreen extends AppCompatActivity {
             createAlert(Alerts.MATCH);
         }
 
-        User newUser = new User(nameText, emailText, passText, userType);
+        User newUser = new User(nameText, emailText, passText);
 
     }
 
