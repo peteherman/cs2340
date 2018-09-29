@@ -20,14 +20,14 @@ public class Welcome extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
-//        Button register = (Button) findViewById(R.id.register);
-//        register.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(view.getContext(), Register.class);
-//                startActivityForResult(intent, 0);
-//            }
-//        });
+        Button register = (Button) findViewById(R.id.register);
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), RegisterScreen.class);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
 
