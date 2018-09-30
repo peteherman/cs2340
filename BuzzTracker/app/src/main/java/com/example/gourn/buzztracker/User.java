@@ -1,16 +1,9 @@
 package com.example.gourn.buzztracker;
 
-public class User {
-    String name;
-    String email;
-    String password;
-    UserType userType;
+public class User extends Person {
 
-
-    public User(String name, String email, String password, UserType userType) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.userType = userType;
+    public User(String name, String email, String password) {
+        super(name, email, password);
     }
+
 }
