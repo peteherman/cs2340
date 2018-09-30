@@ -74,14 +74,12 @@ public class RegisterScreen extends AppCompatActivity {
         if (!containsNum) {
             createAlert(Alerts.PASSNUM);
         }
-
         //Check to make sure passwords match
         else if (!passText.equals(confirmPassField)) {
             createAlert(Alerts.MATCH);
         }
-
         User newUser = new User(nameText, emailText, passText);
-
+        DB_Handler.addUser(newUser);
     }
 
     private void createAlert(Alerts type) {
