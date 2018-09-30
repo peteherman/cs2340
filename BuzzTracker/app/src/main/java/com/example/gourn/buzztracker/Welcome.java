@@ -11,11 +11,6 @@ public class Welcome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
-        setContentView(R.layout.welcome);
-||||||| merged common ancestors
-        setContentView(R.layout.activity_login2);
-=======
         setContentView(R.layout.welcome);
         Button login = findViewById(R.id.sign_in);
         login.setOnClickListener(new View.OnClickListener() {
@@ -33,7 +28,6 @@ public class Welcome extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
->>>>>>> 85898cc0986439eca48af0e2632bbb579c09bdbf
     }
 
 
