@@ -141,7 +141,7 @@ public class RegisterScreen extends AppCompatActivity {
     public void onSubmit(View view, Object factory, String nameText, String emailText,
                          String passText) {
         User newUser = new User(nameText, emailText, passText);
-        DB_Handler dbHandler = new DB_Handler(this, null, null, 1);
+        DB_Handler dbHandler = new DB_Handler(this.getApplicationContext(), null, null, 1);
         dbHandler.addUser(newUser);
     }
 
