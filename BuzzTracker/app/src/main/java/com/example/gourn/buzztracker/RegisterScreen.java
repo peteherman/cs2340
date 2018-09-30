@@ -1,5 +1,6 @@
 package com.example.gourn.buzztracker;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class RegisterScreen extends AppCompatActivity {
     }
 
 
-    public void onSubmit(View view) {
+    public void onSubmit(View view, Object factory) {
         String nameText = nameField.toString();
         String emailText = emailField.toString();
         String passText = passField.toString();
@@ -79,7 +80,8 @@ public class RegisterScreen extends AppCompatActivity {
             createAlert(Alerts.MATCH);
         }
         User newUser = new User(nameText, emailText, passText);
-        DB_Handler.addUser(newUser);
+        DB_Handler dbHandler = new DB_Handler(this, null, null, 1);
+        dbHandler.addUser(newUser);
     }
 
     private void createAlert(Alerts type) {

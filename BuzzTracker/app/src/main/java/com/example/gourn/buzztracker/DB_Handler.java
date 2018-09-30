@@ -34,7 +34,7 @@ public class DB_Handler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {}
 
-    public static void addUser(Person newUser) {
+    public void addUser(Person newUser) {
         String table = "";
         if (newUser instanceof User) {
             table = TABLE_USER;
