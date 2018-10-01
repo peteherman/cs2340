@@ -18,8 +18,11 @@ public class LoginScreen extends AppCompatActivity {
     public void attemptLogin(View view) {
         EditText email = findViewById(R.id.emailField);
         EditText pass = findViewById(R.id.passwordField);
+        DB_Handler db = new DB_Handler(this.getApplicationContext(), null, null, 1);
+        String entered = email.getText().toString();
+        Person user = db.loadUser(entered);
 
-        if (email.getText().toString().equals("user") && pass.getText().toString().equals("pass")) {
+        if (email.getText().toString().equals(user.getEmail()) && pass.getText().toString().equals(user.getPassword())) {
             Intent intent = new Intent(this, AppScreen.class);
             startActivity(intent);
 
