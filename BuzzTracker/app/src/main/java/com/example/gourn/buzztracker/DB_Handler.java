@@ -12,6 +12,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 public class DB_Handler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "CincoDeCinco.db";
@@ -37,8 +43,11 @@ public class DB_Handler extends SQLiteOpenHelper {
                 COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
         String CREATE_ADMIN_LOCEMP = "CREATE TABLE " + TABLE_LOCEMP + "(" + COLUMN_NAME + " TEXT, " +
                 COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
+        String CREATE_LOCATION = "CREATE TABLE Location(Name TEXT, Latitude TEXT, Longitude TEXT," +
+                "Address TEXT, Type TEXT, PhoneNum TEXT, Website TEXT)";
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_ADMIN_TABLE);
+        db.execSQL(CREATE_LOCATION);
     }
 
     @Override
@@ -73,4 +82,45 @@ public class DB_Handler extends SQLiteOpenHelper {
         }
         return currentUser;
     }
+
+    public void csvParse() throws FileNotFoundException {
+        URL path = DB_Handler.class.getResource("LocationData.csv");
+        File f = new File(path.getFile());
+        Scanner scan = new Scanner(f);
+        scan.useDelimiter("\n");
+        scan.next();
+        ArrayList<String> lines = new ArrayList<>();
+
+        while (scan.hasNext()) {
+            lines.add(scan.next());
+        }
+
+        String[][] data = new String[lines.size()][11];
+
+        for (int i = 0; i < data.length; i++) {
+            String[] currLine = lines.get(i).split(",");
+            for (int j = 0; j < data[i].length; j++) {
+                data[i][j] = currLine[j];
+            }
+        }
+        String columns = "Name, Latitude, Longitude, Address, Type, PhoneNum, Website";
+        String str1 = "INSERT INTO Location" + " (" + columns + ") values(";
+        String str2 = ");";
+        for (int i = 0; i < data.length; i++) {
+            StringBuilder sb = new StringBuilder(str1);
+            sb.append("'" + data[i][1] + ",");
+            sb.append(data[i][2] + "',");
+            sb.append(data[i][3] + "',");
+            sb.append(data[i][4] + ", " + data[i][5] + ", " + data[i][6] + "',");
+            sb.append(data[i][7] + "',");
+            sb.append(data[i][8] + "',");
+            sb.append(data[i][9] + "'");
+            sb.append(str2);
+            db.execSQL(sb.toString());
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
+
 }
