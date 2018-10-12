@@ -1,5 +1,6 @@
 package com.example.gourn.buzztracker;
 import android.content.ContentResolver;
+import android.content.res.AssetManager;
 import android.database.CharArrayBuffer;
 import android.database.ContentObserver;
 import android.database.DataSetObserver;
@@ -13,10 +14,16 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class DB_Handler extends SQLiteOpenHelper {
@@ -84,50 +91,59 @@ public class DB_Handler extends SQLiteOpenHelper {
         return currentUser;
     }
 
-    public void csvParse() throws FileNotFoundException {
-        URL path = DB_Handler.class.getResource("LocationData.csv");
-        File f = new File(path.getFile());
-        Scanner scan = new Scanner(f);
-        scan.useDelimiter("\n");
-        scan.next();
-        ArrayList<String> lines = new ArrayList<>();
-
-        while (scan.hasNext()) {
-            lines.add(scan.next());
-        }
-
-        String[][] data = new String[lines.size()][11];
-
-        for (int i = 0; i < data.length; i++) {
-            String[] currLine = lines.get(i).split(",");
-            for (int j = 0; j < data[i].length; j++) {
-                data[i][j] = currLine[j];
-            }
-        }
-        String columns = "Name, Latitude, Longitude, Address, Type, PhoneNum, Website";
-        String str1 = "INSERT INTO Location" + " (" + columns + ") values(";
-        String str2 = ");";
-        for (int i = 0; i < data.length; i++) {
-            StringBuilder sb = new StringBuilder(str1);
-            sb.append("'" + data[i][1] + ",");
-            sb.append(data[i][2] + "',");
-            sb.append(data[i][3] + "',");
-            sb.append(data[i][4] + ", " + data[i][5] + ", " + data[i][6] + "',");
-            sb.append(data[i][7] + "',");
-            sb.append(data[i][8] + "',");
-            sb.append(data[i][9] + "'");
-            sb.append(str2);
-            db.execSQL(sb.toString());
-        }
-        db.setTransactionSuccessful();
-        db.endTransaction();
-    }
+//    public void csvParse(Context context) throws IOException {
+////        String x = System.getProperty("user.dir");
+////        x += "/LocationData.csv";
+////        URL path = DB_Handler.class.getResource(x);
+////        File f = new File(path.getFile());
+////        Scanner scan = new Scanner(f);
+////        scan.useDelimiter("\n");
+////        scan.next();
+//        ArrayList<String> lines = new ArrayList<>();
+//
+////        while (scan.hasNext()) {
+////            lines.add(scan.next());
+////        }
+////        FileReader file = new FileReader("LocationData.csv");
+////        BufferedReader buffer = new BufferedReader(file);
+////
+//        InputStream is = context.getResources().openRawResource(R.raw.locationdata);
+//        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
+//        while (buffer.readLine() != null) {
+//            lines.add(buffer.readLine());
+//        }
+//        String[][] data = new String[lines.size()][11];
+//
+//        for (int i = 0; i < data.length; i++) {
+//            String[] currLine = lines.get(i).split(",");
+//            for (int j = 0; j < data[i].length; j++) {
+//                data[i][j] = currLine[j];
+//            }
+//        }
+//        String columns = "Name, Latitude, Longitude, Address, Type, PhoneNum, Website";
+//        String str1 = "INSERT INTO Location" + " (" + columns + ") values(";
+//        String str2 = ");";
+//        db.beginTransaction();
+//        for (int i = 0; i < data.length; i++) {
+//            StringBuilder sb = new StringBuilder(str1);
+//            sb.append("'" + data[i][1] + ",");
+//            sb.append(data[i][2] + "',");
+//            sb.append(data[i][3] + "',");
+//            sb.append(data[i][4] + ", " + data[i][5] + ", " + data[i][6] + "',");
+//            sb.append(data[i][7] + "',");
+//            sb.append(data[i][8] + "',");
+//            sb.append(data[i][9] + "'");
+//            sb.append(str2);
+//            db.execSQL(sb.toString());
+//        }
+//        db.setTransactionSuccessful();
+//        db.endTransaction();
+//    }
 
     public com.example.gourn.buzztracker.Location[] getAllLocations() {
         String query = "SELECT * FROM Location";
         Cursor cursor = db.rawQuery(query, null);
         com.example.gourn.buzztracker.Location[] locations = new com.example.gourn.buzztracker.Location[cursor.getCount()];
-        cursor.moveToFirst();
         int i = 0;
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("Name"));
@@ -144,5 +160,10 @@ public class DB_Handler extends SQLiteOpenHelper {
         }
         cursor.close();
         return locations;
+    }
+
+    public void clearLocations() {
+        String del = "DELETE FROM Location";
+        db.execSQL(del);
     }
 }
