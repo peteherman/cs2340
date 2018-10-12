@@ -51,7 +51,7 @@ public class DB_Handler extends SQLiteOpenHelper {
                 COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
         String CREATE_ADMIN_LOCEMP = "CREATE TABLE " + TABLE_LOCEMP + "(" + COLUMN_NAME + " TEXT, " +
                 COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
-        String CREATE_LOCATION = "CREATE TABLE Location(Name TEXT, Latitude TEXT, Longitude TEXT," +
+        String CREATE_LOCATION = "CREATE TABLE Location (Name TEXT, Latitude TEXT, Longitude TEXT," +
                 "Address TEXT, Type TEXT, PhoneNum TEXT, Website TEXT)";
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_ADMIN_TABLE);
