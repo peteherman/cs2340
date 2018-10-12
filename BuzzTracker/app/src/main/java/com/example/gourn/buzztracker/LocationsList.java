@@ -60,7 +60,7 @@ public class LocationsList extends AppCompatActivity {
         for (int i = 0; i < data.length; i++) {
             String[] currLine = lines.get(i).split(",");
             for (int j = 0; j < data[i].length; j++) {
-                data[i][j] = currLine[j];
+                data[i][j] = currLine[j]; // putting csv data into a 2d array
             }
         }
         String columns = "Name, Latitude, Longitude, Address, Type, PhoneNum, Website";
