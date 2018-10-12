@@ -21,9 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginScreen"></activity>
-        <activity android:name=".AppScreen"></activity>
-        <activity android:name=".RegisterScreen"></activity>
+        <activity android:name=".LoginScreen" />
+        <activity android:name=".AppScreen" />
+        <activity android:name=".RegisterScreen" />
+        <activity android:name=".LocationsList" />
     </application>
 
 </manifest>
