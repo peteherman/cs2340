@@ -41,7 +41,7 @@ public class AppScreen extends AppCompatActivity {
     }
 
     private void clickLocationsButton(View view) {
-        Intent intent = new Intent(this, LocationList.class);
+        Intent intent = new Intent(this, LocationsList.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
