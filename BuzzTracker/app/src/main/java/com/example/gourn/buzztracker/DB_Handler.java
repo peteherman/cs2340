@@ -142,6 +142,7 @@ public class DB_Handler extends SQLiteOpenHelper {
             locations[i] = loc;
             i++;
         }
+        cursor.close();
         return locations;
     }
 }
