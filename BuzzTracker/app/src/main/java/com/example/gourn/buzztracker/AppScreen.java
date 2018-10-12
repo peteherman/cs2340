@@ -7,24 +7,43 @@ import android.view.View;
 import android.widget.Button;
 
 public class AppScreen extends AppCompatActivity {
-    private Button button;
+    private Button logoutButton;
+    private Button locationsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_screen);
 
-        button = findViewById(R.id.log_out_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        logoutButton = findViewById(R.id.log_out_button);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickLogOutButton(v);
             }
         });
+
+        locationsButton = findViewById(R.id.locationsButton);
+        locationsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickLocationsButton(v);
+            }
+        });
+
     }
 
     private void clickLogOutButton(View view) {
         Intent intent = new Intent(this, Welcome.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
+    }
+
+    private void clickLocationsButton(View view) {
+        Intent intent = new Intent(this, LocationsList.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

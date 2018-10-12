@@ -25,6 +25,7 @@
         <activity android:name=".AppScreen" />
         <activity android:name=".RegisterScreen" />
         <activity android:name=".LocationDescriptionActivity">
+        <activity android:name=".LocationsList" />
     </application>
 
 </manifest>

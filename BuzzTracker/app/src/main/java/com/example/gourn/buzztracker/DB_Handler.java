@@ -1,5 +1,6 @@
 package com.example.gourn.buzztracker;
 import android.content.ContentResolver;
+import android.content.res.AssetManager;
 import android.database.CharArrayBuffer;
 import android.database.ContentObserver;
 import android.database.DataSetObserver;
@@ -9,8 +10,21 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 public class DB_Handler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
@@ -37,8 +51,11 @@ public class DB_Handler extends SQLiteOpenHelper {
                 COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
         String CREATE_ADMIN_LOCEMP = "CREATE TABLE " + TABLE_LOCEMP + "(" + COLUMN_NAME + " TEXT, " +
                 COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
+        String CREATE_LOCATION = "CREATE TABLE Location(Name TEXT, Latitude TEXT, Longitude TEXT," +
+                "Address TEXT, Type TEXT, PhoneNum TEXT, Website TEXT)";
         db.execSQL(CREATE_USER_TABLE);
         db.execSQL(CREATE_ADMIN_TABLE);
+        db.execSQL(CREATE_LOCATION);
     }
 
     @Override
@@ -72,5 +89,81 @@ public class DB_Handler extends SQLiteOpenHelper {
             cursor.close();
         }
         return currentUser;
+    }
+
+//    public void csvParse(Context context) throws IOException {
+////        String x = System.getProperty("user.dir");
+////        x += "/LocationData.csv";
+////        URL path = DB_Handler.class.getResource(x);
+////        File f = new File(path.getFile());
+////        Scanner scan = new Scanner(f);
+////        scan.useDelimiter("\n");
+////        scan.next();
+//        ArrayList<String> lines = new ArrayList<>();
+//
+////        while (scan.hasNext()) {
+////            lines.add(scan.next());
+////        }
+////        FileReader file = new FileReader("LocationData.csv");
+////        BufferedReader buffer = new BufferedReader(file);
+////
+//        InputStream is = context.getResources().openRawResource(R.raw.locationdata);
+//        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
+//        while (buffer.readLine() != null) {
+//            lines.add(buffer.readLine());
+//        }
+//        String[][] data = new String[lines.size()][11];
+//
+//        for (int i = 0; i < data.length; i++) {
+//            String[] currLine = lines.get(i).split(",");
+//            for (int j = 0; j < data[i].length; j++) {
+//                data[i][j] = currLine[j];
+//            }
+//        }
+//        String columns = "Name, Latitude, Longitude, Address, Type, PhoneNum, Website";
+//        String str1 = "INSERT INTO Location" + " (" + columns + ") values(";
+//        String str2 = ");";
+//        db.beginTransaction();
+//        for (int i = 0; i < data.length; i++) {
+//            StringBuilder sb = new StringBuilder(str1);
+//            sb.append("'" + data[i][1] + ",");
+//            sb.append(data[i][2] + "',");
+//            sb.append(data[i][3] + "',");
+//            sb.append(data[i][4] + ", " + data[i][5] + ", " + data[i][6] + "',");
+//            sb.append(data[i][7] + "',");
+//            sb.append(data[i][8] + "',");
+//            sb.append(data[i][9] + "'");
+//            sb.append(str2);
+//            db.execSQL(sb.toString());
+//        }
+//        db.setTransactionSuccessful();
+//        db.endTransaction();
+//    }
+
+    public com.example.gourn.buzztracker.Location[] getAllLocations() {
+        String query = "SELECT * FROM Location";
+        Cursor cursor = db.rawQuery(query, null);
+        com.example.gourn.buzztracker.Location[] locations = new com.example.gourn.buzztracker.Location[cursor.getCount()];
+        int i = 0;
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex("Name"));
+            String lat = cursor.getString(cursor.getColumnIndex("Latitude"));
+            String longi = cursor.getString(cursor.getColumnIndex("Longitude"));
+            String address = cursor.getString(cursor.getColumnIndex("Address"));
+            String type = cursor.getString(cursor.getColumnIndex("Type"));
+            String phone = cursor.getString(cursor.getColumnIndex("PhoneNum"));
+            String website = cursor.getString(cursor.getColumnIndex("Website"));
+            com.example.gourn.buzztracker.Location loc =
+                    new com.example.gourn.buzztracker.Location(name, lat, longi, address, type, phone, website);
+            locations[i] = loc;
+            i++;
+        }
+        cursor.close();
+        return locations;
+    }
+
+    public void clearLocations() {
+        String del = "DELETE FROM Location";
+        db.execSQL(del);
     }
 }
