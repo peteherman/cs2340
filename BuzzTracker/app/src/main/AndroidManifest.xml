@@ -15,15 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Welcome">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
-        <activity android:name=".LoginScreen"></activity>
-        <activity android:name=".AppScreen"></activity>
-        <activity android:name=".RegisterScreen"></activity>
+        <activity android:name=".LoginScreen" />
+        <activity android:name=".AppScreen" />
+        <activity android:name=".RegisterScreen" />
+        <activity android:name=".LocationDescriptionActivity">
     </application>
 
 </manifest>
