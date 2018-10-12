@@ -93,7 +93,7 @@ public class DB_Handler extends SQLiteOpenHelper {
 
 //    public void csvParse(Context context) throws IOException {
 ////        String x = System.getProperty("user.dir");
-////        x += "/LocationData.csv";
+////        x += "/location_dataa.csv";
 ////        URL path = DB_Handler.class.getResource(x);
 ////        File f = new File(path.getFile());
 ////        Scanner scan = new Scanner(f);
@@ -104,7 +104,7 @@ public class DB_Handler extends SQLiteOpenHelper {
 ////        while (scan.hasNext()) {
 ////            lines.add(scan.next());
 ////        }
-////        FileReader file = new FileReader("LocationData.csv");
+////        FileReader file = new FileReader("location_dataa.csv");
 ////        BufferedReader buffer = new BufferedReader(file);
 ////
 //        InputStream is = context.getResources().openRawResource(R.raw.locationdata);

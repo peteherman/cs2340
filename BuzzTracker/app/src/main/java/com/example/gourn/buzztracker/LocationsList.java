@@ -48,7 +48,7 @@ public class LocationsList extends AppCompatActivity {
         DB_Handler db = new DB_Handler(this.getApplicationContext(),null,null,1);
         db.clearLocations();
 
-        InputStream is = getResources().openRawResource(R.raw.locationdata);
+        InputStream is = getResources().openRawResource(R.raw.location_data);
         BufferedReader buffer = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
         String line;
         buffer.readLine();
