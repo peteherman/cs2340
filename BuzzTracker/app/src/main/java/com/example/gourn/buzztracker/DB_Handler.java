@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -122,5 +123,13 @@ public class DB_Handler extends SQLiteOpenHelper {
         db.endTransaction();
     }
 
-
+    public Location[] getAllLocations() {
+        String query = "SELECT * FROM Location";
+        Cursor cursor = db.rawQuery(query, null);
+        Location[] locations = new Location[cursor.getCount()];
+        cursor.moveToFirst();
+        int i = 0;
+//        while (cursor.moveToNext())
+        return locations;
+    }
 }
