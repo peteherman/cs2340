@@ -123,13 +123,25 @@ public class DB_Handler extends SQLiteOpenHelper {
         db.endTransaction();
     }
 
-    public Location[] getAllLocations() {
+    public com.example.gourn.buzztracker.Location[] getAllLocations() {
         String query = "SELECT * FROM Location";
         Cursor cursor = db.rawQuery(query, null);
-        Location[] locations = new Location[cursor.getCount()];
+        com.example.gourn.buzztracker.Location[] locations = new com.example.gourn.buzztracker.Location[cursor.getCount()];
         cursor.moveToFirst();
         int i = 0;
-//        while (cursor.moveToNext())
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex("Name"));
+            String lat = cursor.getString(cursor.getColumnIndex("Latitude"));
+            String longi = cursor.getString(cursor.getColumnIndex("Longitude"));
+            String address = cursor.getString(cursor.getColumnIndex("Address"));
+            String type = cursor.getString(cursor.getColumnIndex("Type"));
+            String phone = cursor.getString(cursor.getColumnIndex("PhoneNum"));
+            String website = cursor.getString(cursor.getColumnIndex("Website"));
+            com.example.gourn.buzztracker.Location loc =
+                    new com.example.gourn.buzztracker.Location(name, lat, longi, address, type, phone, website);
+            locations[i] = loc;
+            i++;
+        }
         return locations;
     }
 }

@@ -9,6 +9,16 @@ public class Location {
     private String phoneNum;
     private String website;
 
+    public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
+        this.type = type;
+        this.phoneNum = phoneNum;
+        this.website = website;
+    }
+
     public String getName() {
         return name;
     }
