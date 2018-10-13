@@ -1,4 +1,4 @@
-package com.example.gourn.buzztracker;
+package com.example.gourn.buzztracker.Model;
 
 public class Admin extends Person {
 

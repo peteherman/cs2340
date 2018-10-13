@@ -14,18 +14,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Welcome">
+        <activity android:name=".Controller.Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginScreen" />
-        <activity android:name=".AppScreen" />
-        <activity android:name=".RegisterScreen" />
-        <activity android:name=".LocationDescriptionActivity" />
-        <activity android:name=".LocationsList" />
+        <activity android:name=".Controller.LoginScreen" />
+        <activity android:name=".Controller.AppScreen" />
+        <activity android:name=".Controller.RegisterScreen" />
+        <activity android:name=".Controller.LocationDescriptionActivity" />
+        <activity android:name=".Controller.LocationsList" />
     </application>
 
 </manifest>

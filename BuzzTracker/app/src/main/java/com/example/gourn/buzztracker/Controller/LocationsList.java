@@ -1,19 +1,21 @@
-package com.example.gourn.buzztracker;
+package com.example.gourn.buzztracker.Controller;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.gourn.buzztracker.Controller.AppScreen;
+import com.example.gourn.buzztracker.Controller.DB_Handler;
+import com.example.gourn.buzztracker.Controller.LocationDescriptionActivity;
+import com.example.gourn.buzztracker.Model.Location;
+import com.example.gourn.buzztracker.R;
+
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,7 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class LocationsList extends AppCompatActivity {
-
+    private Button backButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,13 @@ public class LocationsList extends AppCompatActivity {
                     }
                 }
         );
+
+        backButton = (Button) findViewById(R.id.BackButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clickBackButton(v);
+            }
+        });
     }
 
     public void csvParse() throws IOException {
@@ -102,5 +111,12 @@ public class LocationsList extends AppCompatActivity {
         intent.putExtra("EXTRA_LOCATION_PHONE_NUM", locationId.getPhoneNum());
         intent.putExtra("EXTRA_LOCATION_WEBSITE", locationId.getWebsite());
         startActivity(intent);
+    }
+
+    private void clickBackButton(View view) {
+        Intent intent = new Intent(this, AppScreen.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

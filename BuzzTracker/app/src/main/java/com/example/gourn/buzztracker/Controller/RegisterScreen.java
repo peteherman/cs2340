@@ -1,12 +1,10 @@
-package com.example.gourn.buzztracker;
+package com.example.gourn.buzztracker.Controller;
 
 
 
 import android.content.DialogInterface;
 
 import android.content.Intent;
-
-import android.database.sqlite.SQLiteDatabase;
 
 import android.support.v7.app.AlertDialog;
 
@@ -25,6 +23,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 
+import com.example.gourn.buzztracker.R;
+import com.example.gourn.buzztracker.Model.User;
+import com.example.gourn.buzztracker.Model.UserType;
 
 import java.util.ArrayList;
 

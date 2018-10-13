@@ -1,30 +1,15 @@
-package com.example.gourn.buzztracker;
-import android.content.ContentResolver;
-import android.content.res.AssetManager;
-import android.database.CharArrayBuffer;
-import android.database.ContentObserver;
-import android.database.DataSetObserver;
+package com.example.gourn.buzztracker.Controller;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.location.Location;
-import android.net.Uri;
-import android.os.Bundle;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
+import com.example.gourn.buzztracker.Model.LocationEmployee;
+import com.example.gourn.buzztracker.Model.Admin;
+import com.example.gourn.buzztracker.Model.Location;
+import com.example.gourn.buzztracker.Model.Person;
+import com.example.gourn.buzztracker.Model.User;
 
 public class DB_Handler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
@@ -140,10 +125,10 @@ public class DB_Handler extends SQLiteOpenHelper {
 //        db.endTransaction();
 //    }
 
-    public com.example.gourn.buzztracker.Location[] getAllLocations() {
+    public Location[] getAllLocations() {
         String query = "SELECT * FROM Location";
         Cursor cursor = db.rawQuery(query, null);
-        com.example.gourn.buzztracker.Location[] locations = new com.example.gourn.buzztracker.Location[cursor.getCount()];
+        Location[] locations = new Location[cursor.getCount()];
         int i = 0;
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("Name"));
@@ -153,8 +138,8 @@ public class DB_Handler extends SQLiteOpenHelper {
             String type = cursor.getString(cursor.getColumnIndex("Type"));
             String phone = cursor.getString(cursor.getColumnIndex("PhoneNum"));
             String website = cursor.getString(cursor.getColumnIndex("Website"));
-            com.example.gourn.buzztracker.Location loc =
-                    new com.example.gourn.buzztracker.Location(name, lat, longi, address, type, phone, website);
+            Location loc =
+                    new Location(name, lat, longi, address, type, phone, website);
             locations[i] = loc;
             i++;
         }

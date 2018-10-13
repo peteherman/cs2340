@@ -1,4 +1,4 @@
-package com.example.gourn.buzztracker;
+package com.example.gourn.buzztracker.Model;
 
 public class LocationEmployee extends Person {
   public LocationEmployee(String name, String email, String password) {

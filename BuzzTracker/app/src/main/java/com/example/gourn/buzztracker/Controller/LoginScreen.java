@@ -1,4 +1,4 @@
-package com.example.gourn.buzztracker;
+package com.example.gourn.buzztracker.Controller;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
+import com.example.gourn.buzztracker.Model.Person;
+import com.example.gourn.buzztracker.R;
 
 public class LoginScreen extends AppCompatActivity {
 
