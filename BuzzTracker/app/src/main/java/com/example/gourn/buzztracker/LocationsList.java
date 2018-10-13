@@ -94,6 +94,7 @@ public class LocationsList extends AppCompatActivity {
 
     private void clickLocation(View v, Location locationId) {
         Intent intent = new Intent(this, LocationDescriptionActivity.class);
+        intent.putExtra("EXTRA_LOCATION_NAME", locationId.getName());
         intent.putExtra("EXTRA_LOCATION_LATITUDE", locationId.getLatitude());
         intent.putExtra("EXTRA_LOCATION_LONGITUDE", locationId.getLongitude());
         intent.putExtra("EXTRA_LOCATION_ADDRESS", locationId.getAddress());

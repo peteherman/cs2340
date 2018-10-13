@@ -24,6 +24,7 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_description);
 
+        String locationName = getIntent().getStringExtra("EXTRA_LOCATION_NAME");
         String locationLatitude = getIntent().getStringExtra("EXTRA_LOCATION_LATITUDE");
         String locationLongitude = getIntent().getStringExtra("EXTRA_LOCATION_LONGITUDE");
         String locationAddress = getIntent().getStringExtra("EXTRA_LOCATION_ADDRESS");
@@ -31,8 +32,8 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         String locationPhoneNum = getIntent().getStringExtra("EXTRA_LOCATION_PHONE_NUM");
         String locationWebsite = getIntent().getStringExtra("EXTRA_LOCATION_WEBSITE");
 
-        final String[] locationVariables = {"Latitude", "Longitude", "Address", "Type", "Phone Number", "Address"};
-        final String[] locationValues = {locationLatitude, locationLongitude, locationAddress, locationType, locationPhoneNum, locationWebsite};
+        final String[] locationVariables = {"Name", "Latitude", "Longitude", "Address", "Type", "Phone Number", "Website"};
+        final String[] locationValues = {locationName, locationLatitude, locationLongitude, locationAddress, locationType, locationPhoneNum, locationWebsite};
         ArrayAdapter descriptionAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_2, android.R.id.text1, locationVariables) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
