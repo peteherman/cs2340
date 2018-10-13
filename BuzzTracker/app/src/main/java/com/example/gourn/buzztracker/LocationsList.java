@@ -1,12 +1,14 @@
 package com.example.gourn.buzztracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -30,7 +32,7 @@ public class LocationsList extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Location[] locations = db.getAllLocations();
+        final Location[] locations = db.getAllLocations();
         String[] locationNames = new String[locations.length];
         for (int i = 0; i < locations.length; i++) {
             locationNames[i] = locations[i].getName();
@@ -40,6 +42,15 @@ public class LocationsList extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, locationNames);
         locationlist.setAdapter(adapter);
+
+        locationlist.setOnItemClickListener (
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        clickLocation(view, locations[position]);
+                    }
+                }
+        );
     }
 
     public void csvParse() throws IOException {
@@ -79,5 +90,16 @@ public class LocationsList extends AppCompatActivity {
             System.out.println(sb);
             db.db.execSQL(sb.toString());
         }
+    }
+
+    private void clickLocation(View v, Location locationId) {
+        Intent intent = new Intent(this, LocationDescriptionActivity.class);
+        intent.putExtra("EXTRA_LOCATION_LATITUDE", locationId.getLatitude());
+        intent.putExtra("EXTRA_LOCATION_LONGITUDE", locationId.getLongitude());
+        intent.putExtra("EXTRA_LOCATION_ADDRESS", locationId.getAddress());
+        intent.putExtra("EXTRA_LOCATION_TYPE", locationId.getType());
+        intent.putExtra("EXTRA_LOCATION_PHONE_NUM", locationId.getPhoneNum());
+        intent.putExtra("EXTRA_LOCATION_WEBSITE", locationId.getWebsite());
+        startActivity(intent);
     }
 }
