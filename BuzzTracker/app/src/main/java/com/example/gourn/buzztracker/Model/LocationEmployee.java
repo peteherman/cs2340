@@ -29,4 +29,10 @@ public class LocationEmployee extends Person {
   public LocationEmployee(String name, String email, String password) {
     this(name, email, password, null);
   }
+
+  public void addToCategoryList(String category) {
+      if (category.length() > 0) {
+          categories.add(category);
+      }
+  }
 }
