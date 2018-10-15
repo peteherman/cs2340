@@ -245,7 +245,7 @@ public class RegisterScreen extends AppCompatActivity {
 
         if (isSubmit) {
 
-          onSubmit(v, null, nameText, emailText, passText);
+          onSubmit(v, null, nameText, emailText, passText, userType);
 
           submitRegistration(v);
 
@@ -281,9 +281,9 @@ public class RegisterScreen extends AppCompatActivity {
 
   public void onSubmit(View view, Object factory, String nameText, String emailText,
 
-                       String passText) {
+                       String passText, UserType userType) {
 
-    User newUser = new User(nameText, emailText, passText);
+    User newUser = new User(nameText, emailText, passText, userType);
 
     DB_Handler dbHandler = new DB_Handler(this.getApplicationContext(), null, null, 1);
 

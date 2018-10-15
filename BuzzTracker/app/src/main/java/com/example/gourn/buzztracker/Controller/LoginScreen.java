@@ -27,12 +27,13 @@ public class LoginScreen extends AppCompatActivity {
 
         if (email.getText().toString().equals(user.getEmail()) && pass.getText().toString().equals(user.getPassword())) {
             Intent intent = new Intent(this, AppScreen.class);
+            //intent.putExtras("EXTRA_USER_TYPE", user.getUserType().ordinal());
             startActivity(intent);
 
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Login Failure");
-            builder.setMessage("Username or Password was not correct." + email.getText() + pass.getText().toString());
+            builder.setMessage("Username or Password was not correct.");
             builder.show();
         }
     }

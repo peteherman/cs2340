@@ -65,7 +65,7 @@ public class DB_Handler extends SQLiteOpenHelper {
     public Person loadUser(String email) {
         String query = "SELECT * FROM " + TABLE_USER +" WHERE " + COLUMN_EMAIL + "= '" + email + "'";
         Cursor cursor = db.rawQuery(query, null);
-        Person currentUser = new Person("", "", "");
+        Person currentUser = new Person("", "", "", null);
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
             currentUser.setName(cursor.getString(0));
