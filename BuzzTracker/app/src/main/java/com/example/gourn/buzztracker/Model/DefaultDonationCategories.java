@@ -1,6 +1,6 @@
 package com.example.gourn.buzztracker.Model;
 
-public enum DefaultCategories {
+public enum DefaultDonationCategories {
     CLOTHING ("Clothing"),
     HAT ("Hat"),
     KITCHEN ("Kitchen"),
@@ -10,7 +10,7 @@ public enum DefaultCategories {
 
     private String stringRepresentation;
 
-    private DefaultCategories(String s) {
+    private DefaultDonationCategories(String s) {
         stringRepresentation = s;
     }
 

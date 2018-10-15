@@ -21,7 +21,7 @@ public class LocationEmployee extends Person {
     super(name, email, password);
     this.location = location;
     categories = new ArrayList<>();
-    for (DefaultCategories c: DefaultCategories.values()) {
+    for (DefaultDonationCategories c: DefaultDonationCategories.values()) {
         categories.add(c.toString());
     }
   }

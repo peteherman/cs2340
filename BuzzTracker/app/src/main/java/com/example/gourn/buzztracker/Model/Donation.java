@@ -2,7 +2,6 @@ package com.example.gourn.buzztracker.Model;
 
 import android.media.Image;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 public class Donation {
@@ -11,12 +10,12 @@ public class Donation {
     String shortDescription;
     String fullDescription;
     int value;
-    DefaultCategories category;
+    DefaultDonationCategories category;
     String comments;
     Image picture;
 
     public Donation(Timestamp timestamp, Location location, String shortDescription,
-                    String fullDescription, int value, DefaultCategories category,
+                    String fullDescription, int value, DefaultDonationCategories category,
                     String comments, Image picture) {
         this.timestamp = timestamp;
         this.location = location;
@@ -60,11 +59,11 @@ public class Donation {
         this.value = value;
     }
 
-    public DefaultCategories getCategory() {
+    public DefaultDonationCategories getCategory() {
         return category;
     }
 
-    public void setCategory(DefaultCategories category) {
+    public void setCategory(DefaultDonationCategories category) {
         this.category = category;
     }
 
