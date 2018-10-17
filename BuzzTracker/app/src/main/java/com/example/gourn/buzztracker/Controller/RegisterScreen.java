@@ -12,8 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import android.widget.Button;
@@ -53,6 +55,16 @@ public class RegisterScreen extends AppCompatActivity {
 
   private Spinner userTypeSpinner;
 
+
+  private String nameText = "";
+
+  private  String emailText = "";
+
+  private String passText = "";
+
+  private String confirmPassText = "";
+
+  private UserType userType = null;
 
 
   public static final int MIN_PASS_LENGTH = 8;
@@ -99,6 +111,8 @@ public class RegisterScreen extends AppCompatActivity {
 
 
 
+
+
     //Set up click listener for submit button
 
     submitButton.setOnClickListener(new View.OnClickListener() {
@@ -107,15 +121,15 @@ public class RegisterScreen extends AppCompatActivity {
 
         boolean isSubmit = true;
 
-        String nameText = "";
+        nameText = "";
 
-        String emailText = "";
+        emailText = "";
 
-        String passText = "";
+        passText = "";
 
-        String confirmPassText = "";
+        confirmPassText = "";
 
-        UserType userType = (UserType)userTypeSpinner.getSelectedItem();
+        //userType = (UserType)userTypeSpinner.getSelectedItem();
 
 
 
@@ -247,7 +261,7 @@ public class RegisterScreen extends AppCompatActivity {
 
           onSubmit(v, null, nameText, emailText, passText, userType);
 
-          submitRegistration(v);
+          //submitRegistration(v);
 
         } else {
 
@@ -275,6 +289,20 @@ public class RegisterScreen extends AppCompatActivity {
 
     });
 
+    //Set up spinner selectionlistener
+      userTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+          @Override
+          public void onItemSelected(AdapterView<?> a, View v,
+          int pos, long arg3) {
+                userType = (UserType)a.getItemAtPosition(pos);
+          }
+
+          @Override
+          public void onNothingSelected(AdapterView<?> a) {
+              userType = UserType.USER;
+          }
+      });
+
   }
 
 
@@ -283,11 +311,18 @@ public class RegisterScreen extends AppCompatActivity {
 
                        String passText, UserType userType) {
 
-    User newUser = new User(nameText, emailText, passText, userType);
-
+    User user = new User(nameText, emailText, passText, userType);
     DB_Handler dbHandler = new DB_Handler(this.getApplicationContext(), null, null, 1);
 
-    dbHandler.addUser(newUser);
+    dbHandler.addUser(user);
+    Intent intent = new Intent(this, AppScreen.class);
+    Bundle bundle = new Bundle();
+    bundle.putInt("USER_TYPE", user.getUserType().ordinal());
+    intent.putExtras(bundle);
+
+    startActivity(intent);
+
+    finish();
 
   }
 
@@ -377,14 +412,17 @@ public class RegisterScreen extends AppCompatActivity {
 
 
 
-  private void submitRegistration(View v) {
-
-    Intent intent = new Intent(this, AppScreen.class);
-
-    startActivity(intent);
-
-    finish();
-
-  }
+//  private void submitRegistration(View v) {
+//
+//    Intent intent = new Intent(this, AppScreen.class);
+//    Bundle bundle = new Bundle();
+//    bundle.putInt("USER_TYPE", user.getUserType().ordinal());
+//    intent.putExtras(bundle);
+//
+//    startActivity(intent);
+//
+//    finish();
+//
+//  }
 
 }

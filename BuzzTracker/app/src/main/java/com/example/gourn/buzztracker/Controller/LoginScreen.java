@@ -27,7 +27,9 @@ public class LoginScreen extends AppCompatActivity {
 
         if (email.getText().toString().equals(user.getEmail()) && pass.getText().toString().equals(user.getPassword())) {
             Intent intent = new Intent(this, AppScreen.class);
-            //intent.putExtras("EXTRA_USER_TYPE", user.getUserType().ordinal());
+            Bundle bundle = new Bundle();
+            bundle.putInt("USER_TYPE", user.getUserType().ordinal());
+            intent.putExtras(bundle);
             startActivity(intent);
 
         } else {
