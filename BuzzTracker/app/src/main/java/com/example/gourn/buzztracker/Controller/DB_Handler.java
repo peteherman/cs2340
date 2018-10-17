@@ -14,12 +14,11 @@ import com.example.gourn.buzztracker.Model.User;
 public class DB_Handler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "CincoDeCinco.db";
-    public static final String TABLE_USER = "User";
-    public static final String TABLE_ADMIN = "Admin";
-    public static final String TABLE_LOCEMP = "Location Employee";
+    private static final String TABLE_PERSON = "Person";
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_EMAIL = "Email";
     public static final String COLUMN_PASSWORD = "Password";
+    public static final String COLUMN_USER_TYPE = "UserType";
 
     public SQLiteDatabase db;
 
@@ -30,16 +29,18 @@ public class DB_Handler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "(" + COLUMN_NAME + " TEXT, " +
-                COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
-        String CREATE_ADMIN_TABLE = "CREATE TABLE " + TABLE_ADMIN + "(" + COLUMN_NAME + " TEXT, " +
-                COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
-        String CREATE_ADMIN_LOCEMP = "CREATE TABLE " + TABLE_LOCEMP + "(" + COLUMN_NAME + " TEXT, " +
-                COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
+        String CREATE_PERSON_TABLE = "CREATE TABLE " + TABLE_PERSON + "(" + COLUMN_NAME + " TEXT, " +
+                COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL, " +
+                COLUMN_USER_TYPE + " INTEGER)";
+//        String CREATE_ADMIN_TABLE = "CREATE TABLE " + TABLE_ADMIN + "(" + COLUMN_NAME + " TEXT, " +
+//                COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
+//        String CREATE_ADMIN_LOCEMP = "CREATE TABLE " + TABLE_LOCEMP + "(" + COLUMN_NAME + " TEXT, " +
+//                COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
         String CREATE_LOCATION = "CREATE TABLE Location (Name TEXT, Latitude TEXT, Longitude TEXT," +
                 "Address TEXT, Type TEXT, PhoneNum TEXT, Website TEXT)";
-        db.execSQL(CREATE_USER_TABLE);
-        db.execSQL(CREATE_ADMIN_TABLE);
+//        db.execSQL(CREATE_USER_TABLE);
+//        db.execSQL(CREATE_ADMIN_TABLE);
+        db.execSQL(CREATE_PERSON_TABLE);
         db.execSQL(CREATE_LOCATION);
     }
 
@@ -47,23 +48,25 @@ public class DB_Handler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {}
 
     public void addUser(Person newUser) {
-        String table = "";
-        if (newUser instanceof User) {
-            table = TABLE_USER;
-        } else if (newUser instanceof Admin) {
-            table = TABLE_ADMIN;
-        } else if (newUser instanceof LocationEmployee) {
-            table = TABLE_LOCEMP;
-        }
+        String table = TABLE_PERSON;
+//        if (newUser instanceof User) {
+//            table = TABLE_USER;
+//        } else if (newUser instanceof Admin) {
+//            table = TABLE_ADMIN;
+//        } else if (newUser instanceof LocationEmployee) {
+//            table = TABLE_LOCEMP;
+//        }
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, (newUser.getName()));
         values.put(COLUMN_EMAIL, (newUser.getEmail()));
         values.put(COLUMN_PASSWORD, (newUser.getPassword()));
+        values.put(COLUMN_USER_TYPE, newUser.getUserType().ordinal());
         db.insert(table, null, values);
     }
 
     public Person loadUser(String email) {
-        String query = "SELECT * FROM " + TABLE_USER +" WHERE " + COLUMN_EMAIL + "= '" + email + "'";
+        String query = "SELECT * FROM " + TABLE_PERSON +" WHERE " + COLUMN_EMAIL + "= '"
+                + email + "'";
         Cursor cursor = db.rawQuery(query, null);
         Person currentUser = new Person("", "", "", null);
         if (cursor.moveToFirst()) {
