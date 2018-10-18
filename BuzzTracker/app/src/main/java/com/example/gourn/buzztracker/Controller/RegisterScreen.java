@@ -95,104 +95,6 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
     userTypeSpinner.setAdapter(csAdapter);
 
 
-    //Set up click listener for submit button
-
-//    submitButton.setOnClickListener(new View.OnClickListener() {
-//
-//      public void onClick(View v) {
-//        boolean isSubmit = true;
-//        nameText = "";
-//        emailText = "";
-//        passText = "";
-//        confirmPassText = "";
-//
-//        //userType = (UserType)userTypeSpinner.getSelectedItem();
-//
-//
-//
-//        //Check for new alerts
-//        alertsList.clear();
-//
-//
-//        //Check to make sure name field was entered
-//        if(nameField != null) {
-//          nameText = nameField.getText().toString();
-//          if (nameText.length() == 0) {
-//            isSubmit = false;
-//            alertsList.add(Alerts.NAME);
-//          }
-//        } else {
-//          isSubmit = false;
-//          alertsList.add(Alerts.NAME);
-//        }
-//
-//
-//
-//        //Check to make sure email was entered
-//        if(emailField != null) {
-//          emailText = emailField.getText().toString();
-//          if (emailText.length() == 0) {
-//            isSubmit = false;
-//            alertsList.add(Alerts.EMAIL);
-//          }
-//        } else {
-//          isSubmit = false;
-//          alertsList.add(Alerts.EMAIL);
-//        }
-//
-//
-//
-//        //Check to make sure password is long enough
-//        if (passField != null) {
-//          passText = passField.getText().toString();
-//          if (passText.length() < MIN_PASS_LENGTH) {
-//            isSubmit = false;
-//            alertsList.add(Alerts.PASSLENGTH);
-//          }
-//          //Check to make sure password has a number in it
-//          boolean containsNum = false;
-//          int digit = 0;
-//          while (digit < 10) {
-//            if (passText.contains("" + digit)) {
-//              containsNum = true;
-//            }
-//            digit++;
-//          }
-//          if (!containsNum) {
-//            isSubmit = false;
-//            alertsList.add(Alerts.PASSNUM);
-//          }
-//        } else {
-//          isSubmit = false;
-//          alertsList.add(Alerts.PASSLENGTH);
-//        }
-//
-//        if (confirmPassField != null) {
-//          confirmPassText = confirmPassField.getText().toString();
-//        }
-//
-//
-//
-//        //Check to make sure passwords match
-//        if (!(passText.equals(confirmPassText))) {
-//          isSubmit = false;
-//          alertsList.add(Alerts.MATCH);
-//        }
-//
-//
-//
-//        if (isSubmit) {
-//          onSubmit(v, null, nameText, emailText, passText, userType);
-//          //submitRegistration(v);
-//        } else {
-//          createAlert(alertsList);
-//        }
-//      }
-//
-//    });
-
-
-
     //Set up click listener for cancel button
     cancelButton.setOnClickListener(new View.OnClickListener() {
 
@@ -237,10 +139,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
       emailText = emailField.getText().toString().trim();
       passText = passField.getText().toString().trim();
       confirmPassText = confirmPassField.getText().toString().trim();
-//      final ArrayList<Alerts> alertsList = new ArrayList<>();
-//      final AlertDialog.Builder build = new AlertDialog.Builder(this);
-//
-//      //userType = (UserType)userTypeSpinner.getSelectedItem();
+      userType = (UserType)userTypeSpinner.getSelectedItem();
 //
 //
 //
@@ -254,21 +153,22 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
           nameField.requestFocus();
           return;
       }
-//
-//      //Check to make sure email was entered
+
+      //Check to make sure email was entered
       if(emailText.isEmpty()) {
           emailField.setError("Email is required");
           emailField.requestFocus();
           return;
       }
-
+      //Check to make sure password was entered
       if(passText.isEmpty()) {
           passField.setError("Password is required");
           passField.requestFocus();
           return;
       }
       boolean isValidPass = true;
-//      //Check to make sure password is long enough
+
+      //Check to make sure password is long enough
       if (passField != null) {
           passText = passField.getText().toString();
           if (passText.length() < MIN_PASS_LENGTH) {
@@ -307,12 +207,15 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
       User user = new User(nameText, emailText, passText, userType);
       progress.setMessage("Registering. Please wait...");
       progress.show();
-      firebaseAuth.createUserWithEmailAndPassword(emailText.trim(), passText.trim())
+      firebaseAuth.createUserWithEmailAndPassword(emailText, passText)
               .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                   @Override
                   public void onComplete(@NonNull Task<AuthResult> task) {
                       if (task.isSuccessful()) {
                           Toast.makeText(RegisterScreen.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                          Intent intent = new Intent(RegisterScreen.this, AppScreen.class);
+                          intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                          startActivity(intent);
                       } else {
                           if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                               Toast.makeText(getApplicationContext(), "Already registered email", Toast.LENGTH_SHORT).show();
@@ -322,14 +225,6 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
                       }
                   }
               });
-
-//    dbHandler.addUser(user);
-//    Intent intent = new Intent(this, AppScreen.class);
-//    Bundle bundle = new Bundle();
-//    bundle.putInt("USER_TYPE", user.getUserType().ordinal());
-//    intent.putExtras(bundle);
-//
-//    startActivity(intent);
 
     finish();
 
