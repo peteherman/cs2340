@@ -17,7 +17,6 @@ public class DB_Handler extends SQLiteOpenHelper {
     private static final String TABLE_PERSON = "Person";
     public static final String COLUMN_NAME = "Name";
     public static final String COLUMN_EMAIL = "Email";
-    public static final String COLUMN_PASSWORD = "Password";
     public static final String COLUMN_USER_TYPE = "UserType";
 
     public SQLiteDatabase db;
@@ -30,8 +29,7 @@ public class DB_Handler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_PERSON_TABLE = "CREATE TABLE " + TABLE_PERSON + "(" + COLUMN_NAME + " TEXT, " +
-                COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL, " +
-                COLUMN_USER_TYPE + " INTEGER)";
+                COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_USER_TYPE + " INTEGER)";
 //        String CREATE_ADMIN_TABLE = "CREATE TABLE " + TABLE_ADMIN + "(" + COLUMN_NAME + " TEXT, " +
 //                COLUMN_EMAIL + " TEXT PRIMARY KEY, " + COLUMN_PASSWORD + " TEXT NOT NULL)";
 //        String CREATE_ADMIN_LOCEMP = "CREATE TABLE " + TABLE_LOCEMP + "(" + COLUMN_NAME + " TEXT, " +
@@ -59,7 +57,6 @@ public class DB_Handler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, (newUser.getName()));
         values.put(COLUMN_EMAIL, (newUser.getEmail()));
-        values.put(COLUMN_PASSWORD, (newUser.getPassword()));
         values.put(COLUMN_USER_TYPE, newUser.getUserType().ordinal());
         db.insert(table, null, values);
     }
@@ -68,12 +65,11 @@ public class DB_Handler extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_PERSON +" WHERE " + COLUMN_EMAIL + "= '"
                 + email + "'";
         Cursor cursor = db.rawQuery(query, null);
-        Person currentUser = new Person("", "", "", null);
+        Person currentUser = new Person("", "", null);
         if (cursor.moveToFirst()) {
             cursor.moveToFirst();
             currentUser.setName(cursor.getString(0));
             currentUser.setEmail(cursor.getString(1));
-            currentUser.setPassword(cursor.getString(2));
             cursor.close();
         }
         return currentUser;

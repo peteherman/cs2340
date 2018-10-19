@@ -10,7 +10,7 @@ public class LocationEmployee extends Person {
 
   public LocationEmployee(String name, String email, String password, UserType userType,
                           Location location, List<String> categories) {
-      super(name, email, password, userType);
+      super(name, email, userType);
       this.location = location;
       this.categories = new ArrayList<>();
       for (String c : categories) {

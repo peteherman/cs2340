@@ -30,16 +30,18 @@ import android.widget.Toast;
 
 
 import com.example.gourn.buzztracker.R;
-import com.example.gourn.buzztracker.Model.User;
+import com.example.gourn.buzztracker.Model.*;
 import com.example.gourn.buzztracker.Model.UserType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.*;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-
+import java.util.Objects;
 
 
 public class RegisterScreen extends AppCompatActivity implements View.OnClickListener {
@@ -61,10 +63,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
 
   private FirebaseAuth firebaseAuth;
 
-  private String nameText = "";
-  private  String emailText = "";
-  private String passText = "";
-  private String confirmPassText = "";
+
   private UserType userType = null;
 
   public static final int MIN_PASS_LENGTH = 8;
@@ -132,21 +131,14 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
   }
 
 
-
   public void onSubmit() {
       boolean isSubmit = true;
-      nameText = nameField.getText().toString().trim();
-      emailText = emailField.getText().toString().trim();
-      passText = passField.getText().toString().trim();
-      confirmPassText = confirmPassField.getText().toString().trim();
+      final String nameText = nameField.getText().toString().trim();
+      final String emailText = emailField.getText().toString().trim();
+      final String passText = passField.getText().toString().trim();
+      final String confirmPassText = confirmPassField.getText().toString().trim();
       userType = (UserType)userTypeSpinner.getSelectedItem();
-//
-//
-//
-//      //Check for new alerts
-//      alertsList.clear();
-//
-//
+
       //Check to make sure name field was entered
       if(nameText.isEmpty()) {
           nameField.setError("Name is required");
@@ -170,7 +162,6 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
 
       //Check to make sure password is long enough
       if (passField != null) {
-          passText = passField.getText().toString();
           if (passText.length() < MIN_PASS_LENGTH) {
               isValidPass = false;
           }
@@ -208,11 +199,27 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
       progress.setMessage("Registering. Please wait...");
       progress.show();
       firebaseAuth.createUserWithEmailAndPassword(emailText, passText)
-              .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+              .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                   @Override
                   public void onComplete(@NonNull Task<AuthResult> task) {
+                      System.out.print("Hello");
                       if (task.isSuccessful()) {
                           Toast.makeText(RegisterScreen.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                          Person user = new Person(nameText, emailText, userType);
+                          FirebaseDatabase.getInstance().getReference("Users")
+                                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
+                                  .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                              @Override
+                              public void onComplete(@NonNull Task<Void> task) {
+                                  if (task.isSuccessful()) {
+                                      Toast.makeText(getApplicationContext(), "Added data", Toast.LENGTH_SHORT).show();
+                                  } else {
+                                      Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                  }
+                              }
+                          });
+
+
                           Intent intent = new Intent(RegisterScreen.this, AppScreen.class);
                           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                           startActivity(intent);
@@ -229,59 +236,6 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
     finish();
 
   }
-
-
-
-
-
-  private void createAlert(ArrayList<Alerts> alertsList) {
-
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-    builder.setTitle("Registration Error");
-
-
-    if (alertsList.contains(Alerts.NAME)) {
-      adapter.add("Name Field is Empty");
-//            builder.setMessage("Name Field is Empty");
-    }
-    if (alertsList.contains(Alerts.EMAIL)) {
-      adapter.add("Email Field is Empty");
-//            builder.setMessage("Email Field is Empty");
-    }
-
-    if (alertsList.contains(Alerts.PASSLENGTH)) {
-      adapter.add("Password is not long enough");
-//            builder.setMessage("Password is not long enough");
-    }
-
-    if (alertsList.contains(Alerts.PASSNUM)) {
-      adapter.add("Password does not contain a number");
-//            builder.setMessage("Password does not contain a number");
-    }
-
-    if (alertsList.contains(Alerts.MATCH)) {
-      adapter.add("Passwords do not match");
-//            builder.setMessage("Passwords do not match");
-
-    }
-
-    builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
-
-      public void onClick(DialogInterface dialog, int item) {
-
-
-
-      }
-
-    });
-
-    AlertDialog alert = builder.create();
-
-    alert.show();
-
-  }
-
 
 
   private void cancelRegistration(View v) {

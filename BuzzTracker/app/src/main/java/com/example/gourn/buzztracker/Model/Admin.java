@@ -2,9 +2,9 @@ package com.example.gourn.buzztracker.Model;
 
 public class Admin extends Person {
 
-  public Admin (String name, String email, String password, UserType userType) {
+  public Admin (String name, String email, UserType userType) {
 
-    super(name, email, password, userType);
+    super(name, email, userType);
   }
 
 }
