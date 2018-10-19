@@ -12,14 +12,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.gourn.buzztracker.Controller.AppScreen;
-import com.example.gourn.buzztracker.Controller.DB_Handler;
 import com.example.gourn.buzztracker.Controller.LocationDescriptionActivity;
 import com.example.gourn.buzztracker.Model.Location;
 import com.example.gourn.buzztracker.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -95,36 +98,22 @@ public class LocationsList extends AppCompatActivity {
             String locWebsite = data[i][10];
             Location location = new Location(locName,locLatitude,locLongitude,locAddress,locType,locPhoneNum,locWebsite);
             locationsArr[i] = location;
-            FirebaseDatabase.getInstance().getReference("Locations")
-                    .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                    .setValue(location).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), "Added data", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+
+            String id = FirebaseDatabase.getInstance().getReference("Locations").push().getKey();
+            FirebaseDatabase.getInstance().getReference("Locations").child(id).setValue(location);
+//                    .child()
+//                    .setValue(location).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                @Override
+//                public void onComplete(@NonNull Task<Void> task) {
+//                    if (task.isSuccessful()) {
+//                        Toast.makeText(getApplicationContext(), "Added data", Toast.LENGTH_SHORT).show();
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
         }
         return locationsArr;
-//        String columns = "Name, Latitude, Longitude, Address, Type, PhoneNum, Website";
-//        String str1 = "INSERT INTO Location" + " (" + columns + ") values(";
-//        String str2 = ");";
-//        for (int i = 0; i < data.length; i++) {
-//            StringBuilder sb = new StringBuilder(str1);
-//            sb.append("'" + data[i][1] + "', '");
-//            sb.append(data[i][2] + "', '");
-//            sb.append(data[i][3] + "', '");
-//            sb.append(data[i][4] + ", " + data[i][5] + ", " + data[i][6] + ", "+ data[i][7] + "', '");
-//            sb.append(data[i][8] + "', '");
-//            sb.append(data[i][9] + "', '");
-//            sb.append(data[i][10] + "'");
-//            sb.append(str2);
-//            System.out.println(sb);
-//            db.db.execSQL(sb.toString());
-//        }
     }
 
     private void clickLocation(View v, Location locationId) {
