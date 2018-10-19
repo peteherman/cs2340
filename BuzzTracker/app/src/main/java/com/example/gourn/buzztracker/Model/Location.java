@@ -1,5 +1,8 @@
 package com.example.gourn.buzztracker.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Location {
     private String name;
     private String latitude;
@@ -8,8 +11,9 @@ public class Location {
     private String type;
     private String phoneNum;
     private String website;
+    private List<Donation> donations;
 
-    public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website) {
+    public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website, List<Donation> donations) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -17,6 +21,16 @@ public class Location {
         this.type = type;
         this.phoneNum = phoneNum;
         this.website = website;
+        this.donations = new ArrayList<>();
+        if (donations != null) {
+            for (Donation d : donations) {
+                this.donations.add(d);
+            }
+        }
+    }
+
+    public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website) {
+        this(name, latitude, longitude, address, type, phoneNum, website, null);
     }
 
     public String getName() {
@@ -74,4 +88,11 @@ public class Location {
     public void setWebsite(String website) {
         this.website = website;
     }
+
+    public List<Donation> getDonations() { return donations;};
+
+    public void addDonation(Donation donation) {
+        donations.add(donation);
+    }
+
 }

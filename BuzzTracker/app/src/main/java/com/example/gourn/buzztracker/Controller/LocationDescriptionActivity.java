@@ -10,9 +10,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.gourn.buzztracker.Model.UserType;
 import com.example.gourn.buzztracker.R;
 
 public class LocationDescriptionActivity extends AppCompatActivity {
+    private Button addDonationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +58,36 @@ public class LocationDescriptionActivity extends AppCompatActivity {
             }
 
         });
+
+        //Set onclick listener for donation button
+        addDonationButton = findViewById(R.id.add_donation);
+        addDonationButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onAddDonationClick(v);
+            }
+        });
+
+        //Check user type, if not location employee, set addDonation button visible to false
+        if (getIntent().getExtras().getInt("USER_TYPE") != UserType.LOCATION_EMPLOYEE.ordinal()) {
+            addDonationButton.setVisibility(View.GONE);
+        }
+
     }
 
     private void returnToLocations(View v) {
         Intent intent = new Intent(this, LocationsList.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void onAddDonationClick(View v) {
+        Intent intent = new Intent(this, DonationItemActivity.class);
+        Bundle bundle = new Bundle();
+        int userType = getIntent().getExtras().getInt("USER_TYPE");
+        bundle.putInt("USER_TYPE", userType);
+        String locationName = getIntent().getStringExtra("EXTRA_LOCATION_NAME");
+        bundle.putString("LOCATION_NAME", locationName);
+        intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }

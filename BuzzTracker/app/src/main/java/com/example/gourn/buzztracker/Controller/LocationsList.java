@@ -110,12 +110,21 @@ public class LocationsList extends AppCompatActivity {
         intent.putExtra("EXTRA_LOCATION_TYPE", locationId.getType());
         intent.putExtra("EXTRA_LOCATION_PHONE_NUM", locationId.getPhoneNum());
         intent.putExtra("EXTRA_LOCATION_WEBSITE", locationId.getWebsite());
+        Bundle bundle = new Bundle();
+        int userType = getIntent().getExtras().getInt("USER_TYPE");
+        bundle.putInt("USER_TYPE", userType);
+        intent.putExtras(bundle);
         startActivity(intent);
+        finish();
     }
 
     private void clickBackButton(View view) {
         Intent intent = new Intent(this, AppScreen.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Bundle bundle = new Bundle();
+        int userType = getIntent().getExtras().getInt("USER_TYPE");
+        bundle.putInt("USER_TYPE", userType);
+        intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }
