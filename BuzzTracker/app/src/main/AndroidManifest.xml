@@ -26,6 +26,7 @@
         <activity android:name=".Controller.RegisterScreen" />
         <activity android:name=".Controller.LocationDescriptionActivity" />
         <activity android:name=".Controller.LocationsList" />
+        <activity android:name=".Controller.DonationItemActivity"></activity>
     </application>
 
 </manifest>
