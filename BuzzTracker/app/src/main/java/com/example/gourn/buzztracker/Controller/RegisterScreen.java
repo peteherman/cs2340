@@ -207,8 +207,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
                           Toast.makeText(RegisterScreen.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
                           Person user = new Person(nameText, emailText, userType);
                           FirebaseDatabase.getInstance().getReference("Users")
-                                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
-                                  .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                               @Override
                               public void onComplete(@NonNull Task<Void> task) {
                                   if (task.isSuccessful()) {

@@ -9,6 +9,9 @@ public class Location {
     private String phoneNum;
     private String website;
 
+    public Location() {
+        this("","","","","","","");
+    }
     public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website) {
         this.name = name;
         this.latitude = latitude;

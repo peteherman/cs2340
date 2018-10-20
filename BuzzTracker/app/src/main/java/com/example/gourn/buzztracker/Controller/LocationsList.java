@@ -89,29 +89,38 @@ public class LocationsList extends AppCompatActivity {
             }
         }
         for (int i = 0; i < data.length; i++) {
-            String locName = data[i][1];
+            final String locName = data[i][1];
             String locLatitude = data[i][2];
             String locLongitude = data[i][3];
             String locAddress = data[i][4] + ", " + data[i][5] + ", " + data[i][6] + ", "+ data[i][7];
             String locType = data[i][8];
             String locPhoneNum = data[i][9];
             String locWebsite = data[i][10];
-            Location location = new Location(locName,locLatitude,locLongitude,locAddress,locType,locPhoneNum,locWebsite);
+            final Location location = new Location(locName,locLatitude,locLongitude,locAddress,locType,locPhoneNum,locWebsite);
             locationsArr[i] = location;
+            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Locations");
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(final DataSnapshot dataSnapshot) {
+                    boolean noChildren = true;
+                    boolean exists = false;
+                    for (DataSnapshot data : dataSnapshot.getChildren()) {
+                        //If email exists then toast shows else store the data on new key
+                        noChildren = false;
+                        Location loc = data.getValue(Location.class);
+                        if (loc.getName().equals(locName)) {
+                            exists = true;
+                            break;
+                        }
+                    }
+                    if(noChildren || !exists) {
+                        databaseReference.child(databaseReference.push().getKey()).setValue(location);                    }
+                }
 
-            String id = FirebaseDatabase.getInstance().getReference("Locations").push().getKey();
-            FirebaseDatabase.getInstance().getReference("Locations").child(id).setValue(location);
-//                    .child()
-//                    .setValue(location).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Void> task) {
-//                    if (task.isSuccessful()) {
-//                        Toast.makeText(getApplicationContext(), "Added data", Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            });
+                @Override
+                public void onCancelled(final DatabaseError databaseError) {
+                }
+            });
         }
         return locationsArr;
     }
