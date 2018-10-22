@@ -196,8 +196,8 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
           return;
       }
       User user = new User(nameText, emailText, passText, userType);
-      progress.setMessage("Registering. Please wait...");
-      progress.show();
+//      progress.setMessage("Registering. Please wait...");
+//      progress.show();
       firebaseAuth.createUserWithEmailAndPassword(emailText, passText)
               .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                   @Override

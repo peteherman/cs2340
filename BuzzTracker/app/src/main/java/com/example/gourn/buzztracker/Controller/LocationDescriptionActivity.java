@@ -3,6 +3,7 @@ package com.example.gourn.buzztracker.Controller;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -71,24 +72,32 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         if (getIntent().getExtras().getInt("USER_TYPE") != UserType.LOCATION_EMPLOYEE.ordinal()) {
             addDonationButton.setVisibility(View.GONE);
         }
+        Log.d("UserType", "" + getIntent().getExtras().getInt("USER_TYPE"));
 
     }
 
     private void returnToLocations(View v) {
         Intent intent = new Intent(this, LocationsList.class);
+        Bundle bundle = buildIntentBundle();
+        intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }
 
     private void onAddDonationClick(View v) {
         Intent intent = new Intent(this, DonationItemActivity.class);
-        Bundle bundle = new Bundle();
-        int userType = getIntent().getExtras().getInt("USER_TYPE");
-        bundle.putInt("USER_TYPE", userType);
+        Bundle bundle = buildIntentBundle();
         String locationName = getIntent().getStringExtra("EXTRA_LOCATION_NAME");
         bundle.putString("LOCATION_NAME", locationName);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
+    }
+
+    private Bundle buildIntentBundle() {
+        Bundle bundle = new Bundle();
+        int userType = getIntent().getExtras().getInt("USER_TYPE");
+        bundle.putInt("USER_TYPE", userType);
+        return  bundle;
     }
 }

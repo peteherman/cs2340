@@ -1,9 +1,9 @@
 package com.example.gourn.buzztracker.Model;
 
 public enum UserType {
-  USER("User"),
-  LOCATION_EMPLOYEE("Location Employee"),
-  ADMIN("Admin");
+  USER("USER"),
+  LOCATION_EMPLOYEE("LOCATION_EMPLOYEE"),
+  ADMIN("ADMIN");
 
   private String val;
 
@@ -13,5 +13,17 @@ public enum UserType {
 
   public String toString() {
     return this.val;
+  }
+
+  public static int getOrdinalFromValue(String val) {
+      if (val == null) {
+          return -1;
+      }
+      for (UserType u : UserType.values()) {
+          if (u.val.equalsIgnoreCase(val)) {
+              return u.ordinal();
+          }
+      }
+      return -1;
   }
 }
