@@ -85,9 +85,10 @@ public class LocationDescriptionActivity extends AppCompatActivity {
     }
 
     private void onAddDonationClick(View v) {
+        String locationName = getIntent().getStringExtra("EXTRA_LOCATION_NAME");
+
         Intent intent = new Intent(this, DonationItemActivity.class);
         Bundle bundle = buildIntentBundle();
-        String locationName = getIntent().getStringExtra("EXTRA_LOCATION_NAME");
         bundle.putString("LOCATION_NAME", locationName);
         intent.putExtras(bundle);
         startActivity(intent);

@@ -8,13 +8,13 @@ public enum DefaultDonationCategories {
     HOUSEHOLD ("Household"),
     OTHER ("Other");
 
-    private String stringRepresentation;
+    private String val;
 
-    private DefaultDonationCategories(String s) {
-        stringRepresentation = s;
+    DefaultDonationCategories(String s) {
+        val = s;
     }
 
     public String toString() {
-        return this.stringRepresentation;
+        return this.val;
     }
 }
