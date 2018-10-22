@@ -6,16 +6,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.gourn.buzztracker.Model.DefaultDonationCategories;
+import com.example.gourn.buzztracker.Model.Donation;
 import com.example.gourn.buzztracker.R;
+
+import java.sql.Timestamp;
 
 public class DonationItemActivity extends AppCompatActivity {
     private TextView locationTextView;
     private Spinner categorySpinner;
     private Button backButton;
+    private Button addButton;
+    private EditText shortDescriptionField;
+    private EditText longDescriptionField;
+    private EditText valueField;
+
 
 
     @Override
@@ -27,6 +36,10 @@ public class DonationItemActivity extends AppCompatActivity {
         locationTextView = findViewById(R.id.location_textview);
         categorySpinner = findViewById(R.id.category_spinner);
         backButton = findViewById(R.id.back_button);
+        addButton = findViewById(R.id.add_button);
+        shortDescriptionField = findViewById(R.id.short_description_field);
+        longDescriptionField = findViewById(R.id.long_description_field);
+        valueField = findViewById(R.id.value_field);
 
         //Set up category spinner
         ArrayAdapter<String> csAdapter = new ArrayAdapter(this,
@@ -51,9 +64,62 @@ public class DonationItemActivity extends AppCompatActivity {
             }
         });
 
+        //Set up onClickListener for Add Button
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSubmit(v);
+            }
+        });
+
     }
 
     private void onClickBackButton(View v) {
+        Intent intent = new Intent(this, LocationsList.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void onSubmit(View v) {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        String locationName = getIntent().getExtras().getString("LOCATION_NAME");
+        String shortDescription = shortDescriptionField.toString();
+        String longDescription = longDescriptionField.toString();
+        String value = valueField.toString();
+        DefaultDonationCategories category = (DefaultDonationCategories)categorySpinner.getSelectedItem();
+
+        //Check to make sure all fields were entered
+        if (shortDescription.isEmpty()) {
+            shortDescriptionField.setError("Short Description not entered");
+            shortDescriptionField.requestFocus();
+            return;
+        }
+        if (longDescription.isEmpty()) {
+            longDescriptionField.setError("Long Description was not entered");
+            longDescriptionField.requestFocus();
+            return;
+        }
+        if (value.isEmpty()) {
+            valueField.setError("Value was not entered");
+            valueField.requestFocus();
+            return;
+        }
+        Donation donation = new Donation(timestamp, locationName, shortDescription,
+                longDescription, Double.parseDouble(value), category);
+
+        /*
+        *
+        *
+        *
+        * Put donation into database here
+        *
+        *
+        *
+        *
+         */
         Intent intent = new Intent(this, LocationsList.class);
         Bundle bundle = new Bundle();
         bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));

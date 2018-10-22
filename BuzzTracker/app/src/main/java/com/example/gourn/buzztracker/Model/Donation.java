@@ -6,19 +6,19 @@ import java.sql.Timestamp;
 
 public class Donation {
     Timestamp timestamp;
-    Location location;
+    String locationName;
     String shortDescription;
     String fullDescription;
-    int value;
+    Double value;
     DefaultDonationCategories category;
     String comments;
     Image picture;
 
-    public Donation(Timestamp timestamp, Location location, String shortDescription,
-                    String fullDescription, int value, DefaultDonationCategories category,
+    public Donation(Timestamp timestamp, String location, String shortDescription,
+                    String fullDescription, Double value, DefaultDonationCategories category,
                     String comments, Image picture) {
         this.timestamp = timestamp;
-        this.location = location;
+        this.locationName = location;
         this.shortDescription = shortDescription;
         this.fullDescription = fullDescription;
         this.value = value;
@@ -26,9 +26,16 @@ public class Donation {
         this.comments = comments;
         this.picture = picture;
     }
+
+    public Donation(Timestamp timestamp, String location, String shortDescription,
+                    String fullDescription, Double value, DefaultDonationCategories category) {
+       this (timestamp, location, shortDescription, fullDescription, value,
+               category, null, null);
+    }
+
     public Donation(Donation donation) {
         this.timestamp = donation.getTimestamp();
-        this.location = donation.getLocation();
+        this.locationName = donation.getLocation();
         this.shortDescription = donation.getShortDescription();
         this.fullDescription = donation.getFullDescription();
         this.value = donation.getValue();
@@ -37,12 +44,12 @@ public class Donation {
         this.picture = donation.getPicture();
     }
 
-    public Location getLocation() {
-        return location;
+    public String getLocation() {
+        return locationName;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLocation(String location) {
+        this.locationName = location;
     }
 
     public String getShortDescription() {
@@ -61,11 +68,11 @@ public class Donation {
         this.fullDescription = fullDescription;
     }
 
-    public int getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
