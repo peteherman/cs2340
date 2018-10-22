@@ -27,8 +27,8 @@
         android:id="@+id/loginButton"
         android:layout_width="329dp"
         android:layout_height="53dp"
-        android:layout_marginBottom="164dp"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="96dp"
         android:onClick="attemptLogin"
         android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,23 +59,20 @@
     <EditText
         android:id="@+id/passwordField"
         android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_height="47dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/loginButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <Button
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="112dp"
         android:layout_marginStart="148dp"
+        android:layout_marginBottom="48dp"
         android:onClick="cancel"
         android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="parent"

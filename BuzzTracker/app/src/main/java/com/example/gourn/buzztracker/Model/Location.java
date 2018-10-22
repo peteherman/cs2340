@@ -13,6 +13,11 @@ public class Location {
     private String website;
     private List<Donation> donations;
 
+
+    public Location() {
+        this("","","","","","","");
+    }
+
     public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website, List<Donation> donations) {
         this.name = name;
         this.latitude = latitude;
@@ -24,11 +29,10 @@ public class Location {
         this.donations = new ArrayList<>();
         if (donations != null) {
             for (Donation d : donations) {
-                this.donations.add(d);
+                this.donations.add(new Donation(d));
             }
         }
     }
-
     public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website) {
         this(name, latitude, longitude, address, type, phoneNum, website, null);
     }

@@ -26,6 +26,16 @@ public class Donation {
         this.comments = comments;
         this.picture = picture;
     }
+    public Donation(Donation donation) {
+        this.timestamp = donation.getTimestamp();
+        this.location = donation.getLocation();
+        this.shortDescription = donation.getShortDescription();
+        this.fullDescription = donation.getFullDescription();
+        this.value = donation.getValue();
+        this.category = donation.getCategory();
+        this.comments = donation.getComments();
+        this.picture = donation.getPicture();
+    }
 
     public Location getLocation() {
         return location;
