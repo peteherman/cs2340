@@ -65,9 +65,13 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                    //int userType = mAuth.getReference("Users").child(FirebaseAuth.getInstance().get)
                     Intent intent = new Intent(LoginScreen.this, AppScreen.class);
+                    Bundle bundle = new Bundle();
+                    //bundle.putInt("USER_TYPE", )
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+                    finish();
                 }
             }
         });

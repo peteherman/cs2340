@@ -231,8 +231,11 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
                       }
                   }
               });
-
-    finish();
+      Intent intent = new Intent(this, AppScreen.class);
+      Bundle bundle = new Bundle();
+      bundle.putInt("USER_TYPE", user.getUserType().ordinal());
+      intent.putExtras(bundle);
+      finish();
 
   }
 
