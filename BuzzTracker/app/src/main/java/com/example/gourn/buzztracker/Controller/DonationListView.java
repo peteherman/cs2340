@@ -27,6 +27,7 @@ import java.util.List;
 public class DonationListView extends AppCompatActivity {
     private Button backButton;
     private ListView listView;
+    private HashMap<String, String> donations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,28 +38,19 @@ public class DonationListView extends AppCompatActivity {
         backButton = findViewById(R.id.back_button);
         listView = findViewById(R.id.list_view);
 
-        //Get list of donations from database
-        final HashMap<String, String> donations = getDonations();
-        int donationSize = donations.values().size();
-        List<String> donationShortDescriptions = new ArrayList<>();
-        for (String sd : donations.values()) {
-            donationShortDescriptions.add(sd);
-            System.out.println("Donation sd: " + sd);
-        }
 
-        //Setup listview adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-            android.R.layout.simple_list_item_1, android.R.id.text1, donationShortDescriptions);
-        listView.setAdapter(adapter);
+        //Set back button click listener
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackClick(v);
+            }
+        });
 
-        listView.setOnItemClickListener (
-                        new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                clickDonation(view, (String)donations.keySet().toArray()[position]);
-                            }
-                        }
-                );
+        //Populate list view
+        getDonations();
+
+
     }
 
     private HashMap<String, String> getDonations() {
@@ -75,10 +67,25 @@ public class DonationListView extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     donations.put(d.getKey().toString(), d.child("shortDescription").getValue().toString());
-                    String key = d.getKey().toString();
-                    String child = d.child("shortDescription").getValue().toString();
-                    System.out.println("Key: " + key + " short Description: " + child);
                 }
+                List<String> donationShortDescriptions = new ArrayList<>();
+                for (String sd : donations.values()) {
+                    donationShortDescriptions.add(sd);
+                }
+
+                //Setup listview adapter
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(DonationListView.this,
+                        android.R.layout.simple_list_item_1, android.R.id.text1, donationShortDescriptions);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener (
+                        new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                clickDonation(view, (String)donations.keySet().toArray()[position]);
+                            }
+                        }
+                );
             }
 
             @Override
@@ -91,16 +98,23 @@ public class DonationListView extends AppCompatActivity {
             }
         });
 
-        int size = donations.size();
-        System.out.println("Donations size: " + size);
         return donations;
     }
 
     private void clickDonation(View view, String donationId) {
+        Intent intent = new Intent(this, DetailedDonationView.class);
 
+        Bundle bundle = new Bundle();
+        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putString("DONATION_ID", donationId);
+        bundle.putString("LOCATION_NAME", getIntent().getExtras().getString("LOCATION_NAME"));
+
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 
-    private void clickBack(View view) {
+    private void onBackClick(View view) {
         Intent intent = new Intent(this, LocationsList.class);
 
         Bundle bundle = new Bundle();
