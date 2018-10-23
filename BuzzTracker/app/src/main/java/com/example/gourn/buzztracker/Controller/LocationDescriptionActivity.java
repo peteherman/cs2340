@@ -113,6 +113,6 @@ public class LocationDescriptionActivity extends AppCompatActivity {
     }
 
     private void onDonationListClick(View v) {
-        
+
     }
 }
