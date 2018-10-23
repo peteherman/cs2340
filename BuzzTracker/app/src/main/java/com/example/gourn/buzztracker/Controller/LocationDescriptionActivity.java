@@ -113,6 +113,16 @@ public class LocationDescriptionActivity extends AppCompatActivity {
     }
 
     private void onDonationListClick(View v) {
+        String locationName = getIntent().getStringExtra("EXTRA_LOCATION_NAME");
+
+        Intent intent = new Intent(this, DonationListView.class);
+        Bundle bundle = new Bundle();
+        int userType = getIntent().getExtras().getInt("USER_TYPE");
+        bundle.putInt("USER_TYPE", userType);
+        bundle.putString("LOCATION_NAME", locationName);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
 
     }
 }
