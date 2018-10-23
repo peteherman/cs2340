@@ -16,6 +16,7 @@ import com.example.gourn.buzztracker.R;
 
 public class LocationDescriptionActivity extends AppCompatActivity {
     private Button addDonationButton;
+    private Button donationListButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,16 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         if (getIntent().getExtras().getInt("USER_TYPE") != UserType.LOCATION_EMPLOYEE.ordinal()) {
             addDonationButton.setVisibility(View.GONE);
         }
-        Log.d("UserType", "" + getIntent().getExtras().getInt("USER_TYPE"));
+
+        //Set onclick listener for donationlist button
+        donationListButton = findViewById(R.id.donation_list_button);
+        donationListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDonationListClick(v);
+            }
+        });
+
 
     }
 
@@ -100,5 +110,9 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         int userType = getIntent().getExtras().getInt("USER_TYPE");
         bundle.putInt("USER_TYPE", userType);
         return  bundle;
+    }
+
+    private void onDonationListClick(View v) {
+        
     }
 }
