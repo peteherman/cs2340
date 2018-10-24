@@ -130,7 +130,7 @@ public class SearchView extends AppCompatActivity {
 
         //Set category spinner adapter
         //Build String array of default donation categories
-        String[] defaultDonationCategories = new String[DefaultDonationCategories.values().length);
+        String[] defaultDonationCategories = new String[DefaultDonationCategories.values().length];
         for (int i = 0; i < DefaultDonationCategories.values().length; i++) {
             defaultDonationCategories[i] = DefaultDonationCategories.values()[i].toString();
         }
@@ -181,7 +181,7 @@ public class SearchView extends AppCompatActivity {
 
     private void onClickSubmit(View v) {
 
-        Intent intent = new Intent(this, SearchResults.class);
+        Intent intent = new Intent(this, SearchResultsView.class);
         Bundle bundle = new Bundle();
         bundle.putInt("SEARCH_TYPE", searchType);
 

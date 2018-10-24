@@ -30,7 +30,8 @@
         <activity android:name=".Controller.DonationItemActivity" />
         <activity android:name=".Controller.DonationListView" />
         <activity android:name=".Controller.DetailedDonationView" />
-        <activity android:name=".Controller.SearchView"></activity>
+        <activity android:name=".Controller.SearchView" />
+        <activity android:name=".Controller.SearchResultsView"></activity>
     </application>
 
 </manifest>
