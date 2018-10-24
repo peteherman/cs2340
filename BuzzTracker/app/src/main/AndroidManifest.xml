@@ -29,7 +29,8 @@
         <activity android:name=".Controller.LocationsList" />
         <activity android:name=".Controller.DonationItemActivity" />
         <activity android:name=".Controller.DonationListView" />
-        <activity android:name=".Controller.DetailedDonationView"></activity>
+        <activity android:name=".Controller.DetailedDonationView" />
+        <activity android:name=".Controller.SearchView"></activity>
     </application>
 
 </manifest>
