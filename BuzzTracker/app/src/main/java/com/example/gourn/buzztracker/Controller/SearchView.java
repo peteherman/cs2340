@@ -66,7 +66,7 @@ public class SearchView extends AppCompatActivity {
 
 
         //Get list of location names from firebase & populate location spinner
-        final DatabaseReference databaseReference = firebaseDatabase.getReference();
+        final DatabaseReference databaseReference = firebaseDatabase.getInstance().getReference();
         Query locationQuery = databaseReference.child("Locations");
         locationQuery.addValueEventListener(new ValueEventListener() {
             private ArrayList<String> locationNames = new ArrayList<>();
@@ -117,8 +117,10 @@ public class SearchView extends AppCompatActivity {
                 searchType = pos;
                 if (pos == ITEM_SEARCH) {
                     categorySpinner.setVisibility(View.GONE);
+                    searchEditText.setVisibility(View.VISIBLE);
                 } else if (pos == CATEGORY_SEARCH) {
                     searchEditText.setVisibility(View.GONE);
+                    categorySpinner.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -218,5 +220,9 @@ public class SearchView extends AppCompatActivity {
         Bundle bundle = new Bundle();
 
         bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 }
