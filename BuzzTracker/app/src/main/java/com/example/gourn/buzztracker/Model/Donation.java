@@ -10,13 +10,14 @@ public class Donation {
     String shortDescription;
     String fullDescription;
     Double value;
+    int quantity;
     DefaultDonationCategories category;
     String comments;
     Image picture;
 
     public Donation(Timestamp timestamp, String location, String shortDescription,
                     String fullDescription, Double value, DefaultDonationCategories category,
-                    String comments, Image picture) {
+                    String comments, Image picture, int qty) {
         this.timestamp = timestamp;
         this.locationName = location;
         this.shortDescription = shortDescription;
@@ -25,12 +26,13 @@ public class Donation {
         this.category = category;
         this.comments = comments;
         this.picture = picture;
+        this.quantity = qty;
     }
 
     public Donation(Timestamp timestamp, String location, String shortDescription,
-                    String fullDescription, Double value, DefaultDonationCategories category) {
+                    String fullDescription, Double value, DefaultDonationCategories category, int qty) {
        this (timestamp, location, shortDescription, fullDescription, value,
-               category, null, null);
+               category, null, null, qty);
     }
 
     public Donation(Donation donation) {
@@ -42,6 +44,7 @@ public class Donation {
         this.category = donation.getCategory();
         this.comments = donation.getComments();
         this.picture = donation.getPicture();
+        this.quantity = donation.getQuantity();
     }
 
     public String getLocation() {
@@ -106,5 +109,13 @@ public class Donation {
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

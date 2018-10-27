@@ -27,6 +27,7 @@ public class DonationItemActivity extends AppCompatActivity {
     private EditText shortDescriptionField;
     private EditText longDescriptionField;
     private EditText valueField;
+    private EditText quantityField;
 
 
 
@@ -43,6 +44,7 @@ public class DonationItemActivity extends AppCompatActivity {
         shortDescriptionField = findViewById(R.id.short_description_field);
         longDescriptionField = findViewById(R.id.long_description_field);
         valueField = findViewById(R.id.value_field);
+        quantityField = findViewById(R.id.qty);
 
         //Set up category spinner
         ArrayAdapter<String> csAdapter = new ArrayAdapter(this,
@@ -92,6 +94,7 @@ public class DonationItemActivity extends AppCompatActivity {
         String shortDescription = shortDescriptionField.getText().toString();
         String longDescription = longDescriptionField.getText().toString();
         String valueString = valueField.getText().toString();
+        int quantity = Integer.parseInt(quantityField.getText().toString());
         Log.d("Value field", valueString);
         double value = Double.parseDouble(valueString);
         DefaultDonationCategories category = (DefaultDonationCategories)categorySpinner.getSelectedItem();
@@ -109,7 +112,7 @@ public class DonationItemActivity extends AppCompatActivity {
         }
 
         Donation donation = new Donation(timestamp, locationName, shortDescription,
-                longDescription, value, category);
+                longDescription, value, category, quantity);
 
         /*
         *

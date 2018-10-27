@@ -21,6 +21,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SearchView extends AppCompatActivity {
     private EditText searchEditText;
@@ -38,6 +39,8 @@ public class SearchView extends AppCompatActivity {
     private int categorySelected;
     private int locationSelected;
     private FirebaseDatabase firebaseDatabase;
+    private HashMap<Integer, String> categoryMap = new HashMap<>();
+    private HashMap<Integer, String> locationMap = new HashMap<>();
 
 
 
@@ -72,9 +75,12 @@ public class SearchView extends AppCompatActivity {
             private ArrayList<String> locationNames = new ArrayList<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int count = 0;
                 locationNames.add("All");
+                locationMap.put(count++, "All");
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     locationNames.add(d.child("name").getValue().toString());
+                    locationMap.put(count++, d.child("name").getValue().toString());
                 }
 
                 //Create ArrayAdapter for spinner
@@ -135,6 +141,7 @@ public class SearchView extends AppCompatActivity {
         String[] defaultDonationCategories = new String[DefaultDonationCategories.values().length];
         for (int i = 0; i < DefaultDonationCategories.values().length; i++) {
             defaultDonationCategories[i] = DefaultDonationCategories.values()[i].toString();
+            categoryMap.put(i, defaultDonationCategories[i]);
         }
 
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,
@@ -204,11 +211,11 @@ public class SearchView extends AppCompatActivity {
             bundle.putString("SEARCH_FIELD", searchEditText.getText().toString());
         } else if (searchType == CATEGORY_SEARCH) {
             //Add category to intent
-            bundle.putInt("CATEGORY_SELECTED", categorySelected);
+            bundle.putString("CATEGORY_SELECTED", categoryMap.get(categorySelected));
         }
 
         //Add location selected field to intent
-        bundle.putInt("LOCATION_SELECTED", locationSelected);
+        bundle.putString("LOCATION_SELECTED", categoryMap.get(locationSelected));
 
         intent.putExtras(bundle);
         startActivity(intent);
