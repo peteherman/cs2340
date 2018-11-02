@@ -215,7 +215,7 @@ public class SearchView extends AppCompatActivity {
         }
 
         //Add location selected field to intent
-        bundle.putString("LOCATION_SELECTED", categoryMap.get(locationSelected));
+        bundle.putString("LOCATION_SELECTED", locationMap.get(locationSelected));
         bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
 
         intent.putExtras(bundle);
