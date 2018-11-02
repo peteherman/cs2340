@@ -67,8 +67,12 @@ public class SearchResultsView extends AppCompatActivity {
                     final Query query2 = ((DatabaseReference) query1).child(d.getKey().toString());
                     query2.addValueEventListener(new ValueEventListener() {
                         private HashMap<String, String> donationsMap = new HashMap<>();
+                        private List<String> donationsList = new ArrayList<>();
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchResultsView.this,
+                                    android.R.layout.simple_list_item_1, donationsList);
+                            resultlist.setAdapter(adapter);
                             for (DataSnapshot c : dataSnapshot.getChildren()) {
                                 final String key = c.getKey().toString();
                                 if (category != null) {
@@ -83,6 +87,8 @@ public class SearchResultsView extends AppCompatActivity {
                                     }
                                 }
                             }
+                            donationsList.addAll(donationsMap.values());
+                            adapter.notifyDataSetChanged();
                         }
 
                         @Override
