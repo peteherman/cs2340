@@ -1,9 +1,12 @@
 package com.example.gourn.buzztracker.Model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Location {
+public class Location implements Parcelable {
     private String name;
     private String latitude;
     private String longitude;
@@ -36,6 +39,46 @@ public class Location {
     public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website) {
         this(name, latitude, longitude, address, type, phoneNum, website, null);
     }
+
+    public Location(Parcel in) {
+        String[] data = new String[7];
+
+        in.readStringArray(data);
+        this.name = data[0];
+        this.latitude = data[1];
+        this.longitude = data[2];
+        this.address = data[3];
+        this.type = data[4];
+        this.phoneNum = data[5];
+        this.website = data[6];
+    }
+
+    @Override
+    public int describeContents(){
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[] {
+                this.name,
+                this.latitude,
+                this.longitude,
+                this.address,
+                this.type,
+                this.phoneNum,
+                this.website
+        });
+    }
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Location createFromParcel(Parcel in) {
+            return new Location(in);
+        }
+
+        public Location[] newArray(int size) {
+            return new Location[size];
+        }
+    };
 
     public String getName() {
         return name;
