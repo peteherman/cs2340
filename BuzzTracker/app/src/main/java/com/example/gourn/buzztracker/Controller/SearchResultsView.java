@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.gourn.buzztracker.R;
 import com.google.firebase.database.DataSnapshot;
@@ -109,6 +110,9 @@ public class SearchResultsView extends AppCompatActivity {
 
             }
         });
+        if (donationsList.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
+        }
         return donationsMap;
     }
 
@@ -142,7 +146,7 @@ public class SearchResultsView extends AppCompatActivity {
                     }
                 }
                 if (!found) {
-                    donationsMap.put("Not found", "No search matches, click back to try again.");
+                    Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
                 }
                 for (String sd : donationsMap.values()) {
                     donationsList.add(sd);
