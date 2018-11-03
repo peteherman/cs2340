@@ -28,6 +28,9 @@ public class SearchResultsView extends AppCompatActivity {
     private Button backButton;
     private String category;
     private String toSearch;
+    List<String> donationsList = new ArrayList<>();
+    HashMap<String, String> donationsMap = new HashMap<>();
+    ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,9 @@ public class SearchResultsView extends AppCompatActivity {
         backButton = (Button) findViewById(R.id.back_button);
         category = extras.getString("CATEGORY_SELECTED");
         toSearch = extras.getString("SEARCH_FIELD");
+        adapter = new ArrayAdapter<String>(SearchResultsView.this,
+                android.R.layout.simple_list_item_1, donationsList);
+        resultlist.setAdapter(adapter);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,8 +59,6 @@ public class SearchResultsView extends AppCompatActivity {
 
 
     private HashMap<String, String> findInAll() {
-        final List<String> donationsList = new ArrayList<>();
-        final HashMap<String, String> donationsMap = new HashMap<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         List<String> locNames = new ArrayList<>();
         final Query query1 = ref.child("donations");
@@ -66,29 +70,22 @@ public class SearchResultsView extends AppCompatActivity {
                     final String s = d.getKey().toString();
                     final Query query2 = ((DatabaseReference) query1).child(d.getKey().toString());
                     query2.addValueEventListener(new ValueEventListener() {
-                        private HashMap<String, String> donationsMap = new HashMap<>();
-                        private List<String> donationsList = new ArrayList<>();
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchResultsView.this,
-                                    android.R.layout.simple_list_item_1, donationsList);
-                            resultlist.setAdapter(adapter);
                             for (DataSnapshot c : dataSnapshot.getChildren()) {
                                 final String key = c.getKey().toString();
                                 if (category != null) {
                                     if (c.child("category").getValue().toString().toLowerCase().equals(category.toLowerCase())) {
                                         String locAndItem = s + ":" + c.child("shortDescription").getValue().toString();
-                                        donationsMap.put(key, locAndItem);
+                                        addItem(key, locAndItem);
                                     }
                                 } else if (toSearch != null) {
                                     if (c.child("shortDescription").getValue().toString().toLowerCase().equals(toSearch.toLowerCase())) {
                                         String locAndItem = s + ":" + c.child("shortDescription").getValue().toString();
-                                        donationsMap.put(key, locAndItem);
+                                        addItem(key, locAndItem);
                                     }
                                 }
                             }
-                            donationsList.addAll(donationsMap.values());
-                            adapter.notifyDataSetChanged();
                         }
 
                         @Override
@@ -97,21 +94,14 @@ public class SearchResultsView extends AppCompatActivity {
                         }
                     });
                 }
-                donationsList.addAll(donationsMap.values());
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchResultsView.this,
-                        android.R.layout.simple_list_item_1, donationsList);
-                resultlist.setAdapter(adapter);
-                resultlist.setOnItemClickListener (
-                        new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                String[] locItems = donationsMap.get((String)donationsMap.keySet().toArray()[position]).split(":");
-                                String locName = locItems[0];
-                                clickDonation(view, (String)donationsMap.keySet().toArray()[position], locName);
-                            }
-                        }
-                );
+                resultlist.setOnItemClickListener (new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String[] locItems = donationsMap.get((String)donationsMap.keySet().toArray()[position]).split(":");
+                        String locName = locItems[0];
+                        clickDonation(view, (String)donationsMap.keySet().toArray()[position], locName);
+                    }
+                });
             }
 
             @Override
@@ -120,6 +110,12 @@ public class SearchResultsView extends AppCompatActivity {
             }
         });
         return donationsMap;
+    }
+
+    private void addItem(String key, String items) {
+        donationsList.add(items);
+        donationsMap.put(key, items);
+        adapter.notifyDataSetChanged();
     }
 
     private HashMap<String, String> findIn(final String searchParam) {
