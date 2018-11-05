@@ -81,7 +81,7 @@ public class SearchResultsView extends AppCompatActivity {
                                         addItem(key, locAndItem);
                                     }
                                 } else if (toSearch != null) {
-                                    if (c.child("shortDescription").getValue().toString().toLowerCase().equals(toSearch.toLowerCase())) {
+                                    if (c.child("shortDescription").getValue().toString().toLowerCase().contains(toSearch.toLowerCase())) {
                                         String locAndItem = s + ":" + c.child("shortDescription").getValue().toString();
                                         addItem(key, locAndItem);
                                     }
@@ -139,7 +139,7 @@ public class SearchResultsView extends AppCompatActivity {
                             found = true;
                         }
                     } else if (toSearch != null) {
-                        if (ds.child("shortDescription").getValue().toString().equals(toSearch)) {
+                        if (ds.child("shortDescription").getValue().toString().toLowerCase().contains(toSearch.toLowerCase())) {
                             donationsMap.put(ds.getKey().toString(), ds.child("shortDescription").getValue().toString());
                             found = true;
                         }
