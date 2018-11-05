@@ -110,8 +110,9 @@ public class SearchResultsView extends AppCompatActivity {
 
             }
         });
-        if (donationsList.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
+        if (this.donationsList.isEmpty()) {
+//            Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
+            addItem("", "No such item found. Go back to search again.");
         }
         return donationsMap;
     }
@@ -146,7 +147,8 @@ public class SearchResultsView extends AppCompatActivity {
                     }
                 }
                 if (!found) {
-                    Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
+                    addItem("", "No such item found. Go back to search again.");
                 }
                 for (String sd : donationsMap.values()) {
                     donationsList.add(sd);
