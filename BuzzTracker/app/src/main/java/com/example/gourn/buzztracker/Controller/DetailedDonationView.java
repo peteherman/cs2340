@@ -36,6 +36,12 @@ public class DetailedDonationView extends AppCompatActivity {
         backButton = findViewById(R.id.back_button);
         listView = findViewById(R.id.list_view);
         backToSearch = (Button) findViewById(R.id.toSearch_button);
+        if (getIntent().getExtras().getString("Search") == null) {
+            backToSearch.setVisibility(View.GONE);
+        }
+        if (getIntent().getExtras().getString("Donations") == null) {
+            backButton.setVisibility(View.GONE);
+        }
 
         //Populate listview
         populateListView();

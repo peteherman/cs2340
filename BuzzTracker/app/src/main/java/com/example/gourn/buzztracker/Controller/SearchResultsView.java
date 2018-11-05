@@ -31,7 +31,6 @@ public class SearchResultsView extends AppCompatActivity {
     private String category;
     private String toSearch;
     private TextView emptyView;
-    private List<String> toCheck = new ArrayList<>();
     private boolean found = false;
     List<String> donationsList = new ArrayList<>();
     HashMap<String, String> donationsMap = new HashMap<>();
@@ -64,10 +63,6 @@ public class SearchResultsView extends AppCompatActivity {
         resultlist.setEmptyView(emptyView);
     }
 
-    private void setFound() {
-        this.found = true;
-    }
-
     private HashMap<String, String> findInAll() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         List<String> locNames = new ArrayList<>();
@@ -88,13 +83,11 @@ public class SearchResultsView extends AppCompatActivity {
                                     if (c.child("category").getValue().toString().toLowerCase().equals(category.toLowerCase())) {
                                         String locAndItem = s + ":" + c.child("shortDescription").getValue().toString();
                                         addItem(key, locAndItem);
-                                        setFound();
                                     }
                                 } else if (toSearch != null) {
                                     if (c.child("shortDescription").getValue().toString().toLowerCase().contains(toSearch.toLowerCase())) {
                                         String locAndItem = s + ":" + c.child("shortDescription").getValue().toString();
                                         addItem(key, locAndItem);
-                                        setFound();
                                     }
                                 }
                             }
@@ -126,7 +119,6 @@ public class SearchResultsView extends AppCompatActivity {
 
     private void addItem(String key, String items) {
         donationsList.add(items);
-        toCheck.addAll(donationsList);
         donationsMap.put(key, items);
         adapter.notifyDataSetChanged();
     }
@@ -154,10 +146,6 @@ public class SearchResultsView extends AppCompatActivity {
                         }
                     }
                 }
-//                if (!found) {
-////                    Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
-//                    addItem("", "No such item found. Go back to search again.");
-//                }
                 for (String sd : donationsMap.values()) {
                     donationsList.add(sd);
                 }
@@ -195,6 +183,7 @@ public class SearchResultsView extends AppCompatActivity {
         bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
         bundle.putString("DONATION_ID", donationId);
         bundle.putString("LOCATION_NAME", name);
+        bundle.putString("Search", "YES");
 
         intent.putExtras(bundle);
         startActivity(intent);
