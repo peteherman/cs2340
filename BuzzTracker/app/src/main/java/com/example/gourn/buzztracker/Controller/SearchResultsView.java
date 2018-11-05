@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.gourn.buzztracker.R;
@@ -29,6 +30,9 @@ public class SearchResultsView extends AppCompatActivity {
     private Button backButton;
     private String category;
     private String toSearch;
+    private TextView emptyView;
+    private List<String> toCheck = new ArrayList<>();
+    private boolean found = false;
     List<String> donationsList = new ArrayList<>();
     HashMap<String, String> donationsMap = new HashMap<>();
     ArrayAdapter<String> adapter;
@@ -39,6 +43,7 @@ public class SearchResultsView extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         resultlist = (ListView) findViewById(R.id.list_view);
         backButton = (Button) findViewById(R.id.back_button);
+        emptyView = (TextView) findViewById(R.id.empty_view);
         category = extras.getString("CATEGORY_SELECTED");
         toSearch = extras.getString("SEARCH_FIELD");
         adapter = new ArrayAdapter<String>(SearchResultsView.this,
@@ -56,8 +61,12 @@ public class SearchResultsView extends AppCompatActivity {
         } else {
             findIn(searchParam);
         }
+        resultlist.setEmptyView(emptyView);
     }
 
+    private void setFound() {
+        this.found = true;
+    }
 
     private HashMap<String, String> findInAll() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
@@ -79,11 +88,13 @@ public class SearchResultsView extends AppCompatActivity {
                                     if (c.child("category").getValue().toString().toLowerCase().equals(category.toLowerCase())) {
                                         String locAndItem = s + ":" + c.child("shortDescription").getValue().toString();
                                         addItem(key, locAndItem);
+                                        setFound();
                                     }
                                 } else if (toSearch != null) {
                                     if (c.child("shortDescription").getValue().toString().toLowerCase().contains(toSearch.toLowerCase())) {
                                         String locAndItem = s + ":" + c.child("shortDescription").getValue().toString();
                                         addItem(key, locAndItem);
+                                        setFound();
                                     }
                                 }
                             }
@@ -110,15 +121,12 @@ public class SearchResultsView extends AppCompatActivity {
 
             }
         });
-        if (this.donationsList.isEmpty()) {
-//            Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
-            addItem("", "No such item found. Go back to search again.");
-        }
         return donationsMap;
     }
 
     private void addItem(String key, String items) {
         donationsList.add(items);
+        toCheck.addAll(donationsList);
         donationsMap.put(key, items);
         adapter.notifyDataSetChanged();
     }
@@ -146,10 +154,10 @@ public class SearchResultsView extends AppCompatActivity {
                         }
                     }
                 }
-                if (!found) {
-//                    Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
-                    addItem("", "No such item found. Go back to search again.");
-                }
+//                if (!found) {
+////                    Toast.makeText(getApplicationContext(), "No item found. Go back to try again", Toast.LENGTH_LONG).show();
+//                    addItem("", "No such item found. Go back to search again.");
+//                }
                 for (String sd : donationsMap.values()) {
                     donationsList.add(sd);
                 }
