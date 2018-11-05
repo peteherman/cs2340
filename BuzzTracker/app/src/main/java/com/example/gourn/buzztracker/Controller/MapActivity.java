@@ -1,12 +1,15 @@
 package com.example.gourn.buzztracker.Controller;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.gourn.buzztracker.Model.Location;
@@ -26,15 +29,23 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private Button back_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        back_button = (Button) findViewById(R.id.back_button);
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        back_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickBack(v);
+            }
+        });
     }
 
     @Override
@@ -54,5 +65,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     .title(l.getName())
                     .snippet(snippet));
         }
+    }
+    private void onClickBack(View v) {
+        Intent intent = new Intent(this, LocationsList.class);
+        Bundle bundle = new Bundle();
+
+        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 }
