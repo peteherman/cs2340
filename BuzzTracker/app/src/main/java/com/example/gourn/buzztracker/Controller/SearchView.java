@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class SearchView extends AppCompatActivity {
     private EditText searchEditText;
@@ -39,8 +40,8 @@ public class SearchView extends AppCompatActivity {
     private int categorySelected;
     private int locationSelected;
     private FirebaseDatabase firebaseDatabase;
-    private HashMap<Integer, String> categoryMap = new HashMap<>();
-    private HashMap<Integer, String> locationMap = new HashMap<>();
+    private Map<Integer, String> categoryMap = new HashMap<>();
+    private Map<Integer, String> locationMap = new HashMap<>();
 
 
 

@@ -81,7 +81,7 @@ public class LocationsList extends AppCompatActivity {
 
     public Location[] csvParse() throws IOException {
 
-        ArrayList<String> lines = new ArrayList<>();
+        List<String> lines = new ArrayList<>();
 
         InputStream is = getResources().openRawResource(R.raw.location_data);
         BufferedReader buffer = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));

@@ -54,7 +54,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultCamera, 10f));
         map.setInfoWindowAdapter(new CustomWindow(this));
         Bundle bundle = getIntent().getExtras();
-        ArrayList<Location> locations = bundle.getParcelableArrayList("LOCATIONS_ARRAY");
+        Iterable<Location> locations = bundle.getParcelableArrayList("LOCATIONS_ARRAY");
         String snippet;
         for (Location l : locations) {
             snippet = "Address: " + l.getAddress() + "\n" +

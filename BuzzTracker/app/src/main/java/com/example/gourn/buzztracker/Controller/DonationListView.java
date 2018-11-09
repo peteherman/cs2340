@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DonationListView extends AppCompatActivity {
     private Button backButton;
@@ -53,8 +54,8 @@ public class DonationListView extends AppCompatActivity {
 
     }
 
-    private HashMap<String, String> getDonations() {
-        final HashMap<String, String> donations = new HashMap<>();
+    private Map<String, String> getDonations() {
+        final Map<String, String> donations = new HashMap<>();
 
         String locationName = getIntent().getExtras().getString("LOCATION_NAME");
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();

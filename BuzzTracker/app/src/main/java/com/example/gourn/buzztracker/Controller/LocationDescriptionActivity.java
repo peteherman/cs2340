@@ -70,7 +70,7 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         });
 
         //Check user type, if not location employee, set addDonation button visible to false
-        if (getIntent().getExtras().getInt("USER_TYPE") != UserType.LOCATION_EMPLOYEE.ordinal()) {
+        if (getIntent().getExtras() != null && getIntent().getExtras().getInt("USER_TYPE") != UserType.LOCATION_EMPLOYEE.ordinal()) {
             addDonationButton.setVisibility(View.GONE);
         }
 

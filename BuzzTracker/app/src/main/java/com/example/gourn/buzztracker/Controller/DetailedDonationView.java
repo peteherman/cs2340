@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DetailedDonationView extends AppCompatActivity {
     private Button backButton;
@@ -69,7 +70,7 @@ public class DetailedDonationView extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         Query query = databaseReference.child("donations").child(locationName).child(donationId);
         query.addValueEventListener(new ValueEventListener() {
-            private HashMap<String, String> donationInfo = new HashMap<>();
+            private Map<String, String> donationInfo = new HashMap<>();
             private final int YEAR_OFFSET = 1;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

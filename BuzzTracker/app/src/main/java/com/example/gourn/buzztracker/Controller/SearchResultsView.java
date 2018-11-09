@@ -33,7 +33,7 @@ public class SearchResultsView extends AppCompatActivity {
     private TextView emptyView;
     private boolean found = false;
     List<String> donationsList = new ArrayList<>();
-    HashMap<String, String> donationsMap = new HashMap<>();
+    Map<String, String> donationsMap = new HashMap<>();
     ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class SearchResultsView extends AppCompatActivity {
         resultlist.setEmptyView(emptyView);
     }
 
-    private HashMap<String, String> findInAll() {
+    private Map<String, String> findInAll() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         List<String> locNames = new ArrayList<>();
         final Query query1 = ref.child("donations");
@@ -123,8 +123,8 @@ public class SearchResultsView extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private HashMap<String, String> findIn(final String searchParam) {
-        final HashMap<String, String> donationsMap = new HashMap<>();
+    private Map<String, String> findIn(final String searchParam) {
+        final Map<String, String> donationsMap = new HashMap<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         Query query1 = ref.child("donations").child(searchParam);
         query1.addValueEventListener(new ValueEventListener() {
