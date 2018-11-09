@@ -219,7 +219,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
                           });
 
 
-                          Intent intent = new Intent(RegisterScreen.this, AppScreen.class);
+                          Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
                           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                           startActivity(intent);
                       } else {

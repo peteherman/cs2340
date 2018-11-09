@@ -108,6 +108,7 @@ public class DonationListView extends AppCompatActivity {
         bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
         bundle.putString("DONATION_ID", donationId);
         bundle.putString("LOCATION_NAME", getIntent().getExtras().getString("LOCATION_NAME"));
+        bundle.putString("Donations", "Yes");
 
         intent.putExtras(bundle);
         startActivity(intent);

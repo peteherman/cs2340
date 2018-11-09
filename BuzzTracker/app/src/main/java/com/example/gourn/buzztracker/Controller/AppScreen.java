@@ -13,6 +13,7 @@ import com.example.gourn.buzztracker.R;
 public class AppScreen extends AppCompatActivity {
     private Button logoutButton;
     private Button locationsButton;
+    private Button searchButton;
     private int userType;
 
     @Override
@@ -40,7 +41,15 @@ public class AppScreen extends AppCompatActivity {
         } else {
             userType = -1;
         }
-        Log.d("UserType", "" + userType);
+
+
+        searchButton = findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSearch(view);
+            }
+        });
     }
 
     private void clickLogOutButton(View view) {
@@ -58,5 +67,15 @@ public class AppScreen extends AppCompatActivity {
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
+    }
+
+    private void onClickSearch(View v) {
+        Intent intent = new Intent(this, SearchView.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("USER_TYPE", userType);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+
     }
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">BuzzTracker</string>
 
+    <string name="google_map_api_key">AIzaSyBbyaxtZjUVYLgbEDBUNaS0mMOe_Kyo4LY</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>

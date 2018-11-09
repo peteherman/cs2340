@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.example.gourn.buzztracker.R;
 import com.google.firebase.database.DataSnapshot;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class DetailedDonationView extends AppCompatActivity {
     private Button backButton;
+    private Button backToSearch;
     private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,13 @@ public class DetailedDonationView extends AppCompatActivity {
         //Get view elements
         backButton = findViewById(R.id.back_button);
         listView = findViewById(R.id.list_view);
+        backToSearch = (Button) findViewById(R.id.toSearch_button);
+        if (getIntent().getExtras().getString("Search") == null) {
+            backToSearch.setVisibility(View.GONE);
+        }
+        if (getIntent().getExtras().getString("Donations") == null) {
+            backButton.setVisibility(View.GONE);
+        }
 
         //Populate listview
         populateListView();
@@ -42,6 +51,12 @@ public class DetailedDonationView extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackClicked(v);
+            }
+        });
+        backToSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onToSearchClicked(v);
             }
         });
 
@@ -114,6 +129,16 @@ public class DetailedDonationView extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
         bundle.putString("LOCATION_NAME", getIntent().getExtras().getString("LOCATION_NAME"));
+
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+    private void onToSearchClicked(View view) {
+        Intent intent = new Intent(this, com.example.gourn.buzztracker.Controller.SearchView.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
 
         intent.putExtras(bundle);
         startActivity(intent);

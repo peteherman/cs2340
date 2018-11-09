@@ -28,12 +28,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class LocationsList extends AppCompatActivity {
     private Button backButton;
+    private Button mapButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,12 @@ public class LocationsList extends AppCompatActivity {
                     }
             );
 
+            mapButton = findViewById(R.id.map_button);
+            mapButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    clickMap(v, locations);
+                }
+            });
             backButton = (Button) findViewById(R.id.BackButton);
             backButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -137,6 +147,16 @@ public class LocationsList extends AppCompatActivity {
         Bundle bundle = new Bundle();
         int userType = getIntent().getExtras().getInt("USER_TYPE");
         bundle.putInt("USER_TYPE", userType);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+    }
+
+    private void clickMap(View v, Location[] locationsArray) {
+        ArrayList<Location> locations = new ArrayList<>(Arrays.asList(locationsArray));
+        Intent intent = new Intent(this, MapActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("LOCATIONS_ARRAY", locations);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
