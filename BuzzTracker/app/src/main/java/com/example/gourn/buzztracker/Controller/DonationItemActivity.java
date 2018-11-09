@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import com.example.gourn.buzztracker.Model.DefaultDonationCategories;
@@ -17,13 +18,15 @@ import com.example.gourn.buzztracker.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
 import java.sql.Timestamp;
 
 public class DonationItemActivity extends AppCompatActivity {
-    private TextView locationTextView;
+//    private TextView locationTextView;
     private Spinner categorySpinner;
-    private Button backButton;
-    private Button addButton;
+//    private Button backButton;
+//    private Button addButton;
     private EditText shortDescriptionField;
     private EditText longDescriptionField;
     private EditText valueField;
@@ -35,7 +38,9 @@ public class DonationItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation_item);
-
+        TextView locationTextView;
+        Button backButton;
+        Button addButton;
         //set view elements
         locationTextView = findViewById(R.id.location_textview);
         categorySpinner = findViewById(R.id.category_spinner);
@@ -47,14 +52,14 @@ public class DonationItemActivity extends AppCompatActivity {
         quantityField = findViewById(R.id.qty);
 
         //Set up category spinner
-        ArrayAdapter<String> csAdapter = new ArrayAdapter(this,
+        SpinnerAdapter csAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, DefaultDonationCategories.values());
         categorySpinner.setAdapter(csAdapter);
 
         //Set page title to location selected
         String locationSelected;
-        if (getIntent().getExtras() != null &&
-                getIntent().getExtras().get("LOCATION_NAME") != null)  {
+        if ((getIntent().getExtras() != null) &&
+                (getIntent().getExtras().get("LOCATION_NAME") != null))  {
             locationSelected = getIntent().getExtras().get("LOCATION_NAME").toString();
         } else {
             locationSelected = "Location";
@@ -65,7 +70,7 @@ public class DonationItemActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickBackButton(v);
+                onClickBackButton();
             }
         });
 
@@ -73,13 +78,13 @@ public class DonationItemActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onSubmit(v);
+                onSubmit();
             }
         });
 
     }
 
-    private void onClickBackButton(View v) {
+    private void onClickBackButton() {
         Intent intent = new Intent(this, LocationsList.class);
         Bundle bundle = new Bundle();
         bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
@@ -88,7 +93,7 @@ public class DonationItemActivity extends AppCompatActivity {
         finish();
     }
 
-    private void onSubmit(View v) {
+    private void onSubmit() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String locationName = getIntent().getExtras().getString("LOCATION_NAME");
         String shortDescription = shortDescriptionField.getText().toString();
@@ -97,7 +102,8 @@ public class DonationItemActivity extends AppCompatActivity {
         int quantity = Integer.parseInt(quantityField.getText().toString());
         Log.d("Value field", valueString);
         double value = Double.parseDouble(valueString);
-        DefaultDonationCategories category = (DefaultDonationCategories)categorySpinner.getSelectedItem();
+        DefaultDonationCategories category = (DefaultDonationCategories)categorySpinner
+                .getSelectedItem();
 
         //Check to make sure all fields were entered
         if (shortDescription.isEmpty()) {
@@ -125,7 +131,8 @@ public class DonationItemActivity extends AppCompatActivity {
         *
          */
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        databaseReference.child("donations").child(donation.getLocation()).push().setValue(donation);
+        databaseReference.child("donations").child(donation.getLocation()).push()
+                .setValue(donation);
 
         Intent intent = new Intent(this, LocationsList.class);
         Bundle bundle = new Bundle();

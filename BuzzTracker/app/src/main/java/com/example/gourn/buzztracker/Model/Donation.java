@@ -30,7 +30,9 @@ public class Donation {
     }
 
     public Donation(Timestamp timestamp, String location, String shortDescription,
-                    String fullDescription, Double value, DefaultDonationCategories category, int qty) {
+                    String fullDescription, Double value,
+                    DefaultDonationCategories category, int qty) {
+
        this (timestamp, location, shortDescription, fullDescription, value,
                category, null, null, qty);
     }

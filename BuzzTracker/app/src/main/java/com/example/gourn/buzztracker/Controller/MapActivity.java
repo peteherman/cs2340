@@ -1,38 +1,29 @@
 package com.example.gourn.buzztracker.Controller;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.gourn.buzztracker.Model.Location;
 import com.example.gourn.buzztracker.R;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
-import java.util.ArrayList;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private Button back_button;
+//    private Button back_button;
+    public static final double DEFAULT_LAT = 33.753746;
+    public static final double DEFAULT_LONG = -84.386330;
+    public static final float DEFAULT_ZOOM = 10f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button back_button;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         back_button = (Button) findViewById(R.id.back_button);
@@ -43,15 +34,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickBack(v);
+                onClickBack();
             }
         });
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
-        LatLng defaultCamera = new LatLng(33.753746, -84.386330);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultCamera, 10f));
+        LatLng defaultCamera = new LatLng(DEFAULT_LAT, DEFAULT_LONG);
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultCamera, DEFAULT_ZOOM));
         map.setInfoWindowAdapter(new CustomWindow(this));
         Bundle bundle = getIntent().getExtras();
         Iterable<Location> locations = bundle.getParcelableArrayList("LOCATIONS_ARRAY");
@@ -61,12 +52,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                       "Phone Number: " + l.getPhoneNum() + "\n" +
                       "Website: " + l.getWebsite();
             map.addMarker(new MarkerOptions()
-                    .position(new LatLng(Double.parseDouble(l.getLatitude()), Double.parseDouble(l.getLongitude())))
+                    .position(new LatLng(Double.parseDouble(l.getLatitude()),
+                            Double.parseDouble(l.getLongitude())))
                     .title(l.getName())
                     .snippet(snippet));
         }
     }
-    private void onClickBack(View v) {
+    private void onClickBack() {
         Intent intent = new Intent(this, LocationsList.class);
         Bundle bundle = new Bundle();
 

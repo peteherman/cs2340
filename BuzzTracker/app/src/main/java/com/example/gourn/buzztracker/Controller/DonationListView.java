@@ -4,14 +4,12 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.example.gourn.buzztracker.Model.Donation;
 import com.example.gourn.buzztracker.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,12 +24,13 @@ import java.util.List;
 import java.util.Map;
 
 public class DonationListView extends AppCompatActivity {
-    private Button backButton;
+//    private Button backButton;
     private ListView listView;
     private HashMap<String, String> donations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button backButton;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation_list_view);
 
@@ -44,7 +43,7 @@ public class DonationListView extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackClick(v);
+                onBackClick();
             }
         });
 
@@ -67,7 +66,8 @@ public class DonationListView extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    donations.put(d.getKey().toString(), d.child("shortDescription").getValue().toString());
+                    donations.put(d.getKey().toString(), d.child("shortDescription")
+                            .getValue().toString());
                 }
                 List<String> donationShortDescriptions = new ArrayList<>();
                 for (String sd : donations.values()) {
@@ -76,14 +76,15 @@ public class DonationListView extends AppCompatActivity {
 
                 //Setup listview adapter
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(DonationListView.this,
-                        android.R.layout.simple_list_item_1, android.R.id.text1, donationShortDescriptions);
+                        android.R.layout.simple_list_item_1, android.R.id.text1,
+                        donationShortDescriptions);
                 listView.setAdapter(adapter);
 
                 listView.setOnItemClickListener (
                         new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                clickDonation(view, (String)donations.keySet().toArray()[position]);
+                                clickDonation((String)donations.keySet().toArray()[position]);
                             }
                         }
                 );
@@ -102,7 +103,7 @@ public class DonationListView extends AppCompatActivity {
         return donations;
     }
 
-    private void clickDonation(View view, String donationId) {
+    private void clickDonation(String donationId) {
         Intent intent = new Intent(this, DetailedDonationView.class);
 
         Bundle bundle = new Bundle();
@@ -116,7 +117,7 @@ public class DonationListView extends AppCompatActivity {
         finish();
     }
 
-    private void onBackClick(View view) {
+    private void onBackClick() {
         Intent intent = new Intent(this, LocationsList.class);
 
         Bundle bundle = new Bundle();

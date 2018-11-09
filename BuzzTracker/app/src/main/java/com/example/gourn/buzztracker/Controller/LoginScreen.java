@@ -32,11 +32,11 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     private Button cancelButton;
     FirebaseAuth mAuth;
 
-    ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+        ProgressDialog progressDialog;
         emailField = findViewById(R.id.emailField);
         passField = findViewById(R.id.passwordField);
         loginButton = findViewById(R.id.loginButton);
@@ -66,11 +66,13 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
 //        progressDialog.setMessage("Logging you in");
 //        progressDialog.show();
-        mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Login Successful",
+                            Toast.LENGTH_SHORT).show();
 
 
                     //Get user who just logged in
@@ -78,20 +80,23 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                     String currentUserID = currentUser.getUid();
 
                     //Get database entry for user who logged in
-                    DatabaseReference loginDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+                    DatabaseReference loginDatabase = FirebaseDatabase.getInstance()
+                            .getReference().child("Users").child(currentUserID);
 
 
                     loginDatabase.addValueEventListener(new ValueEventListener() {
-                        int typeNumber = 0;
+                        int typeNumber;
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String userType = dataSnapshot.child("userType").getValue().toString();
                             Log.d("User type from db", userType);
                             typeNumber = UserType.getOrdinalFromValue(userType);
                             if (typeNumber < 0) {
-                                Log.d("User Type Error", "User Type stored incorrectly in database.");
+                                Log.d("User Type Error",
+                                        "User Type stored incorrectly in database.");
                             }
-                            Intent intent = new Intent(LoginScreen.this, AppScreen.class);
+                            Intent intent = new Intent(LoginScreen.this,
+                                    AppScreen.class);
                             Bundle bundle = new Bundle();
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             bundle.putInt("USER_TYPE", typeNumber);
@@ -111,7 +116,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         });
 //        String entered = email.getText().toString();
 //
-//        if (email.getText().toString().equals(user.getEmail()) && pass.getText().toString().equals(user.getPassword())) {
+//        if (email.getText().toString().equals(user.getEmail()) && pass.getText()
+//              .toString().equals(user.getPassword())) {
 //            Intent intent = new Intent(this, AppScreen.class);
 //            Bundle bundle = new Bundle();
 //            bundle.putInt("USER_TYPE", user.getUserType().ordinal());
@@ -126,7 +132,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 //        }
     }
 
-    public void cancel(View view) {
+    public void cancel() {
             Intent intent = new Intent(this, Welcome.class);
             startActivity(intent);
             finish();
@@ -138,7 +144,8 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
             attemptLogin();
         }
         if (v == cancelButton) {
-            cancel(v);
+            cancel();
+
         }
     }
 }

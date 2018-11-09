@@ -14,14 +14,14 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:text="Email"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/emailField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.035"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.662" />
+        app:layout_constraintVertical_bias="0.662"
+        tools:text="Email" />
 
     <Button
         android:id="@+id/loginButton"
@@ -29,9 +29,9 @@
         android:layout_height="53dp"
         android:layout_marginBottom="96dp"
         android:layout_marginStart="24dp"
-        android:text="Login"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Login" />
 
     <EditText
         android:id="@+id/emailField"
@@ -40,7 +40,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
@@ -50,10 +50,10 @@
         android:layout_height="31dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="72dp"
-        android:text="Password"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailField" />
+        app:layout_constraintTop_toBottomOf="@+id/emailField"
+        tools:text="Password" />
 
     <EditText
         android:id="@+id/passwordField"
@@ -70,11 +70,10 @@
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
         android:layout_marginBottom="48dp"
-        android:onClick="cancel"
-        android:text="Cancel"
+        android:layout_marginStart="148dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Cancel" />
 
 </android.support.constraint.ConstraintLayout>

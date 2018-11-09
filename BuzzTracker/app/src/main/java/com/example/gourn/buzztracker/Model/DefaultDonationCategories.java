@@ -8,7 +8,7 @@ public enum DefaultDonationCategories {
     HOUSEHOLD ("Household"),
     OTHER ("Other");
 
-    private String val;
+    private final String val;
 
     DefaultDonationCategories(String s) {
         val = s;

@@ -12,9 +12,10 @@ import com.google.android.gms.maps.model.Marker;
 public class CustomWindow implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;
-    private Context mContext;
+//    private Context mContext;
 
     public CustomWindow(Context context) {
+        Context mContext;
         mContext = context;
         mWindow = LayoutInflater.from(context).inflate(R.layout.locations_info_window, null);
     }

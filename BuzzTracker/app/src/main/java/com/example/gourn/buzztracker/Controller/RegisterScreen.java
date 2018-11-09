@@ -27,7 +27,6 @@ import android.widget.Toast;
 
 import com.example.gourn.buzztracker.R;
 import com.example.gourn.buzztracker.Model.*;
-import com.example.gourn.buzztracker.Model.UserType;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -40,7 +39,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
 
     private enum Alerts {
     NAME, EMAIL, PASSLENGTH, PASSNUM, MATCH
-  };
+  }
 
 
 
@@ -49,14 +48,14 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
   private EditText passField;
   private EditText confirmPassField;
   private Spinner userTypeSpinner;
-  private ProgressDialog progress;
+//  private ProgressDialog progress;
   private Button submitButton;
   private Button cancelButton;
 
   private FirebaseAuth firebaseAuth;
 
 
-  private UserType userType = null;
+  private UserType userType;
 
   public static final int MIN_PASS_LENGTH = 8;
 
@@ -64,9 +63,9 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_register_screen);
+    ProgressDialog progress;
     progress = new ProgressDialog(this);
     nameField = findViewById(R.id.nameField);
     emailField = findViewById(R.id.emailField);
@@ -81,7 +80,8 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
 
     //Set up user type spinner
 
-    ArrayAdapter<String> csAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, UserType.values());
+    ArrayAdapter<String> csAdapter = new ArrayAdapter(this,
+            android.R.layout.simple_spinner_item, UserType.values());
     csAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     userTypeSpinner.setAdapter(csAdapter);
 
@@ -89,9 +89,10 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
     //Set up click listener for cancel button
     cancelButton.setOnClickListener(new View.OnClickListener() {
 
+      @Override
       public void onClick(View v) {
         // Code here executes on main thread after user presses button
-        cancelRegistration(v);
+        cancelRegistration();
       }
 
     });
@@ -118,13 +119,13 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
           onSubmit();
       }
       if (view == cancelButton) {
-          cancelRegistration(view);
+          cancelRegistration();
       }
   }
 
 
   public void onSubmit() {
-      boolean isSubmit = true;
+      //boolean isSubmit = true;
       final String nameText = nameField.getText().toString().trim();
       final String emailText = emailField.getText().toString().trim();
       final String passText = passField.getText().toString().trim();
@@ -187,38 +188,44 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
           confirmPassField.requestFocus();
           return;
       }
-      User user = new User(nameText, emailText, passText, userType);
+      User user = new User(nameText, emailText, userType);
 //      progress.setMessage("Registering. Please wait...");
 //      progress.show();
       firebaseAuth.createUserWithEmailAndPassword(emailText, passText)
               .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                   @Override
                   public void onComplete(@NonNull Task<AuthResult> task) {
-                      System.out.print("Hello");
                       if (task.isSuccessful()) {
-                          Toast.makeText(RegisterScreen.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                          Toast.makeText(RegisterScreen.this,
+                                  "Registered Successfully", Toast.LENGTH_SHORT).show();
                           Person user = new Person(nameText, emailText, userType);
                           FirebaseDatabase.getInstance().getReference("Users")
-                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                .child(FirebaseAuth.getInstance().getCurrentUser()
+                                        .getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                               @Override
                               public void onComplete(@NonNull Task<Void> task) {
                                   if (task.isSuccessful()) {
-                                      Toast.makeText(getApplicationContext(), "Added data", Toast.LENGTH_SHORT).show();
+                                      Toast.makeText(getApplicationContext(),
+                                              "Added data", Toast.LENGTH_SHORT).show();
                                   } else {
-                                      Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                      Toast.makeText(getApplicationContext(),
+                                              "Failed", Toast.LENGTH_SHORT).show();
                                   }
                               }
                           });
 
 
-                          Intent intent = new Intent(RegisterScreen.this, LoginScreen.class);
+                          Intent intent = new Intent(RegisterScreen.this,
+                                  LoginScreen.class);
                           intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                           startActivity(intent);
                       } else {
                           if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                              Toast.makeText(getApplicationContext(), "Already registered email", Toast.LENGTH_SHORT).show();
+                              Toast.makeText(getApplicationContext(),
+                                      "Already registered email", Toast.LENGTH_SHORT).show();
                           } else {
-                              Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                              Toast.makeText(getApplicationContext(),
+                                      task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                           }
                       }
                   }
@@ -232,7 +239,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
   }
 
 
-  private void cancelRegistration(View v) {
+  private void cancelRegistration() {
 
     Intent intent = new Intent(this, Welcome.class);
 

@@ -13,7 +13,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:ems="10"
-        android:hint="Name"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -24,10 +23,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="4dp"
-        android:text="Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Name" />
 
     <EditText
         android:id="@+id/emailField"
@@ -36,7 +35,6 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Email"
         android:inputType="textEmailAddress|textEmailSubject|textPersonName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -47,7 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
-        android:text="Email"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameField"
@@ -59,7 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="20dp"
-        android:text="Password"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailField"
@@ -82,7 +78,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
-        android:text="Confirm Password"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passField"
@@ -106,7 +101,6 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accountTypeSpinner"
@@ -121,7 +115,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="8dp"
-        android:text="Cancel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.215"
@@ -146,7 +139,6 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:text="Account Type"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/accountTypeSpinner"
         app:layout_constraintStart_toStartOf="parent"

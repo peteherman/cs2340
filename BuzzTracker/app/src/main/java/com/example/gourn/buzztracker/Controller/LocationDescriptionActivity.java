@@ -3,11 +3,12 @@ package com.example.gourn.buzztracker.Controller;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+//import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -15,11 +16,13 @@ import com.example.gourn.buzztracker.Model.UserType;
 import com.example.gourn.buzztracker.R;
 
 public class LocationDescriptionActivity extends AppCompatActivity {
-    private Button addDonationButton;
-    private Button donationListButton;
+//    private Button addDonationButton;
+//    private Button donationListButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button addDonationButton;
+        Button donationListButton;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location_description);
 
@@ -31,9 +34,13 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         String locationPhoneNum = getIntent().getStringExtra("EXTRA_LOCATION_PHONE_NUM");
         String locationWebsite = getIntent().getStringExtra("EXTRA_LOCATION_WEBSITE");
 
-        final String[] locationVariables = {"Name", "Latitude", "Longitude", "Address", "Type", "Phone Number", "Website"};
-        final String[] locationValues = {locationName, locationLatitude, locationLongitude, locationAddress, locationType, locationPhoneNum, locationWebsite};
-        ArrayAdapter descriptionAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_2, android.R.id.text1, locationVariables) {
+        final String[] locationVariables = {"Name", "Latitude", "Longitude",
+                "Address", "Type", "Phone Number", "Website"};
+        final String[] locationValues = {locationName,
+                locationLatitude, locationLongitude, locationAddress,
+                locationType, locationPhoneNum, locationWebsite};
+        ListAdapter descriptionAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_list_item_2, android.R.id.text1, locationVariables) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
@@ -52,10 +59,11 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         final Button locationsButton = findViewById(R.id.locations_button);
         locationsButton.setOnClickListener(new View.OnClickListener() {
 
+            @Override
             public void onClick(View v) {
 
                 // Code here executes on main thread after user presses button
-                returnToLocations(v);
+                returnToLocations();
 
             }
 
@@ -64,13 +72,17 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         //Set onclick listener for donation button
         addDonationButton = findViewById(R.id.add_donation);
         addDonationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
-                onAddDonationClick(v);
+                onAddDonationClick();
             }
         });
 
         //Check user type, if not location employee, set addDonation button visible to false
-        if (getIntent().getExtras() != null && getIntent().getExtras().getInt("USER_TYPE") != UserType.LOCATION_EMPLOYEE.ordinal()) {
+        if ((getIntent().getExtras() != null) &&
+                (getIntent().getExtras().getInt("USER_TYPE")
+                        != (UserType.LOCATION_EMPLOYEE.ordinal()))) {
+
             addDonationButton.setVisibility(View.GONE);
         }
 
@@ -79,14 +91,14 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         donationListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onDonationListClick(v);
+                onDonationListClick();
             }
         });
 
 
     }
 
-    private void returnToLocations(View v) {
+    private void returnToLocations() {
         Intent intent = new Intent(this, LocationsList.class);
         Bundle bundle = buildIntentBundle();
         intent.putExtras(bundle);
@@ -94,7 +106,7 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         finish();
     }
 
-    private void onAddDonationClick(View v) {
+    private void onAddDonationClick() {
         String locationName = getIntent().getStringExtra("EXTRA_LOCATION_NAME");
 
         Intent intent = new Intent(this, DonationItemActivity.class);
@@ -112,7 +124,7 @@ public class LocationDescriptionActivity extends AppCompatActivity {
         return  bundle;
     }
 
-    private void onDonationListClick(View v) {
+    private void onDonationListClick() {
         String locationName = getIntent().getStringExtra("EXTRA_LOCATION_NAME");
 
         Intent intent = new Intent(this, DonationListView.class);

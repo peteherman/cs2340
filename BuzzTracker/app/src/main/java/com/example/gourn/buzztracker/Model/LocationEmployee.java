@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LocationEmployee extends Person {
-  Location location;
-  List<String> categories;
+  private Location location;
+  private List<String> categories;
 
-  public LocationEmployee(String name, String email, String password, UserType userType,
-                          Location location, List<String> categories) {
+  public LocationEmployee(String name, String email, UserType userType,
+                          Location location, Iterable<String> categories) {
       super(name, email, userType);
       this.location = location;
       this.categories = new ArrayList<>();
@@ -18,13 +18,15 @@ public class LocationEmployee extends Person {
       }
 
   }
-  public LocationEmployee(String name, String email, String password, UserType userType,
+  public LocationEmployee(String name, String email, UserType userType,
                           Location location) {
-    this(name, email, password, userType, location, new ArrayList<String>(Arrays.asList(DefaultDonationCategories.values().toString())));
+    this(name, email, userType, location,
+            new ArrayList<>(Arrays.asList(DefaultDonationCategories.values()
+                    .toString())));
   }
 
-  public LocationEmployee(String name, String email, String password, UserType userType) {
-    this(name, email, password, userType, null);
+  public LocationEmployee(String name, String email,  UserType userType) {
+    this(name, email, userType, null);
   }
 
   public boolean addToCategoryList(String category) {
@@ -35,7 +37,8 @@ public class LocationEmployee extends Person {
           return false;
       }
       for (int i = 0; i < categories.size(); i++) {
-          if (categories.get(i).equalsIgnoreCase(category)) {
+          if (categories.get(i)
+                  .equalsIgnoreCase(category)) {
               return false;
           }
       }

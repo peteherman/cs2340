@@ -21,7 +21,8 @@ public class Location implements Parcelable {
         this("","","","","","","");
     }
 
-    public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website, List<Donation> donations) {
+    public Location(String name, String latitude, String longitude, String address,
+                    String type, String phoneNum, String website, Iterable<Donation> donations) {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -36,7 +37,8 @@ public class Location implements Parcelable {
             }
         }
     }
-    public Location(String name, String latitude, String longitude, String address, String type, String phoneNum, String website) {
+    public Location(String name, String latitude, String longitude, String address,
+                    String type, String phoneNum, String website) {
         this(name, latitude, longitude, address, type, phoneNum, website, null);
     }
 
@@ -71,10 +73,12 @@ public class Location implements Parcelable {
         });
     }
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        @Override
         public Location createFromParcel(Parcel in) {
             return new Location(in);
         }
 
+        @Override
         public Location[] newArray(int size) {
             return new Location[size];
         }
@@ -136,7 +140,7 @@ public class Location implements Parcelable {
         this.website = website;
     }
 
-    public List<Donation> getDonations() { return donations;};
+    public List<Donation> getDonations() { return donations;}
 
     public void addDonation(Donation donation) {
         donations.add(donation);

@@ -26,14 +26,15 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Donation List"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/_dynamic"
+
+        app:layout_constraintBottom_toTopOf="@+id/list_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.025"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.571" />
+        app:layout_constraintVertical_bias="0.571"
+        tools:text="Donation List" />
 
     <Button
         android:id="@+id/back_button"
@@ -43,11 +44,11 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.078"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic"
-        app:layout_constraintVertical_bias="0.674" />
+        app:layout_constraintTop_toBottomOf="@+id/list_view"
+        app:layout_constraintVertical_bias="0.674"
+        tools:text="Back" />
 </android.support.constraint.ConstraintLayout>

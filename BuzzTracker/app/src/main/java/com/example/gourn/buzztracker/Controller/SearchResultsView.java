@@ -10,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.gourn.buzztracker.R;
 import com.google.firebase.database.DataSnapshot;
@@ -27,16 +26,18 @@ import java.util.Map;
 
 public class SearchResultsView extends AppCompatActivity {
     private ListView resultlist;
-    private Button backButton;
+//    private Button backButton;
     private String category;
     private String toSearch;
-    private TextView emptyView;
-    private boolean found = false;
+//    private TextView emptyView;
+    private boolean found;
     List<String> donationsList = new ArrayList<>();
     Map<String, String> donationsMap = new HashMap<>();
     ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button backButton;
+        TextView emptyView;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results_view);
         Bundle extras = getIntent().getExtras();
@@ -45,13 +46,13 @@ public class SearchResultsView extends AppCompatActivity {
         emptyView = (TextView) findViewById(R.id.empty_view);
         category = extras.getString("CATEGORY_SELECTED");
         toSearch = extras.getString("SEARCH_FIELD");
-        adapter = new ArrayAdapter<String>(SearchResultsView.this,
+        adapter = new ArrayAdapter<>(SearchResultsView.this,
                 android.R.layout.simple_list_item_1, donationsList);
         resultlist.setAdapter(adapter);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickBack(v);
+                onClickBack();
             }
         });
         String searchParam = extras.getString("LOCATION_SELECTED");
@@ -80,13 +81,17 @@ public class SearchResultsView extends AppCompatActivity {
                             for (DataSnapshot c : dataSnapshot.getChildren()) {
                                 final String key = c.getKey().toString();
                                 if (category != null) {
-                                    if (c.child("category").getValue().toString().toLowerCase().equals(category.toLowerCase())) {
-                                        String locAndItem = s + ":" + c.child("shortDescription").getValue().toString();
+                                    if (c.child("category").getValue().toString().toLowerCase()
+                                            .equals(category.toLowerCase())) {
+                                        String locAndItem = s + ":" + c.child("shortDescription")
+                                                .getValue().toString();
                                         addItem(key, locAndItem);
                                     }
                                 } else if (toSearch != null) {
-                                    if (c.child("shortDescription").getValue().toString().toLowerCase().contains(toSearch.toLowerCase())) {
-                                        String locAndItem = s + ":" + c.child("shortDescription").getValue().toString();
+                                    if (c.child("shortDescription").getValue().toString()
+                                            .toLowerCase().contains(toSearch.toLowerCase())) {
+                                        String locAndItem = s + ":" + c.child("shortDescription")
+                                                .getValue().toString();
                                         addItem(key, locAndItem);
                                     }
                                 }
@@ -102,9 +107,10 @@ public class SearchResultsView extends AppCompatActivity {
                 resultlist.setOnItemClickListener (new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String[] locItems = donationsMap.get((String)donationsMap.keySet().toArray()[position]).split(":");
+                        String[] locItems = donationsMap.get((String)donationsMap.keySet()
+                                .toArray()[position]).split(":");
                         String locName = locItems[0];
-                        clickDonation(view, (String)donationsMap.keySet().toArray()[position], locName);
+                        clickDonation((String)donationsMap.keySet().toArray()[position], locName);
                     }
                 });
             }
@@ -135,13 +141,17 @@ public class SearchResultsView extends AppCompatActivity {
                 List<String> donationsList = new ArrayList<>();
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
                     if (category != null) {
-                        if (ds.child("category").getValue().toString().toLowerCase().equals(category.toLowerCase())) {
-                            donationsMap.put(ds.getKey().toString(), ds.child("shortDescription").getValue().toString());
+                        if (ds.child("category").getValue().toString().toLowerCase()
+                                .equals(category.toLowerCase())) {
+                            donationsMap.put(ds.getKey().toString(),
+                                    ds.child("shortDescription").getValue().toString());
                             found = true;
                         }
                     } else if (toSearch != null) {
-                        if (ds.child("shortDescription").getValue().toString().toLowerCase().contains(toSearch.toLowerCase())) {
-                            donationsMap.put(ds.getKey().toString(), ds.child("shortDescription").getValue().toString());
+                        if (ds.child("shortDescription").getValue().toString()
+                                .toLowerCase().contains(toSearch.toLowerCase())) {
+                            donationsMap.put(ds.getKey().toString(),
+                                    ds.child("shortDescription").getValue().toString());
                             found = true;
                         }
                     }
@@ -159,7 +169,8 @@ public class SearchResultsView extends AppCompatActivity {
                         new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                clickDonation(view, (String)donationsMap.keySet().toArray()[position], searchParam);
+                                clickDonation((String)donationsMap.keySet().toArray()[position],
+                                        searchParam);
                             }
                         }
                 );
@@ -176,7 +187,7 @@ public class SearchResultsView extends AppCompatActivity {
         return donationsMap;
     }
 
-    private void clickDonation(View view, String donationId, String name) {
+    private void clickDonation(String donationId, String name) {
         Intent intent = new Intent(this, DetailedDonationView.class);
 
         Bundle bundle = new Bundle();
@@ -190,7 +201,7 @@ public class SearchResultsView extends AppCompatActivity {
         finish();
     }
 
-    private void onClickBack(View v) {
+    private void onClickBack() {
         Intent intent = new Intent(this, SearchView.class);
         Bundle bundle = new Bundle();
 

@@ -2,22 +2,18 @@ package com.example.gourn.buzztracker.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.gourn.buzztracker.Controller.AppScreen;
 import com.example.gourn.buzztracker.Controller.LocationDescriptionActivity;
 import com.example.gourn.buzztracker.Model.Location;
 import com.example.gourn.buzztracker.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,18 +24,19 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class LocationsList extends AppCompatActivity {
-    private Button backButton;
-    private Button mapButton;
+//    private Button backButton;
+//    private Button mapButton;
+    public static final int LINE_LENGTH = 11;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button backButton;
+        Button mapButton;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_locations_list);
         try {
@@ -47,7 +44,8 @@ public class LocationsList extends AppCompatActivity {
             String[] locationNames = new String[locations.length];
             for (int i = 0; i < locations.length; i++) {
                 locationNames[i] = locations[i].getName();
-                System.out.println(locationNames[i]);
+//                System.out.println(locationNames[i]);
+                Log.d("Location Name " + i, locationNames[i]);
             }
             ListView locationlist = (ListView) findViewById(R.id.LocationList);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
@@ -57,22 +55,25 @@ public class LocationsList extends AppCompatActivity {
             locationlist.setOnItemClickListener (
                     new AdapterView.OnItemClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            clickLocation(view, locations[position]);
+                        public void onItemClick(AdapterView<?> parent, View view,
+                                                int position, long id) {
+                            clickLocation(locations[position]);
                         }
                     }
             );
 
             mapButton = findViewById(R.id.map_button);
             mapButton.setOnClickListener(new View.OnClickListener() {
+                @Override
                 public void onClick(View v) {
-                    clickMap(v, locations);
+                    clickMap(locations);
                 }
             });
             backButton = (Button) findViewById(R.id.BackButton);
             backButton.setOnClickListener(new View.OnClickListener() {
+                @Override
                 public void onClick(View v) {
-                    clickBackButton(v);
+                    clickBackButton();
                 }
             });} catch (IOException e) {
             e.printStackTrace();
@@ -84,13 +85,16 @@ public class LocationsList extends AppCompatActivity {
         List<String> lines = new ArrayList<>();
 
         InputStream is = getResources().openRawResource(R.raw.location_data);
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
+        BufferedReader buffer = new BufferedReader(
+                new InputStreamReader(is, StandardCharsets.UTF_8));
         String line;
         buffer.readLine();
-        while ((line = buffer.readLine()) != null) {
+        line = buffer.readLine();
+        while (line != null) {
             lines.add(line);
+            line = buffer.readLine();
         }
-        String[][] data = new String[lines.size()][11];
+        String[][] data = new String[lines.size()][LINE_LENGTH];
         Location[] locationsArr = new Location[lines.size()];
         for (int i = 0; i < data.length; i++) {
             String[] currLine = lines.get(i).split(",");
@@ -102,13 +106,16 @@ public class LocationsList extends AppCompatActivity {
             final String locName = data[i][1];
             String locLatitude = data[i][2];
             String locLongitude = data[i][3];
-            String locAddress = data[i][4] + ", " + data[i][5] + ", " + data[i][6] + ", "+ data[i][7];
+            String locAddress = data[i][4] + ", " + data[i][5] + ", " + data[i][6]
+                    + ", "+ data[i][7];
             String locType = data[i][8];
             String locPhoneNum = data[i][9];
             String locWebsite = data[i][10];
-            final Location location = new Location(locName,locLatitude,locLongitude,locAddress,locType,locPhoneNum,locWebsite);
+            final Location location = new Location(locName,locLatitude,locLongitude,
+                    locAddress,locType,locPhoneNum,locWebsite);
             locationsArr[i] = location;
-            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Locations");
+            final DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+                    .getReference().child("Locations");
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(final DataSnapshot dataSnapshot) {
@@ -124,7 +131,8 @@ public class LocationsList extends AppCompatActivity {
                         }
                     }
                     if(noChildren || !exists) {
-                        databaseReference.child(databaseReference.push().getKey()).setValue(location);                    }
+                        databaseReference.child(databaseReference.push().getKey())
+                                .setValue(location);                    }
                 }
 
                 @Override
@@ -135,7 +143,7 @@ public class LocationsList extends AppCompatActivity {
         return locationsArr;
     }
 
-    private void clickLocation(View v, Location locationId) {
+    private void clickLocation(Location locationId) {
         Intent intent = new Intent(this, LocationDescriptionActivity.class);
         intent.putExtra("EXTRA_LOCATION_NAME", locationId.getName());
         intent.putExtra("EXTRA_LOCATION_LATITUDE", locationId.getLatitude());
@@ -152,7 +160,7 @@ public class LocationsList extends AppCompatActivity {
         finish();
     }
 
-    private void clickMap(View v, Location[] locationsArray) {
+    private void clickMap(Location[] locationsArray) {
         ArrayList<Location> locations = new ArrayList<>(Arrays.asList(locationsArray));
         Intent intent = new Intent(this, MapActivity.class);
         Bundle bundle = new Bundle();
@@ -162,7 +170,7 @@ public class LocationsList extends AppCompatActivity {
         finish();
     }
 
-    private void clickBackButton(View view) {
+    private void clickBackButton() {
         Intent intent = new Intent(this, AppScreen.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Bundle bundle = new Bundle();

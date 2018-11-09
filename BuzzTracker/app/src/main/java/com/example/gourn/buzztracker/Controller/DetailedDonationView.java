@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.SearchView;
 
 import com.example.gourn.buzztracker.R;
 import com.google.firebase.database.DataSnapshot;
@@ -24,11 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 public class DetailedDonationView extends AppCompatActivity {
-    private Button backButton;
-    private Button backToSearch;
+//    private Button backButton;
+//    private Button backToSearch;
     private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button backButton;
+        Button backToSearch;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_donation_view);
 
@@ -51,13 +52,13 @@ public class DetailedDonationView extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackClicked(v);
+                onBackClicked();
             }
         });
         backToSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onToSearchClicked(v);
+                onToSearchClicked();
             }
         });
 
@@ -100,7 +101,7 @@ public class DetailedDonationView extends AppCompatActivity {
 
                 result += key + ": ";
 
-                if (key != null && key.equalsIgnoreCase("timestamp")) {
+                if ((key != null) && (key.equalsIgnoreCase("timestamp"))) {
                     String timestampString = "";
                     timestampString += d.child("month").getValue().toString();
                     timestampString += "-";
@@ -124,7 +125,7 @@ public class DetailedDonationView extends AppCompatActivity {
         });
     }
 
-    private void onBackClicked(View view) {
+    private void onBackClicked() {
         Intent intent = new Intent(this, DonationListView.class);
 
         Bundle bundle = new Bundle();
@@ -135,7 +136,7 @@ public class DetailedDonationView extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
-    private void onToSearchClicked(View view) {
+    private void onToSearchClicked() {
         Intent intent = new Intent(this, com.example.gourn.buzztracker.Controller.SearchView.class);
 
         Bundle bundle = new Bundle();

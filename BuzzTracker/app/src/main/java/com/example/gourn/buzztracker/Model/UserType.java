@@ -5,7 +5,7 @@ public enum UserType {
   LOCATION_EMPLOYEE("LOCATION_EMPLOYEE"),
   ADMIN("ADMIN");
 
-  private String val;
+  private final String val;
 
   UserType(String val) {
     this.val = val;

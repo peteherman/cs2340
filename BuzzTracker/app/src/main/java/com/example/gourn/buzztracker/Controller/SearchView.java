@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import com.example.gourn.buzztracker.Model.DefaultDonationCategories;
 import com.example.gourn.buzztracker.R;
@@ -26,16 +27,16 @@ import java.util.Map;
 
 public class SearchView extends AppCompatActivity {
     private EditText searchEditText;
-    private Button submitButton;
-    private Button backButton;
+//    private Button submitButton;
+//    private Button backButton;
     private Spinner locationNameSpinner;
     private Spinner categorySpinner;
-    private Spinner searchTypeSpinner;
+//    private Spinner searchTypeSpinner;
     private final String[] searchTypes = {"Item", "Category"};
     private final int ITEM_SEARCH = 0;
     private final int CATEGORY_SEARCH = 1;
-    private final int DEFAULT_CATEGORY_POS = 0;
-    private final int DEFAULT_LOCATION_POS = 0;
+    public static final int DEFAULT_CATEGORY_POS = 0;
+    public static final int DEFAULT_LOCATION_POS = 0;
     private int searchType;
     private int categorySelected;
     private int locationSelected;
@@ -47,6 +48,10 @@ public class SearchView extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button submitButton;
+        Button backButton;
+        Spinner searchTypeSpinner;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_view);
 
@@ -78,14 +83,16 @@ public class SearchView extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int count = 0;
                 locationNames.add("All");
-                locationMap.put(count++, "All");
+                locationMap.put(count, "All");
+                count++;
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     locationNames.add(d.child("name").getValue().toString());
-                    locationMap.put(count++, d.child("name").getValue().toString());
+                    locationMap.put(count, d.child("name").getValue().toString());
+                    count++;
                 }
 
                 //Create ArrayAdapter for spinner
-                ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(SearchView.this,
+                SpinnerAdapter locationAdapter = new ArrayAdapter<>(SearchView.this,
                         android.R.layout.simple_spinner_item, android.R.id.text1, locationNames);
                 locationNameSpinner.setAdapter(locationAdapter);
             }
@@ -112,7 +119,7 @@ public class SearchView extends AppCompatActivity {
         });
 
         //Make adapter for search type spinner
-        ArrayAdapter<String> searchTypeAdapter = new ArrayAdapter<>(this,
+        SpinnerAdapter searchTypeAdapter = new ArrayAdapter<>(this,
         android.R.layout.simple_spinner_item, android.R.id.text1, searchTypes);
         searchTypeSpinner.setAdapter(searchTypeAdapter);
 
@@ -145,7 +152,7 @@ public class SearchView extends AppCompatActivity {
             categoryMap.put(i, defaultDonationCategories[i]);
         }
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this,
+        SpinnerAdapter categoryAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,
                 android.R.id.text1, defaultDonationCategories);
         categorySpinner.setAdapter(categoryAdapter);
@@ -173,7 +180,7 @@ public class SearchView extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickSubmit(v);
+                onClickSubmit();
             }
         });
 
@@ -182,14 +189,14 @@ public class SearchView extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickBack(v);
+                onClickBack();
             }
         });
 
 
     }
 
-    private void onClickSubmit(View v) {
+    private void onClickSubmit() {
 
         Intent intent = new Intent(this, SearchResultsView.class);
         Bundle bundle = new Bundle();
@@ -198,8 +205,8 @@ public class SearchView extends AppCompatActivity {
         //add to bundle certain characteristics if searchType is and item search
         if (searchType == ITEM_SEARCH) {
             //Check search type, if item search, search field can't be empty
-            if (searchEditText.getText() != null &&
-                    searchEditText.getText().toString().isEmpty()) {
+            if ((searchEditText.getText() != null) &&
+                    (searchEditText.getText().toString().isEmpty())) {
                 /*
                  *
                  * CREATE TOAST WITH ERROR HERE
@@ -224,7 +231,7 @@ public class SearchView extends AppCompatActivity {
         finish();
     }
 
-    private void onClickBack(View v) {
+    private void onClickBack() {
         Intent intent = new Intent(this, AppScreen.class);
         Bundle bundle = new Bundle();
 

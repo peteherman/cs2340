@@ -12,10 +12,10 @@
         android:layout_height="52dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="100dp"
-        android:text="Welcome to BuzzTracker"
         android:textSize="28sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Welcome to BuzzTracker" />
 
     <Button
         android:id="@+id/sign_in"
@@ -23,9 +23,9 @@
         android:layout_height="43dp"
         android:layout_marginBottom="168dp"
         android:layout_marginStart="64dp"
-        android:text="Sign In"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Sign In" />
 
     <Button
         android:id="@+id/register"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="168dp"
         android:layout_marginEnd="68dp"
-        android:text="Register"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Register" />
 </android.support.constraint.ConstraintLayout>
