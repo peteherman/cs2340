@@ -11,8 +11,13 @@ public class LocationEmployee extends Person {
   public LocationEmployee(String name, String email, UserType userType,
                           Location location, Iterable<String> categories) {
       super(name, email, userType);
+      if (location == null) {
+          throw new IllegalArgumentException("Cannot initialize Location Employee" +
+                  " with null location");
+      }
       this.location = location;
       this.categories = new ArrayList<>();
+      addDefaultCategories();
       for (String c : categories) {
           this.categories.add(c);
       }
@@ -44,5 +49,14 @@ public class LocationEmployee extends Person {
       }
       categories.add(category);
       return true;
+  }
+  public List<String> getCategories() {
+      return categories;
+  }
+
+  public void addDefaultCategories() {
+      for (DefaultDonationCategories d : DefaultDonationCategories.values()) {
+          categories.add(d.toString());
+      }
   }
 }
