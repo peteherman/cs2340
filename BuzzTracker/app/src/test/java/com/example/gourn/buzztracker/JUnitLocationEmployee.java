@@ -18,6 +18,7 @@ import java.util.List;
 public class JUnitLocationEmployee {
     LocationEmployee validLE = new LocationEmployee("name", "email",
             UserType.LOCATION_EMPLOYEE, new Location());
+
     @Test(expected = IllegalArgumentException.class)
     public void constructorNullTesting() {
         //Test null location (Other params should be covered by Person JUnit
@@ -26,13 +27,8 @@ public class JUnitLocationEmployee {
     }
 
     @Test
-    public void testDefaultCategoryList() {
-        DefaultDonationCategories[] defaultCategories = DefaultDonationCategories.values();
-        for (int i = 0; i < defaultCategories.length; i++) {
-            //System.out.printf(defaultCategories[i].toString());
-            //System.out.println(validLE.getCategories().get(i).toString());
-            assert(validLE.getCategories().get(i).equalsIgnoreCase(defaultCategories[i].toString()));
-        }
+    public void testAddEmptyString() {
+        assert (! validLE.addToCategoryList(""));
     }
 
     @Test
@@ -40,6 +36,28 @@ public class JUnitLocationEmployee {
 
         assert(!validLE.addToCategoryList(null));
     }
+
+    @Test
+    public void testAddAlreadyInList() {
+        DefaultDonationCategories[] dCats = DefaultDonationCategories.values();
+        for (DefaultDonationCategories d : dCats) {
+            assert (!validLE.addToCategoryList(d.toString()));
+        }
+        for (int i = 0; i < 10; i++) {
+            assert(validLE.addToCategoryList("cat" + i));
+            assert(! validLE.addToCategoryList("cat" + i));
+        }
+
+    }
+
+    @Test
+    public void testDefaultCategoryList() {
+        DefaultDonationCategories[] defaultCategories = DefaultDonationCategories.values();
+        for (int i = 0; i < defaultCategories.length; i++) {
+            assert(validLE.getCategories().get(i).equalsIgnoreCase(defaultCategories[i].toString()));
+        }
+    }
+
 
     @Test
     public void testAddValid() {
@@ -55,9 +73,4 @@ public class JUnitLocationEmployee {
             assert (cats.get(i).equalsIgnoreCase("cat" + (i - dCats.length)));
         }
     }
-
-
-
-
-
 }

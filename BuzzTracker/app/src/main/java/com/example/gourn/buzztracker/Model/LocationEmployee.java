@@ -30,10 +30,6 @@ public class LocationEmployee extends Person {
     this(name, email, userType, location, null);
   }
 
-  public LocationEmployee(String name, String email,  UserType userType) {
-    this(name, email, userType, null);
-  }
-
   public boolean addToCategoryList(String category) {
       if (category == null) {
           return false;
