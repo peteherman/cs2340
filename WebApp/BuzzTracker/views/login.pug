@@ -3,4 +3,14 @@ html
   head
     title Login
   body
-    h1 Login
+    div.container
+        h1 Login
+    div.form.container
+        form(method='post' style="display:inline" onsubmit="alert('submitted')")
+            h3(style="display:inline") Email
+            input(name='email' type='text' id='email' style="display:inline")
+            h3(style="display:inline") Password
+            input(name='password' type='password' id='password' style="display:inline")
+            input(type='submit')
+    div.cancel.container
+        button(width='100px' onclick='window.location.href="/routes/"') Back

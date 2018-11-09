@@ -27,9 +27,19 @@ public class LocationEmployee extends Person {
     this(name, email, password, userType, null);
   }
 
-  public void addToCategoryList(String category) {
-      if (category.length() > 0) {
-          categories.add(category);
+  public boolean addToCategoryList(String category) {
+      if (category == null) {
+          return false;
       }
+      if (category.length() <= 0) {
+          return false;
+      }
+      for (int i = 0; i < categories.size(); i++) {
+          if (categories.get(i).equalsIgnoreCase(category)) {
+              return false;
+          }
+      }
+      categories.add(category);
+      return true;
   }
 }
