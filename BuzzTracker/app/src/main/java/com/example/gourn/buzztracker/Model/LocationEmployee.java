@@ -18,16 +18,16 @@ public class LocationEmployee extends Person {
       this.location = location;
       this.categories = new ArrayList<>();
       addDefaultCategories();
-      for (String c : categories) {
-          this.categories.add(c);
+      if (categories != null) {
+          for (String c : categories) {
+              this.categories.add(c);
+          }
       }
 
   }
   public LocationEmployee(String name, String email, UserType userType,
                           Location location) {
-    this(name, email, userType, location,
-            new ArrayList<>(Arrays.asList(DefaultDonationCategories.values()
-                    .toString())));
+    this(name, email, userType, location, null);
   }
 
   public LocationEmployee(String name, String email,  UserType userType) {
@@ -41,9 +41,8 @@ public class LocationEmployee extends Person {
       if (category.length() <= 0) {
           return false;
       }
-      for (int i = 0; i < categories.size(); i++) {
-          if (categories.get(i)
-                  .equalsIgnoreCase(category)) {
+      for (String c : categories) {
+          if (c.equalsIgnoreCase(category)) {
               return false;
           }
       }
@@ -55,8 +54,9 @@ public class LocationEmployee extends Person {
   }
 
   public void addDefaultCategories() {
-      for (DefaultDonationCategories d : DefaultDonationCategories.values()) {
-          categories.add(d.toString());
+      DefaultDonationCategories[] d = DefaultDonationCategories.values();
+      for (DefaultDonationCategories dc : d) {
+          categories.add(dc.toString());
       }
   }
 }

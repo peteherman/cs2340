@@ -11,6 +11,9 @@ import org.junit.Test;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //@RunWith(AndroidJUnit4.class)
 public class JUnitLocationEmployee {
     LocationEmployee validLE = new LocationEmployee("name", "email",
@@ -26,8 +29,8 @@ public class JUnitLocationEmployee {
     public void testDefaultCategoryList() {
         DefaultDonationCategories[] defaultCategories = DefaultDonationCategories.values();
         for (int i = 0; i < defaultCategories.length; i++) {
-            System.out.printf(defaultCategories[i].toString());
-            System.out.println(validLE.getCategories().get(i).toString());
+            //System.out.printf(defaultCategories[i].toString());
+            //System.out.println(validLE.getCategories().get(i).toString());
             assert(validLE.getCategories().get(i).equalsIgnoreCase(defaultCategories[i].toString()));
         }
     }
@@ -38,7 +41,22 @@ public class JUnitLocationEmployee {
         assert(!validLE.addToCategoryList(null));
     }
 
-    
+    @Test
+    public void testAddValid() {
+        DefaultDonationCategories[] dCats = DefaultDonationCategories.values();
+        List<String> cats = validLE.getCategories();
+        for (int i = 0; i < 10; i++) {
+            assert(validLE.addToCategoryList("cat" + i));
+        }
+        for (int i = 0; i < dCats.length; i++) {
+            assert(cats.get(i).equalsIgnoreCase(dCats[i].toString()));
+        }
+        for (int i = dCats.length; i < dCats.length + 10; i++) {
+            assert (cats.get(i).equalsIgnoreCase("cat" + (i - dCats.length)));
+        }
+    }
+
+
 
 
 
