@@ -23,19 +23,25 @@ public class Location implements Parcelable {
 
     public Location(String name, String latitude, String longitude, String address,
                     String type, String phoneNum, String website, Iterable<Donation> donations) {
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.address = address;
-        this.type = type;
-        this.phoneNum = phoneNum;
-        this.website = website;
-        this.donations = new ArrayList<>();
-        if (donations != null) {
-            for (Donation d : donations) {
-                this.donations.add(new Donation(d));
+        if (name == null || latitude == null || longitude == null || address == null || type == null || phoneNum == null || website == null || donations == null) {
+            throw new IllegalArgumentException("Cannot initialize Location with null args");
+        } else {
+            this.name = name;
+            this.latitude = latitude;
+            this.longitude = longitude;
+            this.address = address;
+            this.type = type;
+            this.phoneNum = phoneNum;
+            this.website = website;
+            this.donations = new ArrayList<>();
+            if (donations != null) {
+                for (Donation d : donations) {
+                    // this.donations.add(new Donation(d));
+                    this.addDonation(new Donation(d)); // uses the addDonation method instead
+                }
             }
         }
+
     }
     public Location(String name, String latitude, String longitude, String address,
                     String type, String phoneNum, String website) {
@@ -143,6 +149,9 @@ public class Location implements Parcelable {
     public List<Donation> getDonations() { return donations;}
 
     public void addDonation(Donation donation) {
+        if (donation == null) {
+            return;
+        }
         donations.add(donation);
     }
 
