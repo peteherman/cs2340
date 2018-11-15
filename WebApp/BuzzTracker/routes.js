@@ -2,7 +2,7 @@ const express = require('express');
 var router = express.Router();
 
 router.get('/', function(req, res){
-    res.render('index.pug');
+    res.render('index.html');
 });
 
 router.post('/', function(req, res){
@@ -10,7 +10,7 @@ router.post('/', function(req, res){
 });
 
 router.get('/login', function(req, res){
-    res.render('login.pug');
+    res.render('login.html');
 });
 //export this router to use in our BuzzTracker.js
 module.exports = router;

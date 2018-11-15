@@ -15,6 +15,9 @@ public class Donation {
     String comments;
     Image picture;
 
+    public Donation() {
+        this (null, null, null, null, null, null, null, null, -1);
+    }
     public Donation(Timestamp timestamp, String location, String shortDescription,
                     String fullDescription, Double value, DefaultDonationCategories category,
                     String comments, Image picture, int qty) {
