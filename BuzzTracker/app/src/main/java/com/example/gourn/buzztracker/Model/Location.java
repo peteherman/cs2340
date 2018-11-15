@@ -23,7 +23,7 @@ public class Location implements Parcelable {
 
     public Location(String name, String latitude, String longitude, String address,
                     String type, String phoneNum, String website, Iterable<Donation> donations) {
-        if ((name == null) || (latitude == null) || (longitude == null) || (address == null) || (type == null) || (phoneNum == null) || (website == null)) {
+        if (name == null || latitude == null || longitude == null || address == null || type == null || phoneNum == null || website == null) {
             throw new IllegalArgumentException("Cannot initialize Location with null args");
         } else {
             this.name = name;
