@@ -41,8 +41,8 @@ public class SearchView extends AppCompatActivity {
     private int categorySelected;
     private int locationSelected;
     private FirebaseDatabase firebaseDatabase;
-    private Map<Integer, String> categoryMap = new HashMap<>();
-    private Map<Integer, String> locationMap = new HashMap<>();
+    private final Map<Integer, String> categoryMap = new HashMap<>();
+    private final Map<Integer, String> locationMap = new HashMap<>();
 
 
 
@@ -78,7 +78,7 @@ public class SearchView extends AppCompatActivity {
         final DatabaseReference databaseReference = firebaseDatabase.getInstance().getReference();
         Query locationQuery = databaseReference.child("Locations");
         locationQuery.addValueEventListener(new ValueEventListener() {
-            private ArrayList<String> locationNames = new ArrayList<>();
+            private final ArrayList<String> locationNames = new ArrayList<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int count = 0;

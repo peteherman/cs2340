@@ -71,7 +71,7 @@ public class DetailedDonationView extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         Query query = databaseReference.child("donations").child(locationName).child(donationId);
         query.addValueEventListener(new ValueEventListener() {
-            private Map<String, String> donationInfo = new HashMap<>();
+            private final Map<String, String> donationInfo = new HashMap<>();
             private final int YEAR_OFFSET = 1;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -93,7 +93,7 @@ public class DetailedDonationView extends AppCompatActivity {
 
             }
 
-            public String formatDonation(DataSnapshot d) {
+            String formatDonation(DataSnapshot d) {
                 String result = "";
 
                 String key = d.getKey();
@@ -101,7 +101,7 @@ public class DetailedDonationView extends AppCompatActivity {
 
                 result += key + ": ";
 
-                if ((key != null) && (key.equalsIgnoreCase("timestamp"))) {
+                if ((key != null) && ("timestamp".equalsIgnoreCase(key))) {
                     String timestampString = "";
                     timestampString += d.child("month").getValue().toString();
                     timestampString += "-";
