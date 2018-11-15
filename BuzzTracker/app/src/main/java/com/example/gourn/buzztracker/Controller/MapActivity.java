@@ -17,9 +17,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 //    private Button back_button;
-    public static final double DEFAULT_LAT = 33.753746;
-    public static final double DEFAULT_LONG = -84.386330;
-    public static final float DEFAULT_ZOOM = 10f;
+    private static final double DEFAULT_LAT = 33.753746;
+    private static final double DEFAULT_LONG = -84.386330;
+    private static final float DEFAULT_ZOOM = 10f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

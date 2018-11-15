@@ -9,7 +9,7 @@ public class Person {
 
 
   public Person(String name, String email, UserType userType) {
-    if (name == null || email == null || userType == null) {
+    if ((name == null) || (email == null) || (userType == null)) {
       throw new IllegalArgumentException("Cannot initialize person with null args");
     }
     this.name = name;

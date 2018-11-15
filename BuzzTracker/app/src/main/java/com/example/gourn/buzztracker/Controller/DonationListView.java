@@ -53,7 +53,7 @@ public class DonationListView extends AppCompatActivity {
 
     }
 
-    private Map<String, String> getDonations() {
+    private void getDonations() {
         final Map<String, String> donations = new HashMap<>();
 
         String locationName = getIntent().getExtras().getString("LOCATION_NAME");
@@ -62,7 +62,7 @@ public class DonationListView extends AppCompatActivity {
         //Query database
         Query query = databaseReference.child("donations").child(locationName);
         query.addValueEventListener(new ValueEventListener() {
-            private HashMap<String, String> donations = new HashMap<>();
+            private final HashMap<String, String> donations = new HashMap<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
@@ -100,7 +100,6 @@ public class DonationListView extends AppCompatActivity {
             }
         });
 
-        return donations;
     }
 
     private void clickDonation(String donationId) {

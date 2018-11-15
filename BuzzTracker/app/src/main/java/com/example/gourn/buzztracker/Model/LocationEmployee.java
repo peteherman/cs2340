@@ -5,17 +5,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class LocationEmployee extends Person {
-  private Location location;
   private List<String> categories;
 
-  public LocationEmployee(String name, String email, UserType userType,
-                          Location location, Iterable<String> categories) {
+  private LocationEmployee(String name, String email, UserType userType,
+                           Location location, Iterable<String> categories) {
       super(name, email, userType);
       if (location == null) {
           throw new IllegalArgumentException("Cannot initialize Location Employee" +
                   " with null location");
       }
-      this.location = location;
       this.categories = new ArrayList<>();
       addDefaultCategories();
       if (categories != null) {
@@ -49,7 +47,7 @@ public class LocationEmployee extends Person {
       return categories;
   }
 
-  public void addDefaultCategories() {
+  private void addDefaultCategories() {
       DefaultDonationCategories[] d = DefaultDonationCategories.values();
       for (DefaultDonationCategories dc : d) {
           categories.add(dc.toString());

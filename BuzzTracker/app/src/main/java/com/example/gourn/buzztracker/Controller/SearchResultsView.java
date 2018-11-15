@@ -31,8 +31,8 @@ public class SearchResultsView extends AppCompatActivity {
     private String toSearch;
 //    private TextView emptyView;
     private boolean found;
-    List<String> donationsList = new ArrayList<>();
-    Map<String, String> donationsMap = new HashMap<>();
+    final List<String> donationsList = new ArrayList<>();
+    final Map<String, String> donationsMap = new HashMap<>();
     ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class SearchResultsView extends AppCompatActivity {
             }
         });
         String searchParam = extras.getString("LOCATION_SELECTED");
-        if (searchParam.equals("All")) {
+        if ("All".equals(searchParam)) {
             findInAll();
         } else {
             findIn(searchParam);
@@ -64,14 +64,12 @@ public class SearchResultsView extends AppCompatActivity {
         resultlist.setEmptyView(emptyView);
     }
 
-    private Map<String, String> findInAll() {
+    private void findInAll() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        List<String> locNames = new ArrayList<>();
         final Query query1 = ref.child("donations");
         query1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> donationsList = new ArrayList<>();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     final String s = d.getKey().toString();
                     final Query query2 = ((DatabaseReference) query1).child(d.getKey().toString());
@@ -120,7 +118,6 @@ public class SearchResultsView extends AppCompatActivity {
 
             }
         });
-        return donationsMap;
     }
 
     private void addItem(String key, String items) {
@@ -129,15 +126,14 @@ public class SearchResultsView extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private Map<String, String> findIn(final String searchParam) {
+    private void findIn(final String searchParam) {
         final Map<String, String> donationsMap = new HashMap<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         Query query1 = ref.child("donations").child(searchParam);
         query1.addValueEventListener(new ValueEventListener() {
-            private HashMap<String, String> donationsMap = new HashMap<>();
+            private final HashMap<String, String> donationsMap = new HashMap<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean found = false;
                 List<String> donationsList = new ArrayList<>();
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
                     if (category != null) {
@@ -145,14 +141,12 @@ public class SearchResultsView extends AppCompatActivity {
                                 .equals(category.toLowerCase())) {
                             donationsMap.put(ds.getKey().toString(),
                                     ds.child("shortDescription").getValue().toString());
-                            found = true;
                         }
                     } else if (toSearch != null) {
                         if (ds.child("shortDescription").getValue().toString()
                                 .toLowerCase().contains(toSearch.toLowerCase())) {
                             donationsMap.put(ds.getKey().toString(),
                                     ds.child("shortDescription").getValue().toString());
-                            found = true;
                         }
                     }
                 }
@@ -184,7 +178,6 @@ public class SearchResultsView extends AppCompatActivity {
                 return donationsMap;
             }
         });
-        return donationsMap;
     }
 
     private void clickDonation(String donationId, String name) {

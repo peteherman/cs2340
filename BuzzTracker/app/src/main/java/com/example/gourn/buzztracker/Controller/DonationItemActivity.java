@@ -35,6 +35,7 @@ public class DonationItemActivity extends AppCompatActivity {
 
 
     @Override
+    @SuppressWarnings("unchecked")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation_item);

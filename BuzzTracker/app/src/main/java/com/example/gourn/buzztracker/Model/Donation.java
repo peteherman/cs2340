@@ -5,15 +5,15 @@ import android.media.Image;
 import java.sql.Timestamp;
 
 public class Donation {
-    Timestamp timestamp;
-    String locationName;
-    String shortDescription;
-    String fullDescription;
-    Double value;
-    int quantity;
-    DefaultDonationCategories category;
-    String comments;
-    Image picture;
+    private Timestamp timestamp;
+    private String locationName;
+    private String shortDescription;
+    private String fullDescription;
+    private Double value;
+    private int quantity;
+    private DefaultDonationCategories category;
+    private String comments;
+    private Image picture;
 
     public Donation() {
         this (null, null, null, null, null, null, null, null, -1);

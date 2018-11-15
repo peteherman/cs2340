@@ -16,7 +16,7 @@ import java.util.List;
 
 //@RunWith(AndroidJUnit4.class)
 public class JUnitLocationEmployee {
-    LocationEmployee validLE = new LocationEmployee("name", "email",
+    final LocationEmployee validLE = new LocationEmployee("name", "email",
             UserType.LOCATION_EMPLOYEE, new Location());
 
     @Test(expected = IllegalArgumentException.class)
@@ -69,7 +69,7 @@ public class JUnitLocationEmployee {
         for (int i = 0; i < dCats.length; i++) {
             assert(cats.get(i).equalsIgnoreCase(dCats[i].toString()));
         }
-        for (int i = dCats.length; i < dCats.length + 10; i++) {
+        for (int i = dCats.length; i < (dCats.length + 10); i++) {
             assert (cats.get(i).equalsIgnoreCase("cat" + (i - dCats.length)));
         }
     }

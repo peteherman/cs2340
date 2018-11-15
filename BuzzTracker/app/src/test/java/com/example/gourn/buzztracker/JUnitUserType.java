@@ -86,7 +86,11 @@ public class JUnitUserType {
             assertEquals(loopD.getFullDescription(), l1.getDonations().get(i).getFullDescription());
             assertEquals(loopD.getValue(), l1.getDonations().get(i).getValue());
             assertEquals(loopD.getQuantity(), l1.getDonations().get(i).getQuantity());
-            assertEquals(loopD.getCategory().toString(), l1.getDonations().get(i).getCategory().toString());
+            DefaultDonationCategories first = loopD.getCategory();
+            String fs = first.toString();
+            DefaultDonationCategories sec = l1.getDonations().get(i).getCategory();
+            String ss = sec.toString();
+            assertEquals(fs, ss);
         }
 
         // now test if the location's other properties were set properly

@@ -9,7 +9,7 @@ import com.example.gourn.buzztracker.R;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
-public class CustomWindow implements GoogleMap.InfoWindowAdapter {
+class CustomWindow implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;
 //    private Context mContext;
@@ -25,14 +25,14 @@ public class CustomWindow implements GoogleMap.InfoWindowAdapter {
         String title = marker.getTitle();
         TextView tvTitle = (TextView) view.findViewById(R.id.title);
 
-        if(!title.equals("")){
+        if(!"".equals(title)){
             tvTitle.setText(title);
         }
 
         String snippet = marker.getSnippet();
         TextView tvSnippet = (TextView) view.findViewById(R.id.snippet);
 
-        if(!snippet.equals("")){
+        if(!"".equals(snippet)){
             tvSnippet.setText(snippet);
         }
     }
