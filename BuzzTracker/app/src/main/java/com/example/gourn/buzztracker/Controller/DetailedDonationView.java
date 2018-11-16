@@ -18,9 +18,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+// import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+// import java.util.Map;
+import java.util.Objects;
 
 public class DetailedDonationView extends AppCompatActivity {
 //    private Button backButton;
@@ -37,8 +38,8 @@ public class DetailedDonationView extends AppCompatActivity {
         //Get view elements
         backButton = findViewById(R.id.back_button);
         listView = findViewById(R.id.list_view);
-        backToSearch = (Button) findViewById(R.id.toSearch_button);
-        if (getIntent().getExtras().getString("Search") == null) {
+        backToSearch = findViewById(R.id.toSearch_button);
+        if (Objects.requireNonNull(getIntent().getExtras()).getString("Search") == null) {
             backToSearch.setVisibility(View.GONE);
         }
         if (getIntent().getExtras().getString("Donations") == null) {
@@ -65,19 +66,19 @@ public class DetailedDonationView extends AppCompatActivity {
     }
 
     private void populateListView() {
-        final String donationId = getIntent().getExtras().getString("DONATION_ID");
+        final String donationId = Objects.requireNonNull(getIntent().getExtras()).getString("DONATION_ID");
         String locationName = getIntent().getExtras().getString("LOCATION_NAME");
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-        Query query = databaseReference.child("donations").child(locationName).child(donationId);
+        Query query = databaseReference.child("donations").child(Objects.requireNonNull(locationName)).child(Objects.requireNonNull(donationId));
         query.addValueEventListener(new ValueEventListener() {
-            private final Map<String, String> donationInfo = new HashMap<>();
+            // private final Map<String, String> donationInfo = new HashMap<>();
             private final int YEAR_OFFSET = 1;
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 List<String> donationValues = new ArrayList<>();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    donationInfo.put(d.getKey().toString(), d.getValue().toString());
+                    // donationInfo.put(d.getKey(), Objects.requireNonNull(d.getValue()).toString());
                     donationValues.add(formatDonation(d));
                 }
 
@@ -97,24 +98,24 @@ public class DetailedDonationView extends AppCompatActivity {
                 String result = "";
 
                 String key = d.getKey();
-                String value = d.getValue().toString();
+                String value = Objects.requireNonNull(d.getValue()).toString();
 
                 result += key + ": ";
 
                 if ((key != null) && ("timestamp".equalsIgnoreCase(key))) {
                     String timestampString = "";
-                    timestampString += d.child("month").getValue().toString();
+                    timestampString += Objects.requireNonNull(d.child("month").getValue()).toString();
                     timestampString += "-";
-                    timestampString += d.child("day").getValue().toString();
+                    timestampString += Objects.requireNonNull(d.child("day").getValue()).toString();
                     timestampString += "-";
-                    timestampString += d.child("year").
-                            getValue().toString().substring(YEAR_OFFSET);
+                    timestampString += Objects.requireNonNull(d.child("year").
+                            getValue()).toString().substring(YEAR_OFFSET);
                     timestampString += "  ";
-                    timestampString += d.child("hours").getValue().toString();
+                    timestampString += Objects.requireNonNull(d.child("hours").getValue()).toString();
                     timestampString += ":";
-                    timestampString += d.child("minutes").getValue().toString();
+                    timestampString += Objects.requireNonNull(d.child("minutes").getValue()).toString();
                     timestampString += ":";
-                    timestampString += d.child("seconds").getValue().toString();
+                    timestampString += Objects.requireNonNull(d.child("seconds").getValue()).toString();
 
                     result += timestampString;
                 } else {
@@ -129,7 +130,7 @@ public class DetailedDonationView extends AppCompatActivity {
         Intent intent = new Intent(this, DonationListView.class);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
         bundle.putString("LOCATION_NAME", getIntent().getExtras().getString("LOCATION_NAME"));
 
         intent.putExtras(bundle);
@@ -140,7 +141,7 @@ public class DetailedDonationView extends AppCompatActivity {
         Intent intent = new Intent(this, com.example.gourn.buzztracker.Controller.SearchView.class);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
 
         intent.putExtras(bundle);
         startActivity(intent);

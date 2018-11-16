@@ -15,6 +15,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Objects;
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 //    private Button back_button;
     private static final double DEFAULT_LAT = 33.753746;
@@ -26,7 +28,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Button back_button;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
-        back_button = (Button) findViewById(R.id.back_button);
+        back_button = findViewById(R.id.back_button);
 
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -45,9 +47,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultCamera, DEFAULT_ZOOM));
         map.setInfoWindowAdapter(new CustomWindow(this));
         Bundle bundle = getIntent().getExtras();
-        Iterable<Location> locations = bundle.getParcelableArrayList("LOCATIONS_ARRAY");
+        Iterable<Location> locations = Objects.requireNonNull(bundle).getParcelableArrayList("LOCATIONS_ARRAY");
         String snippet;
-        for (Location l : locations) {
+        for (Location l : Objects.requireNonNull(locations)) {
             snippet = "Address: " + l.getAddress() + "\n" +
                       "Phone Number: " + l.getPhoneNum() + "\n" +
                       "Website: " + l.getWebsite();
@@ -62,7 +64,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent intent = new Intent(this, LocationsList.class);
         Bundle bundle = new Bundle();
 
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
 
         intent.putExtras(bundle);
         startActivity(intent);

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class DonationListView extends AppCompatActivity {
 //    private Button backButton;
@@ -56,23 +57,20 @@ public class DonationListView extends AppCompatActivity {
     private void getDonations() {
         final Map<String, String> donations = new HashMap<>();
 
-        String locationName = getIntent().getExtras().getString("LOCATION_NAME");
+        String locationName = Objects.requireNonNull(getIntent().getExtras()).getString("LOCATION_NAME");
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
         //Query database
-        Query query = databaseReference.child("donations").child(locationName);
+        Query query = databaseReference.child("donations").child(Objects.requireNonNull(locationName));
         query.addValueEventListener(new ValueEventListener() {
             private final HashMap<String, String> donations = new HashMap<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    donations.put(d.getKey().toString(), d.child("shortDescription")
-                            .getValue().toString());
+                    donations.put(d.getKey(), Objects.requireNonNull(d.child("shortDescription")
+                            .getValue()).toString());
                 }
-                List<String> donationShortDescriptions = new ArrayList<>();
-                for (String sd : donations.values()) {
-                    donationShortDescriptions.add(sd);
-                }
+                List<String> donationShortDescriptions = new ArrayList<>(donations.values());
 
                 //Setup listview adapter
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(DonationListView.this,
@@ -106,7 +104,7 @@ public class DonationListView extends AppCompatActivity {
         Intent intent = new Intent(this, DetailedDonationView.class);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
         bundle.putString("DONATION_ID", donationId);
         bundle.putString("LOCATION_NAME", getIntent().getExtras().getString("LOCATION_NAME"));
         bundle.putString("Donations", "Yes");
@@ -120,7 +118,7 @@ public class DonationListView extends AppCompatActivity {
         Intent intent = new Intent(this, LocationsList.class);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
 
         intent.putExtras(bundle);
         startActivity(intent);

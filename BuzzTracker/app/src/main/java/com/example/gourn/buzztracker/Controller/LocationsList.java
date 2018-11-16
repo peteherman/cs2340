@@ -2,6 +2,7 @@ package com.example.gourn.buzztracker.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -28,11 +29,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class LocationsList extends AppCompatActivity {
 //    private Button backButton;
 //    private Button mapButton;
-    public static final int LINE_LENGTH = 11;
+    private static final int LINE_LENGTH = 11;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button backButton;
@@ -47,8 +49,8 @@ public class LocationsList extends AppCompatActivity {
 //                System.out.println(locationNames[i]);
                 Log.d("Location Name " + i, locationNames[i]);
             }
-            ListView locationlist = (ListView) findViewById(R.id.LocationList);
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+            ListView locationlist = findViewById(R.id.LocationList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_list_item_1, android.R.id.text1, locationNames);
             locationlist.setAdapter(adapter);
 
@@ -69,7 +71,7 @@ public class LocationsList extends AppCompatActivity {
                     clickMap(locations);
                 }
             });
-            backButton = (Button) findViewById(R.id.BackButton);
+            backButton = findViewById(R.id.BackButton);
             backButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -80,7 +82,7 @@ public class LocationsList extends AppCompatActivity {
         }
     }
 
-    public Location[] csvParse() throws IOException {
+    private Location[] csvParse() throws IOException {
 
         List<String> lines = new ArrayList<>();
 
@@ -98,9 +100,11 @@ public class LocationsList extends AppCompatActivity {
         Location[] locationsArr = new Location[lines.size()];
         for (int i = 0; i < data.length; i++) {
             String[] currLine = lines.get(i).split(",");
-            for (int j = 0; j < data[i].length; j++) {
-                data[i][j] = currLine[j]; // putting csv data into a 2d array
-            }
+//            for (int j = 0; j < data[i].length; j++) {
+//                data[i][j] = currLine[j]; // putting csv data into a 2d array
+//                // System.arraycopy(currLine, 0, data[i], 0, data[i].length);
+//            }
+            System.arraycopy(currLine, 0, data[i], 0, data[i].length);
         }
         for (int i = 0; i < data.length; i++) {
             final String locName = data[i][1];
@@ -118,25 +122,25 @@ public class LocationsList extends AppCompatActivity {
                     .getReference().child("Locations");
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(final DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                     boolean noChildren = true;
                     boolean exists = false;
                     for (DataSnapshot data : dataSnapshot.getChildren()) {
                         //If email exists then toast shows else store the data on new key
                         noChildren = false;
                         Location loc = data.getValue(Location.class);
-                        if (loc.getName().equals(locName)) {
+                        if (Objects.requireNonNull(loc).getName().equals(locName)) {
                             exists = true;
                             break;
                         }
                     }
                     if(noChildren || !exists) {
-                        databaseReference.child(databaseReference.push().getKey())
+                        databaseReference.child(Objects.requireNonNull(databaseReference.push().getKey()))
                                 .setValue(location);                    }
                 }
 
                 @Override
-                public void onCancelled(final DatabaseError databaseError) {
+                public void onCancelled(@NonNull final DatabaseError databaseError) {
                 }
             });
         }
@@ -153,7 +157,7 @@ public class LocationsList extends AppCompatActivity {
         intent.putExtra("EXTRA_LOCATION_PHONE_NUM", locationId.getPhoneNum());
         intent.putExtra("EXTRA_LOCATION_WEBSITE", locationId.getWebsite());
         Bundle bundle = new Bundle();
-        int userType = getIntent().getExtras().getInt("USER_TYPE");
+        int userType = Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE");
         bundle.putInt("USER_TYPE", userType);
         intent.putExtras(bundle);
         startActivity(intent);
@@ -174,7 +178,7 @@ public class LocationsList extends AppCompatActivity {
         Intent intent = new Intent(this, AppScreen.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Bundle bundle = new Bundle();
-        int userType = getIntent().getExtras().getInt("USER_TYPE");
+        int userType = Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE");
         bundle.putInt("USER_TYPE", userType);
         intent.putExtras(bundle);
         startActivity(intent);

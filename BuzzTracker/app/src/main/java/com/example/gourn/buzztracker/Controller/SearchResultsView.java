@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class SearchResultsView extends AppCompatActivity {
     private ListView resultlist;
@@ -31,9 +32,9 @@ public class SearchResultsView extends AppCompatActivity {
     private String toSearch;
 //    private TextView emptyView;
     private boolean found;
-    final List<String> donationsList = new ArrayList<>();
-    final Map<String, String> donationsMap = new HashMap<>();
-    ArrayAdapter<String> adapter;
+    private final List<String> donationsList = new ArrayList<>();
+    private final Map<String, String> donationsMap = new HashMap<>();
+    private ArrayAdapter<String> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button backButton;
@@ -41,10 +42,10 @@ public class SearchResultsView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results_view);
         Bundle extras = getIntent().getExtras();
-        resultlist = (ListView) findViewById(R.id.list_view);
-        backButton = (Button) findViewById(R.id.back_button);
-        emptyView = (TextView) findViewById(R.id.empty_view);
-        category = extras.getString("CATEGORY_SELECTED");
+        resultlist = findViewById(R.id.list_view);
+        backButton = findViewById(R.id.back_button);
+        emptyView = findViewById(R.id.empty_view);
+        category = Objects.requireNonNull(extras).getString("CATEGORY_SELECTED");
         toSearch = extras.getString("SEARCH_FIELD");
         adapter = new ArrayAdapter<>(SearchResultsView.this,
                 android.R.layout.simple_list_item_1, donationsList);
@@ -71,25 +72,25 @@ public class SearchResultsView extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    final String s = d.getKey().toString();
-                    final Query query2 = ((DatabaseReference) query1).child(d.getKey().toString());
+                    final String s = d.getKey();
+                    final Query query2 = ((DatabaseReference) query1).child(Objects.requireNonNull(d.getKey()));
                     query2.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot c : dataSnapshot.getChildren()) {
-                                final String key = c.getKey().toString();
+                                final String key = c.getKey();
                                 if (category != null) {
-                                    if (c.child("category").getValue().toString().toLowerCase()
+                                    if (Objects.requireNonNull(c.child("category").getValue()).toString().toLowerCase()
                                             .equals(category.toLowerCase())) {
-                                        String locAndItem = s + ":" + c.child("shortDescription")
-                                                .getValue().toString();
+                                        String locAndItem = s + ":" + Objects.requireNonNull(c.child("shortDescription")
+                                                .getValue()).toString();
                                         addItem(key, locAndItem);
                                     }
                                 } else if (toSearch != null) {
-                                    if (c.child("shortDescription").getValue().toString()
+                                    if (Objects.requireNonNull(c.child("shortDescription").getValue()).toString()
                                             .toLowerCase().contains(toSearch.toLowerCase())) {
-                                        String locAndItem = s + ":" + c.child("shortDescription")
-                                                .getValue().toString();
+                                        String locAndItem = s + ":" + Objects.requireNonNull(c.child("shortDescription")
+                                                .getValue()).toString();
                                         addItem(key, locAndItem);
                                     }
                                 }
@@ -105,7 +106,7 @@ public class SearchResultsView extends AppCompatActivity {
                 resultlist.setOnItemClickListener (new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String[] locItems = donationsMap.get((String)donationsMap.keySet()
+                        String[] locItems = donationsMap.get(donationsMap.keySet()
                                 .toArray()[position]).split(":");
                         String locName = locItems[0];
                         clickDonation((String)donationsMap.keySet().toArray()[position], locName);
@@ -134,25 +135,22 @@ public class SearchResultsView extends AppCompatActivity {
             private final HashMap<String, String> donationsMap = new HashMap<>();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> donationsList = new ArrayList<>();
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
                     if (category != null) {
-                        if (ds.child("category").getValue().toString().toLowerCase()
+                        if (Objects.requireNonNull(ds.child("category").getValue()).toString().toLowerCase()
                                 .equals(category.toLowerCase())) {
-                            donationsMap.put(ds.getKey().toString(),
-                                    ds.child("shortDescription").getValue().toString());
+                            donationsMap.put(ds.getKey(),
+                                    Objects.requireNonNull(ds.child("shortDescription").getValue()).toString());
                         }
                     } else if (toSearch != null) {
-                        if (ds.child("shortDescription").getValue().toString()
+                        if (Objects.requireNonNull(ds.child("shortDescription").getValue()).toString()
                                 .toLowerCase().contains(toSearch.toLowerCase())) {
-                            donationsMap.put(ds.getKey().toString(),
-                                    ds.child("shortDescription").getValue().toString());
+                            donationsMap.put(ds.getKey(),
+                                    Objects.requireNonNull(ds.child("shortDescription").getValue()).toString());
                         }
                     }
                 }
-                for (String sd : donationsMap.values()) {
-                    donationsList.add(sd);
-                }
+                List<String> donationsList = new ArrayList<>(donationsMap.values());
 
                 //Setup listview adapter
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(SearchResultsView.this,
@@ -184,7 +182,7 @@ public class SearchResultsView extends AppCompatActivity {
         Intent intent = new Intent(this, DetailedDonationView.class);
 
         Bundle bundle = new Bundle();
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
         bundle.putString("DONATION_ID", donationId);
         bundle.putString("LOCATION_NAME", name);
         bundle.putString("Search", "YES");
@@ -198,7 +196,7 @@ public class SearchResultsView extends AppCompatActivity {
         Intent intent = new Intent(this, SearchView.class);
         Bundle bundle = new Bundle();
 
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
 
         intent.putExtras(bundle);
         startActivity(intent);
