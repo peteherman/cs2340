@@ -24,13 +24,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class LoginScreen extends AppCompatActivity implements View.OnClickListener {
 
     private EditText emailField;
     private EditText passField;
     private Button loginButton;
     private Button cancelButton;
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,10 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
         cancelButton.setOnClickListener(this);
         loginButton.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
-        progressDialog = new ProgressDialog(this);
+        // progressDialog = new ProgressDialog(this);
     }
 
-    public void attemptLogin() {
+    private void attemptLogin() {
         String email = emailField.getText().toString().trim();
         String pass = passField.getText().toString().trim();
 
@@ -77,7 +79,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 
                     //Get user who just logged in
                     FirebaseUser currentUser = mAuth.getCurrentUser();
-                    String currentUserID = currentUser.getUid();
+                    String currentUserID = Objects.requireNonNull(currentUser).getUid();
 
                     //Get database entry for user who logged in
                     DatabaseReference loginDatabase = FirebaseDatabase.getInstance()
@@ -88,7 +90,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                         int typeNumber;
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String userType = dataSnapshot.child("userType").getValue().toString();
+                            String userType = Objects.requireNonNull(dataSnapshot.child("userType").getValue()).toString();
                             Log.d("User type from db", userType);
                             typeNumber = UserType.getOrdinalFromValue(userType);
                             if (typeNumber < 0) {
@@ -132,7 +134,7 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
 //        }
     }
 
-    public void cancel() {
+    private void cancel() {
             Intent intent = new Intent(this, Welcome.class);
             startActivity(intent);
             finish();

@@ -1,13 +1,13 @@
 package com.example.gourn.buzztracker.Model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class LocationEmployee extends Person {
   private List<String> categories;
+  private Location location;
 
-  private LocationEmployee(String name, String email, UserType userType,
+  public LocationEmployee(String name, String email, UserType userType,
                            Location location, Iterable<String> categories) {
       super(name, email, userType);
       if (location == null) {
@@ -15,6 +15,7 @@ public class LocationEmployee extends Person {
                   " with null location");
       }
       this.categories = new ArrayList<>();
+      this.location = location;
       addDefaultCategories();
       if (categories != null) {
           for (String c : categories) {
@@ -45,6 +46,9 @@ public class LocationEmployee extends Person {
   }
   public List<String> getCategories() {
       return categories;
+  }
+  public Location getLocation() {
+      return this.location;
   }
 
   private void addDefaultCategories() {

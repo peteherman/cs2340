@@ -3,9 +3,9 @@ package com.example.gourn.buzztracker.Model;
 
 
 public class Person {
-  String name;
-  String email;
-  UserType userType;
+  private String name;
+  private String email;
+  private UserType userType;
 
 
   public Person(String name, String email, UserType userType) {

@@ -1,6 +1,7 @@
 package com.example.gourn.buzztracker.Controller;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 //import android.util.Log;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import com.example.gourn.buzztracker.Model.UserType;
 import com.example.gourn.buzztracker.R;
+
+import java.util.Objects;
 
 public class LocationDescriptionActivity extends AppCompatActivity {
 //    private Button addDonationButton;
@@ -41,11 +44,12 @@ public class LocationDescriptionActivity extends AppCompatActivity {
                 locationType, locationPhoneNum, locationWebsite};
         ListAdapter descriptionAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_list_item_2, android.R.id.text1, locationVariables) {
+            @NonNull
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                TextView text1 = (TextView) view.findViewById(android.R.id.text1);
-                TextView text2 = (TextView) view.findViewById(android.R.id.text2);
+                TextView text1 = view.findViewById(android.R.id.text1);
+                TextView text2 = view.findViewById(android.R.id.text2);
 
                 text1.setText(locationVariables[position]);
                 text2.setText(locationValues[position]);
@@ -119,7 +123,7 @@ public class LocationDescriptionActivity extends AppCompatActivity {
 
     private Bundle buildIntentBundle() {
         Bundle bundle = new Bundle();
-        int userType = getIntent().getExtras().getInt("USER_TYPE");
+        int userType = Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE");
         bundle.putInt("USER_TYPE", userType);
         return  bundle;
     }
@@ -129,7 +133,7 @@ public class LocationDescriptionActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, DonationListView.class);
         Bundle bundle = new Bundle();
-        int userType = getIntent().getExtras().getInt("USER_TYPE");
+        int userType = Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE");
         bundle.putInt("USER_TYPE", userType);
         bundle.putString("LOCATION_NAME", locationName);
         intent.putExtras(bundle);

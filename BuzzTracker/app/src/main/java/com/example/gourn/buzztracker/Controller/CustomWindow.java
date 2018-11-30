@@ -16,21 +16,20 @@ class CustomWindow implements GoogleMap.InfoWindowAdapter {
 
     public CustomWindow(Context context) {
         Context mContext;
-        mContext = context;
         mWindow = LayoutInflater.from(context).inflate(R.layout.locations_info_window, null);
     }
 
     private void rendowWindowText(Marker marker, View view){
 
         String title = marker.getTitle();
-        TextView tvTitle = (TextView) view.findViewById(R.id.title);
+        TextView tvTitle = view.findViewById(R.id.title);
 
         if(!"".equals(title)){
             tvTitle.setText(title);
         }
 
         String snippet = marker.getSnippet();
-        TextView tvSnippet = (TextView) view.findViewById(R.id.snippet);
+        TextView tvSnippet = view.findViewById(R.id.snippet);
 
         if(!"".equals(snippet)){
             tvSnippet.setText(snippet);

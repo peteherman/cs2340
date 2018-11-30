@@ -34,6 +34,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
+
 
 public class RegisterScreen extends AppCompatActivity implements View.OnClickListener {
 
@@ -57,7 +59,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
 
   private UserType userType;
 
-  public static final int MIN_PASS_LENGTH = 8;
+  private static final int MIN_PASS_LENGTH = 8;
 
 
 
@@ -66,7 +68,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_register_screen);
     ProgressDialog progress;
-    progress = new ProgressDialog(this);
+    // progress = new ProgressDialog(this);
     nameField = findViewById(R.id.nameField);
     emailField = findViewById(R.id.emailField);
     passField = findViewById(R.id.passField);
@@ -124,7 +126,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
   }
 
 
-  public void onSubmit() {
+  private void onSubmit() {
       //boolean isSubmit = true;
       final String nameText = nameField.getText().toString().trim();
       final String emailText = emailField.getText().toString().trim();
@@ -200,7 +202,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
                                   "Registered Successfully", Toast.LENGTH_SHORT).show();
                           Person user = new Person(nameText, emailText, userType);
                           FirebaseDatabase.getInstance().getReference("Users")
-                                .child(FirebaseAuth.getInstance().getCurrentUser()
+                                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser())
                                         .getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                               @Override
                               public void onComplete(@NonNull Task<Void> task) {
@@ -225,7 +227,7 @@ public class RegisterScreen extends AppCompatActivity implements View.OnClickLis
                                       "Already registered email", Toast.LENGTH_SHORT).show();
                           } else {
                               Toast.makeText(getApplicationContext(),
-                                      task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                      Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
                           }
                       }
                   }

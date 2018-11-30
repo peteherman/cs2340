@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class SearchView extends AppCompatActivity {
     private EditText searchEditText;
@@ -35,8 +36,8 @@ public class SearchView extends AppCompatActivity {
     private final String[] searchTypes = {"Item", "Category"};
     private final int ITEM_SEARCH = 0;
     private final int CATEGORY_SEARCH = 1;
-    public static final int DEFAULT_CATEGORY_POS = 0;
-    public static final int DEFAULT_LOCATION_POS = 0;
+    private static final int DEFAULT_CATEGORY_POS = 0;
+    private static final int DEFAULT_LOCATION_POS = 0;
     private int searchType;
     private int categorySelected;
     private int locationSelected;
@@ -86,8 +87,8 @@ public class SearchView extends AppCompatActivity {
                 locationMap.put(count, "All");
                 count++;
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    locationNames.add(d.child("name").getValue().toString());
-                    locationMap.put(count, d.child("name").getValue().toString());
+                    locationNames.add(Objects.requireNonNull(d.child("name").getValue()).toString());
+                    locationMap.put(count, Objects.requireNonNull(d.child("name").getValue()).toString());
                     count++;
                 }
 
@@ -224,7 +225,7 @@ public class SearchView extends AppCompatActivity {
 
         //Add location selected field to intent
         bundle.putString("LOCATION_SELECTED", locationMap.get(locationSelected));
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
 
         intent.putExtras(bundle);
         startActivity(intent);
@@ -235,7 +236,7 @@ public class SearchView extends AppCompatActivity {
         Intent intent = new Intent(this, AppScreen.class);
         Bundle bundle = new Bundle();
 
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
 
         intent.putExtras(bundle);
         startActivity(intent);

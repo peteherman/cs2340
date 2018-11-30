@@ -18,9 +18,8 @@ import com.example.gourn.buzztracker.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.w3c.dom.Text;
-
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class DonationItemActivity extends AppCompatActivity {
 //    private TextView locationTextView;
@@ -61,7 +60,7 @@ public class DonationItemActivity extends AppCompatActivity {
         String locationSelected;
         if ((getIntent().getExtras() != null) &&
                 (getIntent().getExtras().get("LOCATION_NAME") != null))  {
-            locationSelected = getIntent().getExtras().get("LOCATION_NAME").toString();
+            locationSelected = Objects.requireNonNull(getIntent().getExtras().get("LOCATION_NAME")).toString();
         } else {
             locationSelected = "Location";
         }
@@ -88,7 +87,7 @@ public class DonationItemActivity extends AppCompatActivity {
     private void onClickBackButton() {
         Intent intent = new Intent(this, LocationsList.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("USER_TYPE", getIntent().getExtras().getInt("USER_TYPE"));
+        bundle.putInt("USER_TYPE", Objects.requireNonNull(getIntent().getExtras()).getInt("USER_TYPE"));
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
@@ -96,7 +95,7 @@ public class DonationItemActivity extends AppCompatActivity {
 
     private void onSubmit() {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String locationName = getIntent().getExtras().getString("LOCATION_NAME");
+        String locationName = Objects.requireNonNull(getIntent().getExtras()).getString("LOCATION_NAME");
         String shortDescription = shortDescriptionField.getText().toString();
         String longDescription = longDescriptionField.getText().toString();
         String valueString = valueField.getText().toString();
