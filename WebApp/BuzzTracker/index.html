@@ -2,20 +2,37 @@
 <html>
     <head>
         <Title>Welcome</Title>
+
+        <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
+        <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCbzZ4-uziDWO_FTlcEWL0vgIZtCorCN4c",
+            authDomain: "buzztracker-ed761.firebaseapp.com",
+            databaseURL: "https://buzztracker-ed761.firebaseio.com",
+            projectId: "buzztracker-ed761",
+            storageBucket: "buzztracker-ed761.appspot.com",
+            messagingSenderId: "506881197326"
+            };
+            firebase.initializeApp(config);
+        </script>
     </head>
 </html>
 <body>
-    <div class="head container">
-        <div class="welcome banner">
+    <div class="header container">
+        <div class="header title container">
             <h1>Welcome to BuzzTracker</h1>
         </div>
     </div>
     <div class="container"
         <div class="body container">
-            <div class="button container" style="display:inline-block;">
+          <div class="button container" style="display:inline-block;">
+              <a href="./login.html">
                 <button>Login</button>
+              </a>
+              <a href="./register.html">
                 <button>Register</button>
-            </div>
+              </a>
         </div>
     </div>
 </body>

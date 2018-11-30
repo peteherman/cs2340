@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register</title>
+        <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
+        <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCbzZ4-uziDWO_FTlcEWL0vgIZtCorCN4c",
+            authDomain: "buzztracker-ed761.firebaseapp.com",
+            databaseURL: "https://buzztracker-ed761.firebaseio.com",
+            projectId: "buzztracker-ed761",
+            storageBucket: "buzztracker-ed761.appspot.com",
+            messagingSenderId: "506881197326"
+            };
+            firebase.initializeApp(config);
+        </script>
+    </head>
+    <body>
+        <div class="header container">
+            <div class="header title container">
+                <h1>Register for BuzzTracker</h1>
+            </div>
+        </div>
+        <script type="text/javascript" src="./scripts/firebase_register.js"></script>
+        <div class="main container">
+            <div class="form container">
+                <form onsubmit="return register();" method="post">
+                    Email:
+                    <input type="text" id="email"/>
+                    <br>
+                    Password:
+                    <input type="password" id="password"/>
+                    <br>
+                    Confirm Password:
+                    <input type="password" id="confirm_pass"/>
+                    <br>
+                    <input value="Button" onclick="return register();" type="button"/>
+                </form>
+            </div>
+            <div class="cancel button container" >
+              <a href="./index.html">
+                <button class="cancel button">Cancel</button>
+              </a>
+            </div>
+        </div>
+    </body>
+</html>
