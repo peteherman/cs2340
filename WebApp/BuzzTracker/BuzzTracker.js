@@ -70,6 +70,11 @@ app.get('/scripts/firebase_register.js', function (req, res) {
 app.get('/scripts/firebase_login.js', function (req, res) {
     res.sendFile('/scripts/firebase_login.js', { root: dir });
 });
+
+app.get('/scripts/appscreen.js', function (req, res) {
+    res.sendFile('/scripts/appscreen.js', { root: dir });
+});
+
 //app.set('view engine', 'pug') // allows pug to render html
 
 //app.use('/routes', router);
