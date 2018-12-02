@@ -35,8 +35,14 @@
                     Confirm Password:
                     <input type="password" id="confirm_pass"/>
                     <br>
-                    <input value="Button" onclick="return register();" type="button"/>
                 </form>
+                    Set User Type: <select id="type_spinner">
+                        <option value="0">User</option>
+                        <option value="1">Location Employee</option>
+                        <option value="2">Admin</option>
+                    </select>
+                <br>
+                <input value="Register" onclick="return register();" type="button"/>
             </div>
             <div class="cancel button container" >
               <a href="./index.html">

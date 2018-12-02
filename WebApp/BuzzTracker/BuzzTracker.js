@@ -75,6 +75,15 @@ app.get('/scripts/appscreen.js', function (req, res) {
     res.sendFile('/scripts/appscreen.js', { root: dir });
 });
 
+app.get("/search.html", function (req, res) {
+    res.sendFile("/search.html", { root: dir });
+});
+
+app.get('/scripts/locationlist.js', function (req, res) {
+    res.sendFile("/scripts/locationlist.js", { root: dir });
+});
+
+
 //app.set('view engine', 'pug') // allows pug to render html
 
 //app.use('/routes', router);

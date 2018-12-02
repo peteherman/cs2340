@@ -13,11 +13,28 @@ function register() {
         alert("Error: Passwords did not match");
         return false;
     }
-    alert("Calling firebase");
     //If passwords match and are appropiate length, create firebase user
-    firebase.auth().createUserWithEmailAndPassword(email, pass).catch(function(error) {
-        alert("Something went wrong!");
+    try {
+        firebase.auth().createUserWithEmailAndPassword(email, pass).catch(function(error) {
+            alert(error.message);
+        });
+    } catch (error) {
         alert(error.message);
-    });
-    alert("Called firebase");
+    }
+    // firebase.auth().createUserWithEmailAndPassword(email, pass).catch(function(error) {
+    //     alert("Something went wrong: " + error.message);
+    //     //alert(error.message);
+    //     window.location.href="./register.html";
+    // });
+
+    firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+            user.userType = document.getElementById("type_spinner").value;
+            //window.location.href="./appscreen.html"
+            alert("Registered Successfully!");
+            window.location.href="./appscreen.html";
+        }
+    })
 }
+
+function doNothing() {}

@@ -6,15 +6,15 @@ function login() {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
+        alert(error.message);
     });
 
     firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
             // User is signed in.
-            window.location.href="../appscreen.html";
+            window.location.href="./appscreen.html";
         } else {
-            // No user is signed in.
-            window.location.href="../login.html";
+            //No user is signed in
         }
     });
 }

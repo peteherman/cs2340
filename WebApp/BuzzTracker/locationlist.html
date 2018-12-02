@@ -2,6 +2,21 @@
 <html>
   <head>
     <title>Locations</title>
+    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
+    <script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyCbzZ4-uziDWO_FTlcEWL0vgIZtCorCN4c",
+        authDomain: "buzztracker-ed761.firebaseapp.com",
+        databaseURL: "https://buzztracker-ed761.firebaseio.com",
+        projectId: "buzztracker-ed761",
+        storageBucket: "buzztracker-ed761.appspot.com",
+        messagingSenderId: "506881197326"
+        };
+        firebase.initializeApp(config);
+    </script>
+    <script type="text/javascript" src="./scripts/locationlist.js">
+    </script>
   </head>
   <body>
     <div class="header container" style="display: inline-block;">
@@ -14,13 +29,18 @@
     </div>
     <div class="main container">
       <div class="location list container">
-        <ul class="location list">
+        <ul class="location list" id="location_list">
           <!-- Will have to populate this based on response from firebase !-->
-          <li><a href="www.google.com">Fake link</a></li>
         </ul>
       </div>
+      <div class="location table" id="location_table">
+          <h3 id="detail_title"></h3>
+          <ul id="detail_list">
+              <li>Fake</li>
+          </ul>
+      </div>
       <div class="back button container">
-        <button class="back button">Back</button>
+        <button onclick="window.location.href='./appscreen.html'" class="back button">Back</button>
       </div>
     </div>
   </body>
