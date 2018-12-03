@@ -1,18 +1,28 @@
 package com.example.gourn.buzztracker.Controller;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.gourn.buzztracker.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class AppScreen extends AppCompatActivity {
 //    private Button logoutButton;
 //    private Button locationsButton;
 //    private Button searchButton;
     private int userType;
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +31,19 @@ public class AppScreen extends AppCompatActivity {
         Button searchButton;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_screen);
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null) {
+                    Intent intent = new Intent(AppScreen.this, Welcome.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        };
 
         logoutButton = findViewById(R.id.log_out_button);
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -54,10 +77,7 @@ public class AppScreen extends AppCompatActivity {
     }
 
     private void clickLogOutButton() {
-        Intent intent = new Intent(this, Welcome.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+        mAuth.signOut();
     }
 
     private void clickLocationsButton() {

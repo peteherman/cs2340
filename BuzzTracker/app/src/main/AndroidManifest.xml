@@ -37,7 +37,7 @@
         <activity android:name=".Controller.DonationListView" />
         <activity android:name=".Controller.DetailedDonationView" />
         <activity android:name=".Controller.SearchView" />
-        <activity android:name=".Controller.SearchResultsView"></activity>
+        <activity android:name=".Controller.SearchResultsView" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -46,7 +46,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".Controller.MapActivity"></activity>
+        <activity android:name=".Controller.MapActivity" />
+        <activity android:name=".Controller.ForgotPassword"/>
     </application>
 
 </manifest>
