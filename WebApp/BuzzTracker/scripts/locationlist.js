@@ -3,7 +3,7 @@ var db = firebase.database();
 var locationRef = db.ref("Locations");
 var locationNames = [];
 var addresses = [];
-var phonenumber = [];
+var phonenumbers = [];
 var lats = [];
 var longs = [];
 var types = [];
@@ -15,7 +15,7 @@ locationRef.orderByKey().once('value', function(snapshot) {
          var usable = data.val();
          locationNames.push(usable.name);
          addresses.push(usable.address);
-         phonenumber.push(usable.phoneNum);
+         phonenumbers.push(usable.phoneNum);
          lats.push(usable.latitude);
          longs.push(usable.longitdue);
          types.push(usable.type);
@@ -58,5 +58,26 @@ function buildTable(index) {
     var detailList = document.getElementById("detail_list");
     detailList.innerHTML = "";
 
-    
+    var li = document.createElement("li");
+    li.textContent = "Address: " + addresses[index];
+    detailList.appendChild(li);
+
+    var phoneLi = document.createElement("li");
+    phoneLi.textContent = "Phone Number: "
+        + phonenumbers[index];
+    detailList.appendChild(phoneLi);
+
+    var latLongLi = document.createElement("li");
+    latLongLi.textContent = "Lat: " + lats[index]
+        + ", Long: " + longs[index];
+    detailList.appendChild(latLongLi);
+
+    var typeLi = document.createElement('li');
+    typeLi.textContent = "Type: " + types[index];
+    detailList.appendChild(typeLi);
+
+    var websiteLi = document.createElement('li');
+    websiteLi.textContent = "Website: " + websites[index];
+    detailList.appendChild(websiteLi);
+
 }

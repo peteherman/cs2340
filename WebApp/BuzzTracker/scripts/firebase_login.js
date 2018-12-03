@@ -6,7 +6,7 @@ function login() {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        alert(error.message);
+        document.getElementById("error_message").innerHTML = errorMessage;
     });
 
     firebase.auth().onAuthStateChanged(function(user) {
