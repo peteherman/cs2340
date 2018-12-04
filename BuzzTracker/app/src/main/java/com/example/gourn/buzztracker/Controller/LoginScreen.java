@@ -33,6 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class LoginScreen extends AppCompatActivity implements View.OnClickListener {
@@ -48,9 +49,12 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     private Button forgotButton;
     private Button guestLoginButton;
     GoogleApiClient mGoogleApiClient;
+    private int loginAttempts = 0;
+    private HashMap<String, Integer> logins;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        logins = new HashMap<>();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
         emailField = findViewById(R.id.emailField);
@@ -143,7 +147,13 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
     }
 
 
-    private void attemptLogin(String email, String pass) {
+    private void attemptLogin(final String email, String pass) {
+
+        if (logins != null && logins.get(email) != null && logins.get(email) >= 3) {
+            emailField.setError("This account is temporarily locked.");
+            emailField.requestFocus();
+            return;
+        }
 
         //Check to make sure email was entered
         if(email.isEmpty()) {
@@ -202,6 +212,15 @@ public class LoginScreen extends AppCompatActivity implements View.OnClickListen
                         }
 
                     });
+                } else {
+                    loginAttempts++;
+                    logins.put(email, loginAttempts);
+                    if (loginAttempts == 3) {
+                        Toast.makeText(LoginScreen.this, "Account temporarily locked.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginScreen.this, "Incorrect Password, " + (3 - loginAttempts) + " attempts left."
+                                , Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
