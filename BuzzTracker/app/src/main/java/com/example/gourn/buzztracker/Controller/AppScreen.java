@@ -25,6 +25,12 @@ public class AppScreen extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        mAuth.signOut();
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button logoutButton;
         Button locationsButton;
