@@ -7,7 +7,7 @@
     "express": "^4.16.4",
     "firebase": "^5.6.0",
     "firebase-admin": "^6.3.0",
-    "pug": "^2.0.3"
+    "pug": "^3.0.1"
   },
   "devDependencies": {},
   "scripts": {
